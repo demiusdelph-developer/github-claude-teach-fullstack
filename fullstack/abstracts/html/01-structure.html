@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HTML — Структура документа</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: #0d1117; color: #e6edf3; font-family: system-ui, sans-serif; line-height: 1.6; }
+    a { color: #388bfd; text-decoration: none; } a:hover { text-decoration: underline; }
+    .section { padding-top: 48px; }
+    .section-title { font-size: 20px; font-weight: 700; margin-bottom: 4px; }
+    .section-desc { font-size: 14px; color: #8b949e; margin-bottom: 24px; }
+    .card { background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 20px; margin-bottom: 16px; }
+    pre { background: #010409; border: 1px solid #30363d; border-radius: 6px; padding: 14px; font-family: 'Courier New', monospace; font-size: 13px; color: #c9d1d9; white-space: pre; overflow-x: auto; line-height: 1.6; }
+    .t { color: #7ee787; } .a { color: #79c0ff; } .v { color: #ffa657; } .c { color: #8b949e; font-style: italic; } .dt { color: #ff7b72; } .tx { color: #c9d1d9; }
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    code { background: #1c2128; border: 1px solid #30363d; border-radius: 3px; padding: 1px 5px; font-family: monospace; font-size: 12px; color: #a5d6ff; }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 8px; }
+    th { background: #1c2128; color: #e6edf3; padding: 8px 12px; text-align: left; border: 1px solid #30363d; }
+    td { padding: 8px 12px; border: 1px solid #21262d; color: #c9d1d9; }
+    td:first-child { color: #7ee787; font-family: monospace; font-size: 12px; }
+    tr:hover td { background: #161b22; }
+    .nav-pills { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 32px; padding-top: 24px; }
+    .nav-pill { font-size: 12px; font-weight: 600; padding: 4px 12px; border-radius: 20px; background: #1c2128; border: 1px solid #30363d; color: #8b949e; }
+    a.nav-pill:hover { border-color: #ffa657; color: #ffa657; text-decoration: none; }
+    .note { background: #1b3626; border: 1px solid #2ea043; border-radius: 6px; padding: 12px 16px; font-size: 13px; color: #7ee787; margin-top: 12px; }
+    .warn { background: #3d2206; border: 1px solid #d29922; border-radius: 6px; padding: 12px 16px; font-size: 13px; color: #ffa657; margin-top: 12px; }
+  </style>
+</head>
+<body>
+
+
+<div class="page-header">
+  <p class="page-tag">HTML / 01</p>
+  <h1 class="page-title">Структура документа</h1>
+  <p class="page-desc">DOCTYPE, html, head, body — скелет кожної HTML-сторінки. Базова структура яка повторюється завжди.</p>
+</div>
+
+<div class="page-body">
+  <div class="content">
+
+  <div class="nav-pills">
+    <a href="02-text.html" class="nav-pill">02 — Текст →</a>
+    <a href="03-semantic.html" class="nav-pill">03 — Семантика →</a>
+    <a href="../css/01-basics.html" class="nav-pill">CSS / 01 →</a>
+  </div>
+
+  <!-- BASE STRUCTURE -->
+  <div class="section">
+    <h2 class="section-title">Базова структура</h2>
+    <p class="section-desc">Шаблон який копіюєш на початку кожного проекту.</p>
+
+    <div class="card">
+<pre><span class="dt">&lt;!DOCTYPE html&gt;</span>                    <span class="c">&lt;!-- HTML5, завжди першим --&gt;</span>
+<span class="t">&lt;html</span> <span class="a">lang</span>=<span class="v">"uk"</span><span class="t">&gt;</span>                    <span class="c">&lt;!-- мова сторінки --&gt;</span>
+<span class="t">&lt;head&gt;</span>
+  <span class="t">&lt;meta</span> <span class="a">charset</span>=<span class="v">"UTF-8"</span> <span class="t">/&gt;</span>          <span class="c">&lt;!-- кодування —  завжди! --&gt;</span>
+  <span class="t">&lt;meta</span> <span class="a">name</span>=<span class="v">"viewport"</span>
+        <span class="a">content</span>=<span class="v">"width=device-width, initial-scale=1.0"</span> <span class="t">/&gt;</span>
+  <span class="t">&lt;meta</span> <span class="a">name</span>=<span class="v">"description"</span> <span class="a">content</span>=<span class="v">"Опис до 160 символів"</span> <span class="t">/&gt;</span>
+  <span class="t">&lt;title&gt;</span><span class="tx">Назва сторінки</span><span class="t">&lt;/title&gt;</span>
+  <span class="t">&lt;link</span> <span class="a">rel</span>=<span class="v">"stylesheet"</span> <span class="a">href</span>=<span class="v">"style.css"</span> <span class="t">/&gt;</span>
+<span class="t">&lt;/head&gt;</span>
+<span class="t">&lt;body&gt;</span>
+
+  <span class="c">&lt;!-- Весь видимий вміст тут --&gt;</span>
+
+  <span class="t">&lt;script</span> <span class="a">src</span>=<span class="v">"script.js"</span> <span class="a">defer</span><span class="t">&gt;&lt;/script&gt;</span>  <span class="c">&lt;!-- JS перед &lt;/body&gt; --&gt;</span>
+<span class="t">&lt;/body&gt;</span>
+<span class="t">&lt;/html&gt;</span></pre>
+    </div>
+  </div>
+
+  <!-- DOCTYPE -->
+  <div class="section">
+    <h2 class="section-title">DOCTYPE</h2>
+    <div class="card">
+<pre><span class="dt">&lt;!DOCTYPE html&gt;</span></pre>
+      <p style="font-size:13px;color:#c9d1d9;margin-top:10px">Повідомляє браузеру що це HTML5. Без нього браузер переходить у "quirks mode" і рендерить сторінку по-старому, непередбачувано.</p>
+      <div class="warn">Завжди першим рядком. Перед ним не повинно бути нічого — навіть порожнього рядка.</div>
+    </div>
+  </div>
+
+  <!-- HEAD ELEMENTS -->
+  <div class="section">
+    <h2 class="section-title">Що іде в &lt;head&gt;</h2>
+    <p class="section-desc">Метадані — не відображаються на сторінці, але браузер і пошукові системи їх читають.</p>
+
+    <div class="card">
+<pre><span class="t">&lt;head&gt;</span>
+  <span class="c">&lt;!-- ОБОВ'ЯЗКОВО --&gt;</span>
+  <span class="t">&lt;meta</span> <span class="a">charset</span>=<span class="v">"UTF-8"</span> <span class="t">/&gt;</span>
+  <span class="t">&lt;meta</span> <span class="a">name</span>=<span class="v">"viewport"</span> <span class="a">content</span>=<span class="v">"width=device-width, initial-scale=1.0"</span> <span class="t">/&gt;</span>
+  <span class="t">&lt;title&gt;</span><span class="tx">Назва | Сайт</span><span class="t">&lt;/title&gt;</span>
+
+  <span class="c">&lt;!-- SEO --&gt;</span>
+  <span class="t">&lt;meta</span> <span class="a">name</span>=<span class="v">"description"</span> <span class="a">content</span>=<span class="v">"До 160 символів"</span> <span class="t">/&gt;</span>
+
+  <span class="c">&lt;!-- CSS --&gt;</span>
+  <span class="t">&lt;link</span> <span class="a">rel</span>=<span class="v">"stylesheet"</span> <span class="a">href</span>=<span class="v">"style.css"</span> <span class="t">/&gt;</span>
+
+  <span class="c">&lt;!-- Іконка вкладки --&gt;</span>
+  <span class="t">&lt;link</span> <span class="a">rel</span>=<span class="v">"icon"</span> <span class="a">href</span>=<span class="v">"favicon.ico"</span> <span class="t">/&gt;</span>
+
+  <span class="c">&lt;!-- Google Fonts --&gt;</span>
+  <span class="t">&lt;link</span> <span class="a">rel</span>=<span class="v">"preconnect"</span> <span class="a">href</span>=<span class="v">"https://fonts.googleapis.com"</span> <span class="t">/&gt;</span>
+  <span class="t">&lt;link</span> <span class="a">href</span>=<span class="v">"https://fonts.googleapis.com/css2?family=Inter&display=swap"</span>
+        <span class="a">rel</span>=<span class="v">"stylesheet"</span> <span class="t">/&gt;</span>
+
+  <span class="c">&lt;!-- Open Graph (соцмережі) --&gt;</span>
+  <span class="t">&lt;meta</span> <span class="a">property</span>=<span class="v">"og:title"</span> <span class="a">content</span>=<span class="v">"Назва"</span> <span class="t">/&gt;</span>
+  <span class="t">&lt;meta</span> <span class="a">property</span>=<span class="v">"og:description"</span> <span class="a">content</span>=<span class="v">"Опис"</span> <span class="t">/&gt;</span>
+  <span class="t">&lt;meta</span> <span class="a">property</span>=<span class="v">"og:image"</span> <span class="a">content</span>=<span class="v">"https://example.com/img.jpg"</span> <span class="t">/&gt;</span>
+<span class="t">&lt;/head&gt;</span></pre>
+    </div>
+  </div>
+
+  <!-- SYNTAX -->
+  <div class="section">
+    <h2 class="section-title">Синтаксис тегів</h2>
+
+    <div class="two-col">
+      <div class="card">
+        <p style="font-size:13px;font-weight:700;color:#7ee787;margin-bottom:10px">Парні теги</p>
+<pre><span class="c">&lt;!-- відкривальний + закривальний --&gt;</span>
+<span class="t">&lt;p&gt;</span><span class="tx">Параграф</span><span class="t">&lt;/p&gt;</span>
+<span class="t">&lt;div&gt;</span><span class="tx">Контейнер</span><span class="t">&lt;/div&gt;</span>
+<span class="t">&lt;h1&gt;</span><span class="tx">Заголовок</span><span class="t">&lt;/h1&gt;</span>
+<span class="t">&lt;a</span> <span class="a">href</span>=<span class="v">"#"</span><span class="t">&gt;</span><span class="tx">Посилання</span><span class="t">&lt;/a&gt;</span>
+
+<span class="c">&lt;!-- Вкладення --&gt;</span>
+<span class="t">&lt;div&gt;</span>
+  <span class="t">&lt;p&gt;</span><span class="tx">Вкладений параграф</span><span class="t">&lt;/p&gt;</span>
+<span class="t">&lt;/div&gt;</span></pre>
+      </div>
+
+      <div class="card">
+        <p style="font-size:13px;font-weight:700;color:#7ee787;margin-bottom:10px">Самозакривальні (void)</p>
+<pre><span class="c">&lt;!-- Немають закривального тегу --&gt;</span>
+<span class="t">&lt;img</span> <span class="a">src</span>=<span class="v">"photo.jpg"</span> <span class="a">alt</span>=<span class="v">"Фото"</span> <span class="t">/&gt;</span>
+<span class="t">&lt;br</span> <span class="t">/&gt;</span>
+<span class="t">&lt;hr</span> <span class="t">/&gt;</span>
+<span class="t">&lt;input</span> <span class="a">type</span>=<span class="v">"text"</span> <span class="t">/&gt;</span>
+<span class="t">&lt;meta</span> <span class="a">charset</span>=<span class="v">"UTF-8"</span> <span class="t">/&gt;</span>
+<span class="t">&lt;link</span> <span class="a">rel</span>=<span class="v">"stylesheet"</span> <span class="t">/&gt;</span></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <p style="font-size:13px;font-weight:700;color:#79c0ff;margin-bottom:10px">Атрибути</p>
+<pre><span class="c">&lt;!-- Атрибути завжди у відкривальному тезі --&gt;</span>
+<span class="t">&lt;тег</span> <span class="a">атрибут</span>=<span class="v">"значення"</span> <span class="a">інший-атрибут</span>=<span class="v">"значення"</span><span class="t">&gt;</span>
+
+<span class="c">&lt;!-- Приклади --&gt;</span>
+<span class="t">&lt;img</span> <span class="a">src</span>=<span class="v">"photo.jpg"</span> <span class="a">alt</span>=<span class="v">"Опис"</span> <span class="a">width</span>=<span class="v">"800"</span> <span class="t">/&gt;</span>
+<span class="t">&lt;a</span>   <span class="a">href</span>=<span class="v">"https://google.com"</span> <span class="a">target</span>=<span class="v">"_blank"</span><span class="t">&gt;</span><span class="tx">Google</span><span class="t">&lt;/a&gt;</span>
+<span class="t">&lt;div</span> <span class="a">class</span>=<span class="v">"card"</span> <span class="a">id</span>=<span class="v">"hero"</span> <span class="a">data-type</span>=<span class="v">"main"</span><span class="t">&gt;</span><span class="tx">...</span><span class="t">&lt;/div&gt;</span>
+
+<span class="c">&lt;!-- Булеві атрибути (без значення) --&gt;</span>
+<span class="t">&lt;input</span> <span class="a">required</span> <span class="a">disabled</span> <span class="a">autofocus</span> <span class="t">/&gt;</span>
+<span class="t">&lt;script</span> <span class="a">defer</span><span class="t">&gt;&lt;/script&gt;</span></pre>
+    </div>
+  </div>
+
+  <!-- GLOBAL ATTRIBUTES -->
+  <div class="section">
+    <h2 class="section-title">Глобальні атрибути</h2>
+    <p class="section-desc">Працюють на будь-якому тезі.</p>
+    <div class="card">
+      <table>
+        <tr><th>Атрибут</th><th>Призначення</th><th>Приклад</th></tr>
+        <tr><td>id</td><td>Унікальний ідентифікатор (один на сторінці)</td><td><code>id="header"</code></td></tr>
+        <tr><td>class</td><td>Клас(и) для CSS/JS (може бути декілька)</td><td><code>class="btn btn-primary"</code></td></tr>
+        <tr><td>style</td><td>Вбудовані CSS-стилі (уникати)</td><td><code>style="color: red"</code></td></tr>
+        <tr><td>title</td><td>Підказка при наведенні</td><td><code>title="Детальніше"</code></td></tr>
+        <tr><td>hidden</td><td>Приховує елемент</td><td><code>hidden</code></td></tr>
+        <tr><td>tabindex</td><td>Порядок фокусу при Tab</td><td><code>tabindex="1"</code></td></tr>
+        <tr><td>contenteditable</td><td>Робить редагованим</td><td><code>contenteditable="true"</code></td></tr>
+        <tr><td>data-*</td><td>Власні дані для JavaScript</td><td><code>data-id="42"</code></td></tr>
+        <tr><td>lang</td><td>Мова вмісту елемента</td><td><code>lang="en"</code></td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- COMMENTS -->
+  <div class="section">
+    <h2 class="section-title">Коментарі</h2>
+    <div class="card">
+<pre><span class="c">&lt;!-- Коментар — не відображається на сторінці --&gt;</span>
+
+<span class="c">&lt;!-- Багаторядковий
+     коментар --&gt;</span>
+
+<span class="t">&lt;div&gt;</span>
+  <span class="c">&lt;!-- TODO: додати навігацію --&gt;</span>
+<span class="t">&lt;/div&gt;</span></pre>
+    </div>
+  </div>
+
+</div>
+</div>
+  <script src="../js/nav.js" data-root=".."></script>
+</body>
+</html>

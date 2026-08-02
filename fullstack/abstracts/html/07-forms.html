@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HTML — Форми</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: #0d1117; color: #e6edf3; font-family: system-ui, sans-serif; line-height: 1.6; }
+    a { color: #388bfd; text-decoration: none; } a:hover { text-decoration: underline; }
+    .section { padding-top: 48px; }
+    .section-title { font-size: 20px; font-weight: 700; margin-bottom: 4px; }
+    .section-desc { font-size: 14px; color: #8b949e; margin-bottom: 24px; }
+    .card { background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 20px; margin-bottom: 16px; }
+    pre { background: #010409; border: 1px solid #30363d; border-radius: 6px; padding: 14px; font-family: 'Courier New', monospace; font-size: 13px; color: #c9d1d9; white-space: pre; overflow-x: auto; line-height: 1.6; }
+    .t { color: #7ee787; } .a { color: #79c0ff; } .v { color: #ffa657; } .c { color: #8b949e; font-style: italic; } .tx { color: #c9d1d9; }
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    code { background: #1c2128; border: 1px solid #30363d; border-radius: 3px; padding: 1px 5px; font-family: monospace; font-size: 12px; color: #a5d6ff; }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 8px; }
+    th { background: #1c2128; color: #e6edf3; padding: 8px 12px; text-align: left; border: 1px solid #30363d; }
+    td { padding: 8px 12px; border: 1px solid #21262d; color: #c9d1d9; }
+    td:first-child { color: #7ee787; font-family: monospace; font-size: 12px; }
+    tr:hover td { background: #161b22; }
+    .nav-pills { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 32px; padding-top: 24px; }
+    .nav-pill { font-size: 12px; font-weight: 600; padding: 4px 12px; border-radius: 20px; background: #1c2128; border: 1px solid #30363d; color: #8b949e; }
+    a.nav-pill:hover { border-color: #ffa657; color: #ffa657; text-decoration: none; }
+
+    /* Live form demo */
+    .form-demo { background: #f8fafc; border-radius: 8px; padding: 20px; color: #0f172a; font-size: 14px; margin-top: 12px; }
+    .form-demo label { display: block; font-size: 13px; font-weight: 600; color: #374151; margin-bottom: 4px; }
+    .form-demo input, .form-demo select, .form-demo textarea {
+      display: block; width: 100%; padding: 8px 10px; border: 1px solid #d1d5db;
+      border-radius: 5px; font-size: 13px; margin-bottom: 12px; color: #111827; background: #fff;
+    }
+    .form-demo input:focus, .form-demo select:focus, .form-demo textarea:focus {
+      outline: none; border-color: #3b82f6; box-shadow: 0 0 0 3px rgba(59,130,246,0.15);
+    }
+    .form-demo .submit { background: #3b82f6; color: #fff; border: none; padding: 9px 20px; border-radius: 5px; font-size: 13px; font-weight: 600; cursor: pointer; }
+    .form-demo .submit:hover { background: #2563eb; }
+    .form-demo fieldset { border: 1px solid #d1d5db; border-radius: 6px; padding: 12px 16px; margin-bottom: 12px; }
+    .form-demo legend { font-size: 13px; font-weight: 700; padding: 0 6px; color: #374151; }
+    .form-demo .check-row { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+    .form-demo .check-row input { width: auto; margin-bottom: 0; display: inline; }
+    .form-demo .check-row label { font-weight: 400; margin-bottom: 0; }
+
+    .input-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 8px; background: #f8fafc; padding: 12px; border-radius: 6px; margin-top: 10px; }
+    .input-item { display: flex; flex-direction: column; gap: 4px; }
+    .input-item label { font-size: 10px; font-weight: 700; color: #6b7280; letter-spacing: 0.05em; }
+    .input-item input, .input-item select { padding: 6px 8px; border: 1px solid #d1d5db; border-radius: 4px; font-size: 12px; color: #111827; }
+  </style>
+</head>
+<body>
+
+
+<div class="page-header">
+  <p class="page-tag">HTML / 07</p>
+  <h1 class="page-title">Форми</h1>
+  <p class="page-desc">Форми — головний спосіб отримати дані від користувача. form, input, label, select, textarea, button.</p>
+</div>
+
+<div class="page-body">
+  <div class="content">
+
+  <div class="nav-pills">
+    <a href="06-tables.html" class="nav-pill">← 06 — Таблиці</a>
+    <a href="../index.html" class="nav-pill">← До всіх конспектів</a>
+  </div>
+
+  <!-- FORM STRUCTURE -->
+  <div class="section">
+    <h2 class="section-title">Базова структура форми</h2>
+
+    <div class="card">
+<pre><span class="t">&lt;form</span> <span class="a">action</span>=<span class="v">"/submit"</span> <span class="a">method</span>=<span class="v">"POST"</span><span class="t">&gt;</span>
+  <span class="c">&lt;!-- action — куди надсилати (URL) --&gt;</span>
+  <span class="c">&lt;!-- method — GET (в URL) або POST (в тілі) --&gt;</span>
+
+  <span class="t">&lt;label</span> <span class="a">for</span>=<span class="v">"name"</span><span class="t">&gt;</span><span class="tx">Ім'я:</span><span class="t">&lt;/label&gt;</span>
+  <span class="t">&lt;input</span>
+    <span class="a">type</span>=<span class="v">"text"</span>
+    <span class="a">id</span>=<span class="v">"name"</span>
+    <span class="a">name</span>=<span class="v">"name"</span>               <span class="c">&lt;!-- ключ при надсиланні --&gt;</span>
+    <span class="a">placeholder</span>=<span class="v">"Введіть ім'я"</span>
+    <span class="a">required</span>
+  <span class="t">/&gt;</span>
+
+  <span class="t">&lt;button</span> <span class="a">type</span>=<span class="v">"submit"</span><span class="t">&gt;</span><span class="tx">Надіслати</span><span class="t">&lt;/button&gt;</span>
+<span class="t">&lt;/form&gt;</span></pre>
+
+      <div class="form-demo" style="max-width:360px">
+        <label for="d-name">Ім'я:</label>
+        <input type="text" id="d-name" placeholder="Введіть ім'я" />
+        <button class="submit" type="button">Надіслати</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- LABEL -->
+  <div class="section">
+    <h2 class="section-title">&lt;label&gt; — обов'язковий підпис</h2>
+    <div class="card">
+<pre><span class="c">&lt;!-- Спосіб 1: for + id (рекомендований) --&gt;</span>
+<span class="t">&lt;label</span> <span class="a">for</span>=<span class="v">"email"</span><span class="t">&gt;</span><span class="tx">Email:</span><span class="t">&lt;/label&gt;</span>
+<span class="t">&lt;input</span> <span class="a">type</span>=<span class="v">"email"</span> <span class="a">id</span>=<span class="v">"email"</span> <span class="a">name</span>=<span class="v">"email"</span> <span class="t">/&gt;</span>
+<span class="c">&lt;!-- Клік на label = фокус на input --&gt;</span>
+
+<span class="c">&lt;!-- Спосіб 2: обгортання --&gt;</span>
+<span class="t">&lt;label&gt;</span>
+  <span class="tx">Email:</span>
+  <span class="t">&lt;input</span> <span class="a">type</span>=<span class="v">"email"</span> <span class="a">name</span>=<span class="v">"email"</span> <span class="t">/&gt;</span>
+<span class="t">&lt;/label&gt;</span></pre>
+    </div>
+  </div>
+
+  <!-- INPUT TYPES -->
+  <div class="section">
+    <h2 class="section-title">Всі типи &lt;input&gt;</h2>
+
+    <div class="card">
+<pre><span class="c">&lt;!-- Текстові --&gt;</span>
+<span class="t">&lt;input</span> <span class="a">type</span>=<span class="v">"text"</span>     <span class="t">/&gt;</span>  <span class="c">однорядковий текст</span>
+<span class="t">&lt;input</span> <span class="a">type</span>=<span class="v">"password"</span> <span class="t">/&gt;</span>  <span class="c">символи приховані</span>
+<span class="t">&lt;input</span> <span class="a">type</span>=<span class="v">"email"</span>    <span class="t">/&gt;</span>  <span class="c">з валідацією формату</span>
+<span class="t">&lt;input</span> <span class="a">type</span>=<span class="v">"url"</span>      <span class="t">/&gt;</span>  <span class="c">URL з валідацією</span>
+<span class="t">&lt;input</span> <span class="a">type</span>=<span class="v">"tel"</span>      <span class="t">/&gt;</span>  <span class="c">телефон (мобільна клавіатура)</span>
+<span class="t">&lt;input</span> <span class="a">type</span>=<span class="v">"search"</span>   <span class="t">/&gt;</span>  <span class="c">пошук (з кнопкою очистки)</span>
+
+<span class="c">&lt;!-- Числові --&gt;</span>
+<span class="t">&lt;input</span> <span class="a">type</span>=<span class="v">"number"</span> <span class="a">min</span>=<span class="v">"0"</span> <span class="a">max</span>=<span class="v">"100"</span> <span class="a">step</span>=<span class="v">"5"</span> <span class="t">/&gt;</span>
+<span class="t">&lt;input</span> <span class="a">type</span>=<span class="v">"range"</span>  <span class="a">min</span>=<span class="v">"0"</span> <span class="a">max</span>=<span class="v">"100"</span> <span class="a">value</span>=<span class="v">"50"</span> <span class="t">/&gt;</span>  <span class="c">повзунок</span>
+
+<span class="c">&lt;!-- Дата і час --&gt;</span>
+<span class="t">&lt;input</span> <span class="a">type</span>=<span class="v">"date"</span>           <span class="t">/&gt;</span>
+<span class="t">&lt;input</span> <span class="a">type</span>=<span class="v">"time"</span>           <span class="t">/&gt;</span>
+<span class="t">&lt;input</span> <span class="a">type</span>=<span class="v">"datetime-local"</span> <span class="t">/&gt;</span>
+
+<span class="c">&lt;!-- Вибір --&gt;</span>
+<span class="t">&lt;input</span> <span class="a">type</span>=<span class="v">"checkbox"</span> <span class="t">/&gt;</span>            <span class="c">декілька можна обрати</span>
+<span class="t">&lt;input</span> <span class="a">type</span>=<span class="v">"radio"</span> <span class="a">name</span>=<span class="v">"group"</span> <span class="t">/&gt;</span>  <span class="c">одна з групи</span>
+<span class="t">&lt;input</span> <span class="a">type</span>=<span class="v">"color"</span>    <span class="t">/&gt;</span>            <span class="c">вибір кольору</span>
+<span class="t">&lt;input</span> <span class="a">type</span>=<span class="v">"file"</span>     <span class="t">/&gt;</span>            <span class="c">завантаження файлу</span>
+
+<span class="c">&lt;!-- Приховане (для токенів, id) --&gt;</span>
+<span class="t">&lt;input</span> <span class="a">type</span>=<span class="v">"hidden"</span> <span class="a">name</span>=<span class="v">"token"</span> <span class="a">value</span>=<span class="v">"abc123"</span> <span class="t">/&gt;</span></pre>
+
+      <div style="font-size:11px;font-weight:700;color:#6e7681;letter-spacing:0.08em;text-transform:uppercase;margin-top:12px;margin-bottom:8px">Живі приклади</div>
+      <div class="input-grid">
+        <div class="input-item"><label>text</label><input type="text" placeholder="Текст" /></div>
+        <div class="input-item"><label>email</label><input type="email" placeholder="email@..." /></div>
+        <div class="input-item"><label>password</label><input type="password" placeholder="••••" /></div>
+        <div class="input-item"><label>number</label><input type="number" min="0" max="100" value="42" /></div>
+        <div class="input-item"><label>range</label><input type="range" min="0" max="100" value="60" /></div>
+        <div class="input-item"><label>date</label><input type="date" /></div>
+        <div class="input-item"><label>color</label><input type="color" value="#388bfd" /></div>
+        <div class="input-item"><label>file</label><input type="file" /></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- OTHER FORM ELEMENTS -->
+  <div class="section">
+    <h2 class="section-title">Інші елементи форми</h2>
+
+    <div class="card">
+<pre><span class="c">&lt;!-- Багаторядковий текст --&gt;</span>
+<span class="t">&lt;textarea</span> <span class="a">name</span>=<span class="v">"message"</span> <span class="a">rows</span>=<span class="v">"5"</span> <span class="a">placeholder</span>=<span class="v">"Текст..."</span><span class="t">&gt;&lt;/textarea&gt;</span>
+
+<span class="c">&lt;!-- Випадаючий список --&gt;</span>
+<span class="t">&lt;select</span> <span class="a">name</span>=<span class="v">"city"</span><span class="t">&gt;</span>
+  <span class="t">&lt;option</span> <span class="a">value</span>=<span class="v">""</span><span class="t">&gt;</span><span class="tx">-- Обери --</span><span class="t">&lt;/option&gt;</span>
+  <span class="t">&lt;option</span> <span class="a">value</span>=<span class="v">"kyiv"</span><span class="t">&gt;</span><span class="tx">Київ</span><span class="t">&lt;/option&gt;</span>
+  <span class="t">&lt;option</span> <span class="a">value</span>=<span class="v">"lviv"</span> <span class="a">selected</span><span class="t">&gt;</span><span class="tx">Львів</span><span class="t">&lt;/option&gt;</span>
+<span class="t">&lt;/select&gt;</span>
+
+<span class="c">&lt;!-- Кнопки --&gt;</span>
+<span class="t">&lt;button</span> <span class="a">type</span>=<span class="v">"submit"</span><span class="t">&gt;</span><span class="tx">Надіслати форму</span><span class="t">&lt;/button&gt;</span>
+<span class="t">&lt;button</span> <span class="a">type</span>=<span class="v">"reset"</span><span class="t">&gt;</span><span class="tx">Скинути</span><span class="t">&lt;/button&gt;</span>
+<span class="t">&lt;button</span> <span class="a">type</span>=<span class="v">"button"</span><span class="t">&gt;</span><span class="tx">Просто кнопка (для JS)</span><span class="t">&lt;/button&gt;</span>
+
+<span class="c">&lt;!-- Групування через fieldset --&gt;</span>
+<span class="t">&lt;fieldset&gt;</span>
+  <span class="t">&lt;legend&gt;</span><span class="tx">Особисті дані</span><span class="t">&lt;/legend&gt;</span>
+  <span class="t">&lt;input</span> <span class="a">type</span>=<span class="v">"text"</span> <span class="a">name</span>=<span class="v">"fname"</span> <span class="t">/&gt;</span>
+<span class="t">&lt;/fieldset&gt;</span></pre>
+    </div>
+  </div>
+
+  <!-- INPUT ATTRIBUTES -->
+  <div class="section">
+    <h2 class="section-title">Важливі атрибути input</h2>
+    <div class="card">
+      <table>
+        <tr><th>Атрибут</th><th>Призначення</th></tr>
+        <tr><td>name</td><td>Ключ при надсиланні форми — обов'язковий!</td></tr>
+        <tr><td>id</td><td>Зв'язок з &lt;label for="id"&gt;</td></tr>
+        <tr><td>required</td><td>Поле обов'язкове, форма не надіслиться без нього</td></tr>
+        <tr><td>placeholder</td><td>Підказка всередині поля (зникає при введенні)</td></tr>
+        <tr><td>value</td><td>Значення за замовчуванням</td></tr>
+        <tr><td>disabled</td><td>Поле неактивне, значення не надсилається</td></tr>
+        <tr><td>readonly</td><td>Тільки читання (але значення надсилається)</td></tr>
+        <tr><td>autofocus</td><td>Фокус на цьому полі при завантаженні сторінки</td></tr>
+        <tr><td>min / max</td><td>Мінімум/максимум для числових і дат</td></tr>
+        <tr><td>minlength / maxlength</td><td>Мінімум/максимум символів</td></tr>
+        <tr><td>pattern</td><td>Регулярний вираз для валідації (напр. тільки цифри)</td></tr>
+        <tr><td>multiple</td><td>Декілька значень (для file і email)</td></tr>
+        <tr><td>autocomplete</td><td>"off" — вимкнути автозаповнення</td></tr>
+      </table>
+    </div>
+  </div>
+
+</div>
+</div>
+  <script src="../js/nav.js" data-root=".."></script>
+</body>
+</html>

@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HTML — Таблиці</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: #0d1117; color: #e6edf3; font-family: system-ui, sans-serif; line-height: 1.6; }
+    a { color: #388bfd; text-decoration: none; } a:hover { text-decoration: underline; }
+    .section { padding-top: 48px; }
+    .section-title { font-size: 20px; font-weight: 700; margin-bottom: 4px; }
+    .section-desc { font-size: 14px; color: #8b949e; margin-bottom: 24px; }
+    .card { background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 20px; margin-bottom: 16px; }
+    pre { background: #010409; border: 1px solid #30363d; border-radius: 6px; padding: 14px; font-family: 'Courier New', monospace; font-size: 13px; color: #c9d1d9; white-space: pre; overflow-x: auto; line-height: 1.6; }
+    .t { color: #7ee787; } .a { color: #79c0ff; } .v { color: #ffa657; } .c { color: #8b949e; font-style: italic; } .tx { color: #c9d1d9; }
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    code { background: #1c2128; border: 1px solid #30363d; border-radius: 3px; padding: 1px 5px; font-family: monospace; font-size: 12px; color: #a5d6ff; }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 8px; }
+    th { background: #1c2128; color: #e6edf3; padding: 8px 12px; text-align: left; border: 1px solid #30363d; }
+    td { padding: 8px 12px; border: 1px solid #21262d; color: #c9d1d9; }
+    td:first-child { color: #7ee787; font-family: monospace; font-size: 12px; }
+    tr:hover td { background: #161b22; }
+    .nav-pills { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 32px; padding-top: 24px; }
+    .nav-pill { font-size: 12px; font-weight: 600; padding: 4px 12px; border-radius: 20px; background: #1c2128; border: 1px solid #30363d; color: #8b949e; }
+    a.nav-pill:hover { border-color: #ffa657; color: #ffa657; text-decoration: none; }
+
+    /* Rendered table */
+    .render-table { border-collapse: collapse; width: 100%; font-size: 13px; color: #0f172a; background: #f8fafc; border-radius: 6px; overflow: hidden; margin-top: 12px; }
+    .render-table caption { font-weight: 700; padding: 8px; background: #e2e8f0; }
+    .render-table th { background: #334155; color: #fff; padding: 8px 12px; text-align: left; }
+    .render-table td { padding: 8px 12px; border-bottom: 1px solid #e2e8f0; }
+    .render-table tbody tr:hover td { background: #f1f5f9; }
+    .render-table tfoot td { background: #e2e8f0; font-weight: 600; }
+
+    /* colspan/rowspan demo */
+    .span-table { border-collapse: collapse; font-size: 12px; color: #0f172a; }
+    .span-table td, .span-table th { border: 2px solid #334155; padding: 8px 12px; text-align: center; }
+    .span-table th { background: #334155; color: #fff; }
+    .span-table .span-col { background: #1f6feb33; border-color: #1f6feb; color: #1e3a5f; font-weight: 700; }
+    .span-table .span-row { background: #2ea04333; border-color: #2ea043; color: #14532d; font-weight: 700; }
+  </style>
+</head>
+<body>
+
+
+<div class="page-header">
+  <p class="page-tag">HTML / 06</p>
+  <h1 class="page-title">Таблиці</h1>
+  <p class="page-desc">Таблиці — для табличних даних. thead, tbody, tfoot, colspan, rowspan.</p>
+</div>
+
+<div class="page-body">
+  <div class="content">
+
+  <div class="nav-pills">
+    <a href="05-images-media.html" class="nav-pill">← 05 — Зображення</a>
+    <a href="07-forms.html" class="nav-pill">07 — Форми →</a>
+  </div>
+
+  <!-- STRUCTURE -->
+  <div class="section">
+    <h2 class="section-title">Повна структура таблиці</h2>
+
+    <div class="card">
+<pre><span class="t">&lt;table&gt;</span>
+  <span class="t">&lt;caption&gt;</span><span class="tx">Список розробників</span><span class="t">&lt;/caption&gt;</span>   <span class="c">&lt;!-- заголовок таблиці --&gt;</span>
+
+  <span class="t">&lt;thead&gt;</span>                                     <span class="c">&lt;!-- Голова --&gt;</span>
+    <span class="t">&lt;tr&gt;</span>                                       <span class="c">&lt;!-- рядок (table row) --&gt;</span>
+      <span class="t">&lt;th</span> <span class="a">scope</span>=<span class="v">"col"</span><span class="t">&gt;</span><span class="tx">Ім'я</span><span class="t">&lt;/th&gt;</span>              <span class="c">&lt;!-- заголовок стовпця --&gt;</span>
+      <span class="t">&lt;th</span> <span class="a">scope</span>=<span class="v">"col"</span><span class="t">&gt;</span><span class="tx">Вік</span><span class="t">&lt;/th&gt;</span>
+      <span class="t">&lt;th</span> <span class="a">scope</span>=<span class="v">"col"</span><span class="t">&gt;</span><span class="tx">Місто</span><span class="t">&lt;/th&gt;</span>
+    <span class="t">&lt;/tr&gt;</span>
+  <span class="t">&lt;/thead&gt;</span>
+
+  <span class="t">&lt;tbody&gt;</span>                                     <span class="c">&lt;!-- Тіло --&gt;</span>
+    <span class="t">&lt;tr&gt;</span>
+      <span class="t">&lt;td&gt;</span><span class="tx">Іван</span><span class="t">&lt;/td&gt;</span>                            <span class="c">&lt;!-- комірка даних --&gt;</span>
+      <span class="t">&lt;td&gt;</span><span class="tx">25</span><span class="t">&lt;/td&gt;</span>
+      <span class="t">&lt;td&gt;</span><span class="tx">Київ</span><span class="t">&lt;/td&gt;</span>
+    <span class="t">&lt;/tr&gt;</span>
+    <span class="t">&lt;tr&gt;</span>
+      <span class="t">&lt;td&gt;</span><span class="tx">Марія</span><span class="t">&lt;/td&gt;</span>
+      <span class="t">&lt;td&gt;</span><span class="tx">30</span><span class="t">&lt;/td&gt;</span>
+      <span class="t">&lt;td&gt;</span><span class="tx">Львів</span><span class="t">&lt;/td&gt;</span>
+    <span class="t">&lt;/tr&gt;</span>
+  <span class="t">&lt;/tbody&gt;</span>
+
+  <span class="t">&lt;tfoot&gt;</span>                                     <span class="c">&lt;!-- Підвал --&gt;</span>
+    <span class="t">&lt;tr&gt;</span>
+      <span class="t">&lt;td</span> <span class="a">colspan</span>=<span class="v">"3"</span><span class="t">&gt;</span><span class="tx">Всього: 2 розробники</span><span class="t">&lt;/td&gt;</span>
+    <span class="t">&lt;/tr&gt;</span>
+  <span class="t">&lt;/tfoot&gt;</span>
+<span class="t">&lt;/table&gt;</span></pre>
+
+      <p style="font-size:11px;font-weight:700;color:#6e7681;letter-spacing:0.08em;text-transform:uppercase;margin-top:12px;margin-bottom:8px">Браузер відображає так:</p>
+      <table class="render-table">
+        <caption>Список розробників</caption>
+        <thead><tr><th>Ім'я</th><th>Вік</th><th>Місто</th></tr></thead>
+        <tbody>
+          <tr><td>Іван</td><td>25</td><td>Київ</td></tr>
+          <tr><td>Марія</td><td>30</td><td>Львів</td></tr>
+        </tbody>
+        <tfoot><tr><td colspan="3">Всього: 2 розробники</td></tr></tfoot>
+      </table>
+    </div>
+  </div>
+
+  <!-- COLSPAN / ROWSPAN -->
+  <div class="section">
+    <h2 class="section-title">colspan і rowspan — об'єднання комірок</h2>
+
+    <div class="two-col">
+      <div class="card">
+        <p style="font-size:13px;font-weight:700;color:#79c0ff;margin-bottom:10px">colspan — по горизонталі</p>
+<pre><span class="t">&lt;td</span> <span class="a">colspan</span>=<span class="v">"2"</span><span class="t">&gt;</span><span class="tx">Займає 2 стовпці</span><span class="t">&lt;/td&gt;</span>
+<span class="t">&lt;td</span> <span class="a">colspan</span>=<span class="v">"3"</span><span class="t">&gt;</span><span class="tx">Займає 3 стовпці</span><span class="t">&lt;/td&gt;</span></pre>
+        <div style="margin-top:10px;overflow-x:auto">
+          <table class="span-table" style="width:100%">
+            <tr>
+              <td class="span-col" colspan="2">colspan="2"</td>
+              <td>C</td>
+            </tr>
+            <tr><td>A</td><td>B</td><td>C</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="card">
+        <p style="font-size:13px;font-weight:700;color:#7ee787;margin-bottom:10px">rowspan — по вертикалі</p>
+<pre><span class="t">&lt;td</span> <span class="a">rowspan</span>=<span class="v">"2"</span><span class="t">&gt;</span><span class="tx">Займає 2 рядки</span><span class="t">&lt;/td&gt;</span>
+<span class="c">&lt;!-- наступний рядок: ця комірка не повторюється --&gt;</span></pre>
+        <div style="margin-top:10px;overflow-x:auto">
+          <table class="span-table" style="width:100%">
+            <tr>
+              <td class="span-row" rowspan="2">rowspan=2</td>
+              <td>B1</td>
+              <td>C1</td>
+            </tr>
+            <tr>
+              <td>B2</td>
+              <td>C2</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCOPE -->
+  <div class="section">
+    <h2 class="section-title">scope — доступність таблиць</h2>
+    <div class="card">
+<pre><span class="c">&lt;!-- scope допомагає скрінрідерам --&gt;</span>
+<span class="t">&lt;th</span> <span class="a">scope</span>=<span class="v">"col"</span><span class="t">&gt;</span><span class="tx">Заголовок стовпця</span><span class="t">&lt;/th&gt;</span>
+<span class="t">&lt;th</span> <span class="a">scope</span>=<span class="v">"row"</span><span class="t">&gt;</span><span class="tx">Заголовок рядка</span><span class="t">&lt;/th&gt;</span>
+<span class="t">&lt;th</span> <span class="a">scope</span>=<span class="v">"colgroup"</span><span class="t">&gt;</span><span class="tx">Для групи стовпців</span><span class="t">&lt;/th&gt;</span></pre>
+
+      <div style="background:#3d2206;border:1px solid #d29922;border-radius:6px;padding:12px 16px;font-size:13px;color:#ffa657;margin-top:10px">
+        <strong>Таблиці — тільки для табличних даних!</strong> Не використовуй table для макету сторінки. Для верстки є Flexbox і Grid.
+      </div>
+    </div>
+  </div>
+
+</div>
+</div>
+  <script src="../js/nav.js" data-root=".."></script>
+</body>
+</html>

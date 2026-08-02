@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HTML — Текст і форматування</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: #0d1117; color: #e6edf3; font-family: system-ui, sans-serif; line-height: 1.6; }
+    a { color: #388bfd; text-decoration: none; } a:hover { text-decoration: underline; }
+    .section { padding-top: 48px; }
+    .section-title { font-size: 20px; font-weight: 700; margin-bottom: 4px; }
+    .section-desc { font-size: 14px; color: #8b949e; margin-bottom: 24px; }
+    .card { background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 20px; margin-bottom: 16px; }
+    pre { background: #010409; border: 1px solid #30363d; border-radius: 6px; padding: 14px; font-family: 'Courier New', monospace; font-size: 13px; color: #c9d1d9; white-space: pre; overflow-x: auto; line-height: 1.6; }
+    .t { color: #7ee787; } .a { color: #79c0ff; } .v { color: #ffa657; } .c { color: #8b949e; font-style: italic; } .tx { color: #c9d1d9; }
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    code { background: #1c2128; border: 1px solid #30363d; border-radius: 3px; padding: 1px 5px; font-family: monospace; font-size: 12px; color: #a5d6ff; }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 8px; }
+    th { background: #1c2128; color: #e6edf3; padding: 8px 12px; text-align: left; border: 1px solid #30363d; }
+    td { padding: 8px 12px; border: 1px solid #21262d; color: #c9d1d9; }
+    td:first-child { color: #7ee787; font-family: monospace; font-size: 12px; }
+    tr:hover td { background: #161b22; }
+    .nav-pills { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 32px; padding-top: 24px; }
+    .nav-pill { font-size: 12px; font-weight: 600; padding: 4px 12px; border-radius: 20px; background: #1c2128; border: 1px solid #30363d; color: #8b949e; }
+    a.nav-pill:hover { border-color: #ffa657; color: #ffa657; text-decoration: none; }
+
+    /* Rendered demo */
+    .render { background: #f8fafc; border-radius: 6px; padding: 16px; color: #0f172a; font-family: system-ui; margin-top: 10px; }
+    .render h1 { font-size: 2em; font-weight: 700; margin: 0 0 4px; }
+    .render h2 { font-size: 1.5em; font-weight: 700; margin: 0 0 4px; }
+    .render h3 { font-size: 1.17em; font-weight: 700; margin: 0 0 4px; }
+    .render h4 { font-size: 1em; font-weight: 700; margin: 0 0 4px; }
+    .render h5 { font-size: 0.83em; font-weight: 700; margin: 0 0 4px; }
+    .render h6 { font-size: 0.67em; font-weight: 700; margin: 0 0 4px; }
+    .render p { margin: 0 0 8px; }
+    .render-label { font-size: 11px; font-weight: 700; color: #6e7681; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 8px; }
+  </style>
+</head>
+<body>
+
+
+<div class="page-header">
+  <p class="page-tag">HTML / 02</p>
+  <h1 class="page-title">Текст і форматування</h1>
+  <p class="page-desc">Заголовки h1-h6, параграфи, семантичне форматування тексту — найчастіше вживані теги.</p>
+</div>
+
+<div class="page-body">
+  <div class="content">
+
+  <div class="nav-pills">
+    <a href="01-structure.html" class="nav-pill">← 01 — Структура</a>
+    <a href="03-semantic.html" class="nav-pill">03 — Семантика →</a>
+  </div>
+
+  <!-- HEADINGS -->
+  <div class="section">
+    <h2 class="section-title">Заголовки h1–h6</h2>
+    <p class="section-desc">Ієрархія заголовків важлива для SEO і доступності. Один h1 на сторінку!</p>
+    <div class="card">
+<pre><span class="t">&lt;h1&gt;</span><span class="tx">Найголовніший заголовок (один на сторінці!)</span><span class="t">&lt;/h1&gt;</span>
+<span class="t">&lt;h2&gt;</span><span class="tx">Розділ</span><span class="t">&lt;/h2&gt;</span>
+<span class="t">&lt;h3&gt;</span><span class="tx">Підрозділ</span><span class="t">&lt;/h3&gt;</span>
+<span class="t">&lt;h4&gt;</span><span class="tx">Підпідрозділ</span><span class="t">&lt;/h4&gt;</span>
+<span class="t">&lt;h5&gt;</span><span class="tx">Рідко використовується</span><span class="t">&lt;/h5&gt;</span>
+<span class="t">&lt;h6&gt;</span><span class="tx">Найменший заголовок</span><span class="t">&lt;/h6&gt;</span></pre>
+
+      <div class="render-label" style="margin-top:12px">Браузер відображає так:</div>
+      <div class="render">
+        <h1>h1 — Заголовок сторінки</h1>
+        <h2>h2 — Розділ</h2>
+        <h3>h3 — Підрозділ</h3>
+        <h4>h4 — Підпідрозділ</h4>
+        <h5>h5 — Малий заголовок</h5>
+        <h6>h6 — Найменший</h6>
+      </div>
+
+      <div style="background:#3d2206;border:1px solid #d29922;border-radius:6px;padding:12px;margin-top:12px;font-size:13px;color:#ffa657">
+        <strong>Правила ієрархії:</strong> після h2 йде h3, не h5. Пропускати рівні — помилка. Використовуй h1 один раз. Заголовки — для структури, не для розміру шрифту (розмір задавай CSS).
+      </div>
+    </div>
+  </div>
+
+  <!-- PARAGRAPH -->
+  <div class="section">
+    <h2 class="section-title">Параграф і переноси</h2>
+    <div class="card">
+<pre><span class="t">&lt;p&gt;</span><span class="tx">Це параграф. Браузер автоматично додає відступи.</span><span class="t">&lt;/p&gt;</span>
+
+<span class="c">&lt;!-- Перенос рядка всередині тексту (рідко потрібен) --&gt;</span>
+<span class="t">&lt;p&gt;</span><span class="tx">Перший рядок</span><span class="t">&lt;br</span> <span class="t">/&gt;</span><span class="tx">Другий рядок</span><span class="t">&lt;/p&gt;</span>
+
+<span class="c">&lt;!-- Горизонтальна лінія-розділювач --&gt;</span>
+<span class="t">&lt;hr</span> <span class="t">/&gt;</span></pre>
+    </div>
+  </div>
+
+  <!-- SEMANTIC FORMATTING -->
+  <div class="section">
+    <h2 class="section-title">Семантичне форматування</h2>
+    <p class="section-desc">Несуть змістове значення — читалки екрану реагують на них по-різному.</p>
+
+    <div class="card">
+<pre><span class="t">&lt;strong&gt;</span><span class="tx">Важливий текст</span><span class="t">&lt;/strong&gt;</span>        <span class="c">&lt;!-- жирний + "важливо" для читалки --&gt;</span>
+<span class="t">&lt;em&gt;</span><span class="tx">Виділений текст</span><span class="t">&lt;/em&gt;</span>              <span class="c">&lt;!-- курсив + "наголос" --&gt;</span>
+<span class="t">&lt;mark&gt;</span><span class="tx">Підсвічений текст</span><span class="t">&lt;/mark&gt;</span>        <span class="c">&lt;!-- жовте виділення --&gt;</span>
+<span class="t">&lt;del&gt;</span><span class="tx">Видалений текст</span><span class="t">&lt;/del&gt;</span>            <span class="c">&lt;!-- перекреслення --&gt;</span>
+<span class="t">&lt;ins&gt;</span><span class="tx">Доданий текст</span><span class="t">&lt;/ins&gt;</span>              <span class="c">&lt;!-- підкреслення --&gt;</span>
+<span class="t">&lt;small&gt;</span><span class="tx">Дрібний текст</span><span class="t">&lt;/small&gt;</span>          <span class="c">&lt;!-- авторські права, примітки --&gt;</span>
+<span class="t">&lt;abbr</span> <span class="a">title</span>=<span class="v">"HyperText Markup Language"</span><span class="t">&gt;</span><span class="tx">HTML</span><span class="t">&lt;/abbr&gt;</span>  <span class="c">&lt;!-- підказка при наведенні --&gt;</span>
+<span class="t">&lt;code&gt;</span><span class="tx">console.log('hi')</span><span class="t">&lt;/code&gt;</span>          <span class="c">&lt;!-- рядок коду --&gt;</span>
+<span class="t">&lt;kbd&gt;</span><span class="tx">Ctrl + C</span><span class="t">&lt;/kbd&gt;</span>                    <span class="c">&lt;!-- клавіші --&gt;</span>
+<span class="t">&lt;sub&gt;</span><span class="tx">нижній індекс</span><span class="t">&lt;/sub&gt;</span>              <span class="c">&lt;!-- H₂O --&gt;</span>
+<span class="t">&lt;sup&gt;</span><span class="tx">верхній індекс</span><span class="t">&lt;/sup&gt;</span>            <span class="c">&lt;!-- x² --&gt;</span>
+<span class="t">&lt;time</span> <span class="a">datetime</span>=<span class="v">"2024-01-15"</span><span class="t">&gt;</span><span class="tx">15 січня 2024</span><span class="t">&lt;/time&gt;</span>  <span class="c">&lt;!-- для машин --&gt;</span></pre>
+
+      <div class="render-label" style="margin-top:12px">Як виглядає:</div>
+      <div class="render">
+        <p>
+          <strong>strong</strong> · <em>em (курсив)</em> · <mark>mark</mark> · <del>del</del> · <ins>ins</ins> · <small>small</small> · <code>code</code> · <kbd>Ctrl+C</kbd> · H<sub>2</sub>O · x<sup>2</sup>
+        </p>
+      </div>
+    </div>
+
+    <div class="card">
+      <p style="font-size:13px;font-weight:700;color:#ff7b72;margin-bottom:10px">Лише візуальні — краще уникати</p>
+<pre><span class="t">&lt;b&gt;</span><span class="tx">Жирний</span><span class="t">&lt;/b&gt;</span>          <span class="c">&lt;!-- те саме що strong але без "важливості" --&gt;</span>
+<span class="t">&lt;i&gt;</span><span class="tx">Курсив</span><span class="t">&lt;/i&gt;</span>           <span class="c">&lt;!-- те саме що em але без "наголосу" --&gt;</span>
+<span class="t">&lt;u&gt;</span><span class="tx">Підкреслений</span><span class="t">&lt;/u&gt;</span>    <span class="c">&lt;!-- користувачі плутають з посиланням --&gt;</span></pre>
+    </div>
+  </div>
+
+  <!-- BLOCKQUOTE / PRE -->
+  <div class="section">
+    <h2 class="section-title">Цитати і код</h2>
+
+    <div class="two-col">
+      <div class="card">
+        <p style="font-size:13px;font-weight:700;color:#7ee787;margin-bottom:10px">&lt;blockquote&gt;</p>
+<pre><span class="t">&lt;blockquote</span> <span class="a">cite</span>=<span class="v">"https://example.com"</span><span class="t">&gt;</span>
+  <span class="t">&lt;p&gt;</span><span class="tx">Текст цитати...</span><span class="t">&lt;/p&gt;</span>
+  <span class="t">&lt;footer&gt;</span><span class="tx">— Автор</span><span class="t">&lt;/footer&gt;</span>
+<span class="t">&lt;/blockquote&gt;</span>
+
+<span class="c">&lt;!-- Коротка цитата в тексті --&gt;</span>
+<span class="t">&lt;q&gt;</span><span class="tx">Коротка цитата</span><span class="t">&lt;/q&gt;</span>
+<span class="c">&lt;!-- Браузер додає лапки сам --&gt;</span></pre>
+      </div>
+
+      <div class="card">
+        <p style="font-size:13px;font-weight:700;color:#7ee787;margin-bottom:10px">&lt;pre&gt; + &lt;code&gt;</p>
+<pre><span class="c">&lt;!-- Зберігає пробіли і переноси --&gt;</span>
+<span class="t">&lt;pre&gt;&lt;code&gt;</span>
+<span class="tx">function hello() {</span>
+<span class="tx">  console.log("Hi");</span>
+<span class="tx">}</span>
+<span class="t">&lt;/code&gt;&lt;/pre&gt;</span>
+
+<span class="c">&lt;!-- pre без code — для ASCII-арту,
+     форматованого тексту --&gt;</span></pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- ENTITIES -->
+  <div class="section">
+    <h2 class="section-title">HTML-сутності (entities)</h2>
+    <p class="section-desc">Спеціальні символи які не можна вставити напряму або які мають особливе значення в HTML.</p>
+    <div class="card">
+      <table>
+        <tr><th>Символ</th><th>Код</th><th>Коли</th></tr>
+        <tr><td>&lt;</td><td><code>&amp;lt;</code></td><td>Знак менше в тексті (інакше браузер думає що це тег)</td></tr>
+        <tr><td>&gt;</td><td><code>&amp;gt;</code></td><td>Знак більше в тексті</td></tr>
+        <tr><td>&amp;</td><td><code>&amp;amp;</code></td><td>Амперсанд у тексті</td></tr>
+        <tr><td>&nbsp;</td><td><code>&amp;nbsp;</code></td><td>Нерозривний пробіл (не переноситься)</td></tr>
+        <tr><td>©</td><td><code>&amp;copy;</code></td><td>Копірайт</td></tr>
+        <tr><td>→</td><td><code>&amp;rarr;</code></td><td>Стрілка вправо</td></tr>
+        <tr><td>—</td><td><code>&amp;mdash;</code></td><td>Довге тире (em dash)</td></tr>
+        <tr><td>✓</td><td><code>&amp;#10003;</code></td><td>Галочка</td></tr>
+      </table>
+    </div>
+  </div>
+
+</div>
+</div>
+  <script src="../js/nav.js" data-root=".."></script>
+</body>
+</html>

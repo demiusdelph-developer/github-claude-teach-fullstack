@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CSS — Блокова модель</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: #0d1117; color: #e6edf3; font-family: system-ui, sans-serif; line-height: 1.6; }
+    a { color: #388bfd; text-decoration: none; } a:hover { text-decoration: underline; }
+    .section { padding-top: 48px; }
+    .section-title { font-size: 20px; font-weight: 700; margin-bottom: 4px; }
+    .section-desc { font-size: 14px; color: #8b949e; margin-bottom: 24px; }
+    .card { background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 20px; margin-bottom: 16px; }
+    .card-title { font-size: 14px; font-weight: 700; color: #79c0ff; font-family: monospace; margin-bottom: 10px; }
+    pre { background: #010409; border: 1px solid #30363d; border-radius: 6px; padding: 16px; font-family: 'Courier New', monospace; font-size: 13px; color: #c9d1d9; white-space: pre; overflow-x: auto; line-height: 1.6; }
+    .p { color: #79c0ff; } .v { color: #ffa657; } .s { color: #7ee787; } .c { color: #8b949e; font-style: italic; }
+    .demo { background: #1c2128; border: 1px solid #30363d; border-radius: 6px; padding: 20px; margin-top: 12px; }
+    .demo-label { font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #6e7681; margin-bottom: 12px; }
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    code { background: #1c2128; border: 1px solid #30363d; border-radius: 3px; padding: 1px 5px; font-family: monospace; font-size: 12px; color: #a5d6ff; }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 8px; }
+    th { background: #1c2128; color: #e6edf3; padding: 8px 12px; text-align: left; border: 1px solid #30363d; }
+    td { padding: 8px 12px; border: 1px solid #21262d; color: #c9d1d9; }
+    td:first-child { color: #79c0ff; font-family: monospace; font-size: 12px; }
+    tr:hover td { background: #161b22; }
+    .nav-pills { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 32px; padding-top: 24px; }
+    .nav-pill { font-size: 12px; font-weight: 600; padding: 4px 12px; border-radius: 20px; background: #1c2128; border: 1px solid #30363d; color: #8b949e; }
+    a.nav-pill:hover { border-color: #388bfd; color: #388bfd; text-decoration: none; }
+
+    /* Box model live diagram */
+    .box-diagram {
+      display: flex; align-items: center; justify-content: center;
+      padding: 24px; background: #010409; border-radius: 6px;
+    }
+    .bm-margin {
+      background: rgba(251,146,60,0.12); border: 2px dashed #ffa657;
+      border-radius: 4px; padding: 16px; position: relative;
+    }
+    .bm-border {
+      background: rgba(250,204,21,0.12); border: 6px solid #e3b341;
+      border-radius: 4px; padding: 16px;
+    }
+    .bm-padding {
+      background: rgba(34,197,94,0.12); border: 2px dashed #7ee787;
+      border-radius: 2px; padding: 16px;
+    }
+    .bm-content {
+      background: #1f6feb; border-radius: 2px;
+      padding: 12px 24px; color: #fff; font-weight: 700;
+      text-align: center; font-size: 13px;
+    }
+    .bm-label {
+      position: absolute; font-size: 10px; font-weight: 700;
+      letter-spacing: 0.06em; text-transform: uppercase;
+    }
+    .bm-margin   > .bm-label { top: 3px; left: 6px; color: #ffa657; }
+    .bm-border   > .bm-label { top: -16px; left: 6px; color: #e3b341; }
+    .bm-padding  > .bm-label { top: 3px; left: 6px; color: #7ee787; }
+
+    /* Display demo boxes */
+    .disp-demo { background: #010409; padding: 16px; border-radius: 6px; font-size: 13px; }
+    .d-block { background: #1f6feb22; border: 1px solid #1f6feb; padding: 8px; border-radius: 3px; margin-bottom: 4px; color: #79c0ff; font-size: 12px; }
+    .d-inline { background: #7ee78722; border: 1px solid #7ee787; padding: 3px 8px; border-radius: 3px; color: #7ee787; font-size: 12px; }
+    .d-inline-block { background: #ffa65722; border: 1px solid #ffa657; padding: 8px 12px; border-radius: 3px; margin-right: 4px; color: #ffa657; font-size: 12px; display: inline-block; width: 80px; height: 40px; vertical-align: top; }
+  </style>
+</head>
+<body>
+
+
+<div class="page-header">
+  <p class="page-tag">CSS / 02</p>
+  <h1 class="page-title">Блокова модель</h1>
+  <p class="page-desc">Кожен HTML-елемент — прямокутник з чотирьох шарів. Розуміння цього фундаментальне для верстки.</p>
+</div>
+
+<div class="page-body">
+  <div class="content">
+
+  <div class="nav-pills">
+    <a href="01-basics.html" class="nav-pill">← 01 — Основи</a>
+    <a href="03-positioning.html" class="nav-pill">03 — Позиціонування →</a>
+  </div>
+
+  <!-- BOX MODEL DIAGRAM -->
+  <div class="section">
+    <h2 class="section-title">Чотири шари</h2>
+    <p class="section-desc">Content → Padding → Border → Margin — зовні всередину.</p>
+
+    <div class="card">
+      <div class="box-diagram">
+        <div class="bm-margin" style="position:relative">
+          <span class="bm-label" style="position:absolute;top:3px;left:6px;color:#ffa657;font-size:10px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase">margin — зовнішній відступ</span>
+          <div style="margin-top:16px">
+            <div class="bm-border" style="position:relative">
+              <span style="position:absolute;top:-14px;left:6px;font-size:10px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:#e3b341">border — рамка</span>
+              <div class="bm-padding" style="position:relative">
+                <span style="position:absolute;top:3px;left:6px;font-size:10px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:#7ee787">padding — внутрішній відступ</span>
+                <div style="margin-top:16px">
+                  <div class="bm-content">content — вміст</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+<pre style="margin-top:16px"><span class="s">.box</span> {
+  <span class="c">/* Вміст */</span>
+  <span class="p">width</span>: <span class="v">200px</span>;
+  <span class="p">height</span>: <span class="v">100px</span>;
+
+  <span class="c">/* Padding — всередині */</span>
+  <span class="p">padding</span>: <span class="v">20px</span>;               <span class="c">/* всі сторони */</span>
+  <span class="p">padding</span>: <span class="v">10px 20px</span>;          <span class="c">/* верх/низ | ліво/право */</span>
+  <span class="p">padding</span>: <span class="v">10px 20px 5px 15px</span>; <span class="c">/* верх право низ ліво */</span>
+
+  <span class="c">/* Border */</span>
+  <span class="p">border</span>: <span class="v">2px solid black</span>;
+  <span class="p">border-radius</span>: <span class="v">8px</span>;          <span class="c">/* заокруглення */</span>
+
+  <span class="c">/* Margin — зовні */</span>
+  <span class="p">margin</span>: <span class="v">20px</span>;
+  <span class="p">margin</span>: <span class="v">0 auto</span>;              <span class="c">/* авто = центрує по горизонталі */</span>
+}</pre>
+    </div>
+  </div>
+
+  <!-- BOX-SIZING -->
+  <div class="section">
+    <h2 class="section-title">box-sizing</h2>
+    <p class="section-desc">Визначає чи входять padding і border у задану ширину.</p>
+
+    <div class="two-col">
+      <div class="card">
+        <p class="card-title">content-box (за замовчуванням) ✗</p>
+<pre><span class="s">.box</span> {
+  <span class="p">width</span>: <span class="v">200px</span>;
+  <span class="p">padding</span>: <span class="v">20px</span>;
+  <span class="p">border</span>: <span class="v">2px solid</span>;
+}
+<span class="c">/* Реальна ширина = 200+40+4 = 244px */</span>
+<span class="c">/* НЕСПОДІВАНО! */</span></pre>
+        <div class="demo">
+          <div style="width:100%;background:#8b1a1a;border:2px solid #f85149;padding:20px;font-size:11px;color:#ff7b72;border-radius:4px">
+            width: 100% + padding: 20px → виходить за межі
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="card-title">border-box (рекомендований) ✓</p>
+<pre><span class="s">*, *::before, *::after</span> {
+  <span class="p">box-sizing</span>: <span class="v">border-box</span>;
+}
+
+<span class="s">.box</span> {
+  <span class="p">width</span>: <span class="v">200px</span>;
+  <span class="p">padding</span>: <span class="v">20px</span>;
+  <span class="p">border</span>: <span class="v">2px solid</span>;
+}
+<span class="c">/* Реальна ширина = 200px — ЗАВЖДИ */</span></pre>
+        <div class="demo">
+          <div style="width:100%;background:#1b3626;border:2px solid #2ea043;padding:20px;box-sizing:border-box;font-size:11px;color:#7ee787;border-radius:4px">
+            width: 100% з padding — залишається в межах
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DISPLAY -->
+  <div class="section">
+    <h2 class="section-title">Display</h2>
+    <p class="section-desc">Визначає як елемент розміщується в потоці документа.</p>
+
+    <div class="card">
+<pre><span class="c">/* Block — займає всю ширину, новий рядок (div, p, h1...) */</span>
+<span class="s">.el</span> { <span class="p">display</span>: <span class="v">block</span>; }
+
+<span class="c">/* Inline — як слово в тексті, ширина по вмісту (span, a) */</span>
+<span class="s">.el</span> { <span class="p">display</span>: <span class="v">inline</span>; }
+
+<span class="c">/* Inline-block — як inline, але можна задати width/height */</span>
+<span class="s">.el</span> { <span class="p">display</span>: <span class="v">inline-block</span>; }
+
+<span class="c">/* None — повністю прибирає елемент (займає 0 місця) */</span>
+<span class="s">.el</span> { <span class="p">display</span>: <span class="v">none</span>; }
+<span class="c">/* vs visibility: hidden — ховає але місце зберігає */</span></pre>
+
+      <div class="demo" style="margin-top:12px">
+        <p class="demo-label">Живе порівняння</p>
+
+        <div style="margin-bottom:16px">
+          <div style="font-size:11px;color:#6e7681;margin-bottom:6px">display: block — кожен з нового рядка</div>
+          <div class="d-block">div (block) — займає всю ширину</div>
+          <div class="d-block">div (block) — новий рядок</div>
+        </div>
+
+        <div style="margin-bottom:16px">
+          <div style="font-size:11px;color:#6e7681;margin-bottom:6px">display: inline — як слова в тексті</div>
+          <div style="background:#010409;padding:8px;border-radius:4px;line-height:2">
+            Текст <span class="d-inline">span</span> ще текст <span class="d-inline">span</span> і ще <span class="d-inline">span</span>
+          </div>
+        </div>
+
+        <div>
+          <div style="font-size:11px;color:#6e7681;margin-bottom:6px">display: inline-block — можна задати розмір, але в рядок</div>
+          <div style="background:#010409;padding:8px;border-radius:4px">
+            <div class="d-inline-block">box 1</div>
+            <div class="d-inline-block">box 2</div>
+            <div class="d-inline-block">box 3</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <p class="card-title">Таблиця порівняння</p>
+      <table>
+        <tr><th>display</th><th>Ширина</th><th>Висота</th><th>Новий рядок</th><th>Типові теги</th></tr>
+        <tr><td>block</td><td>100% батька</td><td>по вмісту</td><td>так</td><td>div, p, h1, section</td></tr>
+        <tr><td>inline</td><td>по вмісту</td><td>НЕ задається</td><td>ні</td><td>span, a, strong, em</td></tr>
+        <tr><td>inline-block</td><td>по вмісту або задана</td><td>задається</td><td>ні</td><td>img, button</td></tr>
+        <tr><td>none</td><td>—</td><td>—</td><td>—</td><td>приховано повністю</td></tr>
+        <tr><td>flex</td><td>100% батька</td><td>по вмісту</td><td>так</td><td>контейнер флекс</td></tr>
+        <tr><td>grid</td><td>100% батька</td><td>по вмісту</td><td>так</td><td>контейнер гріду</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- MARGIN COLLAPSING -->
+  <div class="section">
+    <h2 class="section-title">Злиття margin (margin collapse)</h2>
+    <p class="section-desc">Вертикальні margin між сусідніми block-елементами зливаються в один — більший з двох.</p>
+
+    <div class="card">
+<pre><span class="s">h2</span> { <span class="p">margin-bottom</span>: <span class="v">30px</span>; }
+<span class="s">p</span>  { <span class="p">margin-top</span>: <span class="v">20px</span>; }
+
+<span class="c">/* Відступ між h2 і p = 30px (НЕ 50px!) */</span>
+<span class="c">/* Береться більший з двох — це ЗЛИТТЯ */</span>
+
+<span class="c">/* Злиття НЕ відбувається для: */</span>
+<span class="c">/* - flex/grid елементів */</span>
+<span class="c">/* - елементів з padding або border між ними */</span>
+<span class="c">/* - горизонтальних margin */</span></pre>
+    </div>
+  </div>
+
+</div>
+</div>
+  <script src="../js/nav.js" data-root=".."></script>
+</body>
+</html>

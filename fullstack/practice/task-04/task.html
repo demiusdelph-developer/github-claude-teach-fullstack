@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Задача 04 — CSS Grid</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      background: #0d1117;
+      color: #c9d1d9;
+      line-height: 1.7;
+      padding: 48px 24px;
+    }
+
+    .container {
+      max-width: 760px;
+      margin: 0 auto;
+    }
+
+    /* ─── Header ─── */
+    .task-header {
+      border-left: 4px solid #0d9488;
+      padding-left: 20px;
+      margin-bottom: 40px;
+    }
+
+    .task-badge {
+      display: inline-block;
+      background: #0d2020;
+      color: #5eead4;
+      border: 1px solid #134e4a;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 3px 10px;
+      margin-bottom: 10px;
+      font-family: 'Courier New', monospace;
+      letter-spacing: 0.05em;
+    }
+
+    h1 {
+      font-size: 28px;
+      font-weight: 800;
+      color: #e6edf3;
+      margin-bottom: 12px;
+    }
+
+    .meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      font-size: 13px;
+      color: #6b7280;
+    }
+
+    .meta span { display: flex; align-items: center; gap: 6px; }
+    .meta strong { color: #9ca3af; }
+
+    /* ─── Sections ─── */
+    section { margin-bottom: 36px; }
+
+    h2 {
+      font-size: 16px;
+      font-weight: 700;
+      color: #e6edf3;
+      margin-bottom: 14px;
+      padding-bottom: 6px;
+      border-bottom: 1px solid #1f2937;
+    }
+
+    h3 {
+      font-size: 13px;
+      font-weight: 700;
+      color: #9ca3af;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 10px;
+      margin-top: 20px;
+    }
+
+    p { margin-bottom: 12px; font-size: 14px; }
+
+    ol, ul {
+      padding-left: 20px;
+      font-size: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    li strong { color: #e6edf3; }
+
+    /* ─── Code ─── */
+    pre {
+      background: #161b22;
+      border: 1px solid #30363d;
+      border-radius: 8px;
+      padding: 16px 20px;
+      overflow-x: auto;
+      font-size: 12.5px;
+      line-height: 1.6;
+      font-family: 'Courier New', monospace;
+      color: #a5b4fc;
+      margin: 12px 0;
+    }
+
+    code {
+      background: #1f2937;
+      border-radius: 4px;
+      padding: 2px 6px;
+      font-size: 12.5px;
+      font-family: 'Courier New', monospace;
+      color: #5eead4;
+    }
+
+    pre code {
+      background: none;
+      padding: 0;
+      color: inherit;
+    }
+
+    /* ─── Wireframe / ASCII ─── */
+    .wireframe {
+      background: #0a1a1a;
+      border: 1px solid #134e4a;
+      border-radius: 8px;
+      padding: 20px;
+      font-family: 'Courier New', monospace;
+      font-size: 12px;
+      color: #5eead4;
+      line-height: 1.5;
+      overflow-x: auto;
+      margin: 12px 0;
+    }
+
+    /* ─── Table ─── */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      margin: 12px 0;
+    }
+
+    th {
+      background: #161b22;
+      color: #9ca3af;
+      font-weight: 700;
+      text-align: left;
+      padding: 8px 14px;
+      border: 1px solid #30363d;
+    }
+
+    td {
+      padding: 8px 14px;
+      border: 1px solid #21262d;
+      vertical-align: top;
+    }
+
+    td:first-child { color: #5eead4; font-family: 'Courier New', monospace; font-size: 12.5px; }
+    td:last-child  { color: #9ca3af; }
+
+    tr:nth-child(even) td { background: #0d1117; }
+    tr:nth-child(odd)  td { background: #161b22; }
+
+    /* ─── Checklist ─── */
+    .checklist {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    .checklist li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 6px 0;
+      border-bottom: 1px solid #1f2937;
+      font-size: 14px;
+    }
+
+    .checklist li:last-child { border-bottom: none; }
+
+    .check {
+      width: 16px;
+      height: 16px;
+      border: 2px solid #134e4a;
+      border-radius: 4px;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    /* ─── Tip box ─── */
+    .tip {
+      background: #0a1f1f;
+      border: 1px solid #134e4a;
+      border-left: 3px solid #0d9488;
+      border-radius: 6px;
+      padding: 14px 16px;
+      font-size: 13px;
+      color: #9ca3af;
+      margin: 16px 0;
+    }
+
+    .tip strong { color: #5eead4; }
+
+    /* ─── Callout "не потрібно" ─── */
+    .not-needed {
+      background: #1a1010;
+      border: 1px solid #3b1f1f;
+      border-radius: 6px;
+      padding: 14px 16px;
+    }
+
+    .not-needed ul { color: #9ca3af; }
+
+    /* ─── File tree ─── */
+    .file-tree {
+      background: #161b22;
+      border: 1px solid #30363d;
+      border-radius: 8px;
+      padding: 16px 20px;
+      font-family: 'Courier New', monospace;
+      font-size: 13px;
+      color: #8b949e;
+      line-height: 2;
+    }
+
+    .file-tree .dir  { color: #5eead4; }
+    .file-tree .lock { color: #6b7280; }
+    .file-tree .yours { color: #86efac; }
+
+    /* ─── Submit ─── */
+    .submit-box {
+      background: #0a1a1a;
+      border: 2px solid #0d9488;
+      border-radius: 10px;
+      padding: 20px 24px;
+      text-align: center;
+    }
+
+    .submit-box p { font-size: 14px; color: #9ca3af; margin-bottom: 10px; }
+
+    .submit-phrase {
+      display: inline-block;
+      background: #0d2020;
+      color: #5eead4;
+      border: 1px solid #0d9488;
+      border-radius: 8px;
+      padding: 10px 24px;
+      font-size: 16px;
+      font-weight: 700;
+      font-family: 'Courier New', monospace;
+      letter-spacing: 0.02em;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <!-- Header -->
+  <div class="task-header">
+    <div class="task-badge">ЗАДАЧА 04</div>
+    <h1>CSS Grid</h1>
+    <div class="meta">
+      <span><strong>Тема:</strong> display: grid, grid-template-areas, grid-column: span</span>
+      <span><strong>Час:</strong> 60–90 хвилин</span>
+      <span><strong>Рівень:</strong> Початковий+</span>
+    </div>
+  </div>
+
+  <!-- Що будеш робити -->
+  <section>
+    <h2>Що будеш робити</h2>
+    <p>Побудуєш сторінку блогу з чотирьох зон:</p>
+    <ol>
+      <li><strong>Шапка (header)</strong> — на всю ширину: назва сайту зліва, навігація справа (Flexbox з минулого таску)</li>
+      <li><strong>Двоколонковий макет</strong> — вузький сайдбар зліва + основний контент справа</li>
+      <li><strong>Сітка постів</strong> — п'ять карток, де <strong>один пост займає дві колонки</strong></li>
+      <li><strong>Підвал (footer)</strong> — на всю ширину</li>
+    </ol>
+  </section>
+
+  <!-- Макет -->
+  <section>
+    <h2>Макет</h2>
+
+    <h3>Загальний layout (grid-template-areas)</h3>
+    <div class="wireframe">┌─────────────────────────────────────────────────┐
+│  HEADER: MyBlog              Головна  Про  Теги │
+├──────────────┬──────────────────────────────────┤
+│              │  ┌──────────┐  ┌──────────┐      │
+│   SIDEBAR    │  │  Пост 1  │  │  Пост 2  │      │
+│              │  ├──────────┴──┴──────────┤      │
+│  Про мене    │  │      Пост 3 (широкий)  │      │
+│              │  ├──────────┬─────────────┤      │
+│  Теги:       │  │  Пост 4  │  Пост 5    │      │
+│  #css #html  │  └──────────┴────────────┘      │
+├──────────────┴──────────────────────────────────┤
+│  FOOTER: © 2026 MyBlog                          │
+└─────────────────────────────────────────────────┘</div>
+
+    <h3>Grid-зони (grid-template-areas)</h3>
+    <pre><code>"header  header"
+"sidebar posts"
+"footer  footer"</code></pre>
+
+    <h3>Сітка постів (2 колонки)</h3>
+    <div class="wireframe">┌─────────────────┐  ┌─────────────────┐
+│     Пост 1      │  │     Пост 2      │
+│  Заголовок      │  │  Заголовок      │
+│  Текст...       │  │  Текст...       │
+│  #css           │  │  #html          │
+└─────────────────┘  └─────────────────┘
+┌──────────────────────────────────────┐
+│              Пост 3 (span 2)         │
+│  Заголовок (великий / featured)      │
+│  Довший текст — цей пост особливий   │
+│  #grid  #featured                    │
+└──────────────────────────────────────┘
+┌─────────────────┐  ┌─────────────────┐
+│     Пост 4      │  │     Пост 5      │
+│  Заголовок      │  │  Заголовок      │
+│  Текст...       │  │  Текст...       │
+│  #js            │  │  #flex          │
+└─────────────────┘  └─────────────────┘</div>
+  </section>
+
+  <!-- Що тренуємо -->
+  <section>
+    <h2>Що тренуємо</h2>
+    <table>
+      <tr><th>Властивість</th><th>Де застосовуємо</th></tr>
+      <tr><td>display: grid</td><td>body (layout) і main.posts (сітка)</td></tr>
+      <tr><td>grid-template-columns: 220px 1fr</td><td>фіксований сайдбар + гнучкий main</td></tr>
+      <tr><td>grid-template-rows: auto 1fr auto</td><td>шапка, контент, підвал</td></tr>
+      <tr><td>grid-template-areas</td><td>іменовані зони layout сторінки</td></tr>
+      <tr><td>grid-area</td><td>прив'язати елемент до зони</td></tr>
+      <tr><td>grid-template-columns: repeat(2, 1fr)</td><td>сітка постів — рівні колонки</td></tr>
+      <tr><td>grid-column: span 2</td><td>Пост 3 займає обидві колонки</td></tr>
+      <tr><td>gap</td><td>відступи між усіма grid-елементами</td></tr>
+    </table>
+  </section>
+
+  <!-- HTML -->
+  <section>
+    <h2>HTML-структура</h2>
+    <pre><code>&lt;body&gt;
+  &lt;header class="header"&gt;
+    &lt;span class="logo"&gt;MyBlog&lt;/span&gt;
+    &lt;nav class="nav-links"&gt;
+      &lt;a href="#"&gt;Головна&lt;/a&gt;
+      &lt;a href="#"&gt;Про мене&lt;/a&gt;
+      &lt;a href="#"&gt;Теги&lt;/a&gt;
+    &lt;/nav&gt;
+  &lt;/header&gt;
+
+  &lt;aside class="sidebar"&gt;
+    &lt;h2&gt;Про мене&lt;/h2&gt;
+    &lt;p&gt;Пишу про веб і CSS.&lt;/p&gt;
+    &lt;h3&gt;Теги&lt;/h3&gt;
+    &lt;ul&gt;
+      &lt;li&gt;#css&lt;/li&gt;
+      &lt;li&gt;#html&lt;/li&gt;
+      &lt;li&gt;#grid&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/aside&gt;
+
+  &lt;main class="posts"&gt;
+    &lt;article class="post"&gt; ... &lt;/article&gt;
+    &lt;article class="post"&gt; ... &lt;/article&gt;
+
+    &lt;!-- цей пост займає 2 колонки --&gt;
+    &lt;article class="post post--featured"&gt; ... &lt;/article&gt;
+
+    &lt;article class="post"&gt; ... &lt;/article&gt;
+    &lt;article class="post"&gt; ... &lt;/article&gt;
+  &lt;/main&gt;
+
+  &lt;footer class="footer"&gt;
+    &lt;p&gt;© 2026 MyBlog&lt;/p&gt;
+  &lt;/footer&gt;
+&lt;/body&gt;</code></pre>
+  </section>
+
+  <!-- CSS -->
+  <section>
+    <h2>CSS — стартова основа</h2>
+
+    <h3>Layout сторінки</h3>
+    <pre><code>body {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  grid-template-rows: auto 1fr auto;
+  grid-template-areas:
+    "header  header"
+    "sidebar posts"
+    "footer  footer";
+  min-height: 100vh;
+}
+
+.header  { grid-area: header; }
+.sidebar { grid-area: sidebar; }
+.posts   { grid-area: posts; }
+.footer  { grid-area: footer; }</code></pre>
+
+    <h3>Шапка (Flexbox — вже знаєш)</h3>
+    <pre><code>.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  /* padding, background — на твій смак */
+}</code></pre>
+
+    <h3>Сітка постів</h3>
+    <pre><code>.posts {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+  padding: 24px;
+}
+
+.post--featured {
+  grid-column: span 2; /* займає обидві колонки */
+}</code></pre>
+  </section>
+
+  <!-- Що НЕ потрібно -->
+  <section>
+    <h2>Що НЕ потрібно</h2>
+    <div class="not-needed">
+      <ul>
+        <li>Медіа-запити (адаптивність — наступна тема)</li>
+        <li>JavaScript</li>
+        <li>Реальні зображення в постах — тільки текст і теги</li>
+        <li>Складна типографіка</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Перевір себе -->
+  <section>
+    <h2>Перевір себе</h2>
+    <ul class="checklist">
+      <li><span class="check"></span>Сайдбар зліва, пости справа — завдяки <code>grid-template-areas</code>?</li>
+      <li><span class="check"></span>Шапка і підвал на всю ширину?</li>
+      <li><span class="check"></span>Пост 3 займає весь рядок (обидві колонки)?</li>
+      <li><span class="check"></span>Між постами є <code>gap</code>?</li>
+      <li><span class="check"></span>Сайдбар не розтягується — 220px фіксовано?</li>
+    </ul>
+
+    <div class="tip">
+      <strong>Питання для роздумів:</strong> Що станеться, якщо прибрати <code>grid-column: span 2</code> з <code>.post--featured</code>? Спробуй.
+    </div>
+  </section>
+
+  <!-- Grid vs Flexbox -->
+  <section>
+    <h2>Grid vs Flexbox — коли що</h2>
+    <table>
+      <tr><th></th><th>Flexbox</th><th>Grid</th></tr>
+      <tr><td>Напрямок</td><td>один вимір (рядок або стовпець)</td><td>два виміри (рядки і стовпці)</td></tr>
+      <tr><td>Застосування</td><td>navbar, ряд кнопок, картки в рядок</td><td>layout сторінки, галерея, таблиця</td></tr>
+      <tr><td>Контроль</td><td>елементи самі визначають розмір</td><td>ти задаєш точну сітку заздалегідь</td></tr>
+    </table>
+    <div class="tip">
+      У цій задачі використовуємо <strong>обидва</strong>: Grid для layout (де стоять зони) і Flexbox для шапки (де стоять елементи всередині зони).
+    </div>
+  </section>
+
+  <!-- Структура файлів -->
+  <section>
+    <h2>Структура файлів</h2>
+    <div class="file-tree">
+      <span class="dir">task-04/</span><br>
+      ├── <span class="lock">task.html</span>     ← умова (не чіпай)<br>
+      ├── <span class="lock">mockup.html</span>   ← макет (не чіпай)<br>
+      ├── <span class="yours">index.html</span>   ← твій файл<br>
+      └── <span class="yours">style.css</span>    ← твій файл
+    </div>
+  </section>
+
+  <!-- Коли готово -->
+  <section>
+    <div class="submit-box">
+      <p>Коли завдання виконано, скажи мені:</p>
+      <span class="submit-phrase">Задача 04 готова</span>
+    </div>
+  </section>
+
+</div>
+</body>
+</html>

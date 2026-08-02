@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Задача 03 — Макет</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    /* ════════════════════════════════
+       FIGMA SHELL
+    ════════════════════════════════ */
+
+    html, body { height: 100%; overflow: hidden; }
+
+    body {
+      font-family: system-ui, sans-serif;
+      background: #090b13;
+      display: grid;
+      grid-template-rows: 44px 1fr;
+      grid-template-columns: 1fr 260px;
+      grid-template-areas:
+        "toolbar toolbar"
+        "canvas  panel";
+    }
+
+    /* ─── Toolbar ─── */
+    .toolbar {
+      grid-area: toolbar;
+      background: #111827;
+      border-bottom: 1px solid #1f2937;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 16px;
+      gap: 12px;
+    }
+
+    .toolbar-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .toolbar-icon {
+      width: 28px;
+      height: 28px;
+      background: #4338ca;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      font-weight: 800;
+      color: #fff;
+      letter-spacing: -1px;
+    }
+
+    .toolbar-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: #9ca3af;
+    }
+
+    .toolbar-title span {
+      color: #e5e7eb;
+    }
+
+    .toolbar-tabs {
+      display: flex;
+      gap: 2px;
+    }
+
+    .tab {
+      font-size: 12px;
+      font-weight: 500;
+      color: #6b7280;
+      padding: 4px 12px;
+      border-radius: 4px;
+      cursor: default;
+    }
+
+    .tab.active {
+      background: #1f2937;
+      color: #e5e7eb;
+    }
+
+    .toolbar-right {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .zoom-badge {
+      font-size: 11px;
+      color: #6b7280;
+      background: #1f2937;
+      border-radius: 4px;
+      padding: 3px 8px;
+    }
+
+    /* ─── Canvas ─── */
+    .canvas {
+      grid-area: canvas;
+      overflow-y: auto;
+      background: #0d1117;
+      background-image:
+        radial-gradient(circle, #1f2937 1px, transparent 1px);
+      background-size: 24px 24px;
+      padding: 48px 40px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 40px;
+    }
+
+    /* ─── Right panel ─── */
+    .panel {
+      grid-area: panel;
+      background: #111827;
+      border-left: 1px solid #1f2937;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .panel-section {
+      border-bottom: 1px solid #1f2937;
+      padding: 14px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .panel-section-title {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #4b5563;
+    }
+
+    /* Елемент у списку (назва + значення) */
+    .prop {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 8px;
+    }
+
+    .prop-name {
+      font-size: 11px;
+      color: #6b7280;
+      flex-shrink: 0;
+    }
+
+    .prop-value {
+      font-size: 11px;
+      font-weight: 600;
+      color: #a5b4fc;
+      text-align: right;
+      font-family: 'Courier New', monospace;
+    }
+
+    .prop-value.green  { color: #86efac; }
+    .prop-value.orange { color: #fb923c; }
+    .prop-value.white  { color: #e5e7eb; }
+
+    /* Блок кольору */
+    .color-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .color-swatch {
+      width: 20px;
+      height: 20px;
+      border-radius: 4px;
+      flex-shrink: 0;
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .color-info {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+    }
+
+    .color-hex {
+      font-size: 11px;
+      font-weight: 600;
+      font-family: 'Courier New', monospace;
+      color: #e5e7eb;
+    }
+
+    .color-role {
+      font-size: 10px;
+      color: #4b5563;
+    }
+
+    /* Активний елемент (виділений шар) */
+    .layer-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 5px 8px;
+      border-radius: 5px;
+      cursor: default;
+    }
+
+    .layer-item.active {
+      background: #1e2a4a;
+    }
+
+    .layer-icon {
+      width: 14px;
+      height: 14px;
+      border-radius: 3px;
+      border: 1px solid #374151;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .layer-icon svg { width: 9px; height: 9px; }
+
+    .layer-name {
+      font-size: 11px;
+      color: #9ca3af;
+      flex: 1;
+    }
+
+    .layer-item.active .layer-name { color: #e5e7eb; }
+
+    /* Spacing box (padding/gap візуалізація) */
+    .spacing-box {
+      border: 1px dashed #374151;
+      border-radius: 6px;
+      padding: 8px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 64px;
+    }
+
+    .spacing-inner {
+      background: #1e2a4a;
+      border-radius: 4px;
+      width: 60px;
+      height: 28px;
+    }
+
+    .spacing-label {
+      position: absolute;
+      font-size: 10px;
+      font-weight: 700;
+      color: #6366f1;
+      font-family: 'Courier New', monospace;
+    }
+    .spacing-label.top    { top: 2px; left: 50%; transform: translateX(-50%); }
+    .spacing-label.bottom { bottom: 2px; left: 50%; transform: translateX(-50%); }
+    .spacing-label.left   { left: 4px; top: 50%; transform: translateY(-50%); }
+    .spacing-label.right  { right: 4px; top: 50%; transform: translateY(-50%); }
+
+    /* ════════════════════════════════
+       CANVAS: WIREFRAME ЕЛЕМЕНТИ
+    ════════════════════════════════ */
+
+    .frame-label {
+      font-size: 11px;
+      color: #4b5563;
+      font-weight: 600;
+      align-self: flex-start;
+      letter-spacing: 0.05em;
+    }
+
+    .frame {
+      width: 100%;
+      max-width: 900px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    /* Navbar wireframe */
+    .wf-navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #1a1d2e;
+      border: 2px solid #312e81;
+      border-radius: 10px;
+      padding: 14px 24px;
+      position: relative;
+    }
+
+    .wf-navbar::before {
+      content: "display: flex  |  justify-content: space-between  |  align-items: center";
+      position: absolute;
+      top: -22px;
+      left: 0;
+      font-size: 10px;
+      color: #6366f1;
+      font-family: 'Courier New', monospace;
+      white-space: nowrap;
+    }
+
+    .wf-logo {
+      font-size: 15px;
+      font-weight: 700;
+      color: #a5b4fc;
+    }
+
+    .wf-nav-links {
+      display: flex;
+      gap: 24px;
+      position: relative;
+    }
+
+    .wf-nav-links::after {
+      content: "display: flex  |  gap: 24px";
+      position: absolute;
+      bottom: -18px;
+      right: 0;
+      font-size: 10px;
+      color: #34d399;
+      font-family: 'Courier New', monospace;
+      white-space: nowrap;
+    }
+
+    .wf-link {
+      height: 13px;
+      border-radius: 3px;
+      background: #2e3460;
+      border: 1px solid #5d69c7;
+    }
+
+    /* Cards grid wireframe */
+    .wf-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+      background: #0f1120;
+      border: 2px dashed #1f2937;
+      border-radius: 12px;
+      padding: 24px;
+      position: relative;
+    }
+
+    .wf-grid::before {
+      content: "display: flex  |  flex-wrap: wrap  |  gap: 20px  |  justify-content: center";
+      position: absolute;
+      top: -20px;
+      left: 0;
+      font-size: 10px;
+      color: #fb923c;
+      font-family: 'Courier New', monospace;
+      white-space: nowrap;
+    }
+
+    .wf-card {
+      flex: 1 1 220px;
+      max-width: 280px;
+      background: #1a1d2e;
+      border: 2px solid #312e81;
+      border-radius: 8px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      position: relative;
+    }
+
+    .wf-card::after {
+      content: "flex: 1 1 220px";
+      position: absolute;
+      bottom: -18px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 10px;
+      color: #a5b4fc;
+      font-family: 'Courier New', monospace;
+      white-space: nowrap;
+    }
+
+    /* Плейсхолдери */
+    .ph { background: #2e3460; border-radius: 3px; }
+    .ph-name  { height: 18px; width: 60%; }
+    .ph-sub   { height: 11px; width: 45%; background: #3b448b; }
+    .ph-text  { height: 10px; width: 100%; background: #252847; }
+    .ph-text.s { width: 70%; background: #252847; }
+    .ph-tags  { display: flex; gap: 6px; }
+    .ph-tag   { height: 22px; width: 54px; border-radius: 3px; border: 1px solid #5d69c7; }
+    .ph-btn   { height: 30px; width: 120px; border-radius: 5px; border: 1px solid #5d69c7; margin-top: 4px; }
+
+    /* Gap annotation */
+    .gap-annotation {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      color: #fb923c;
+      font-family: 'Courier New', monospace;
+    }
+
+    .gap-line {
+      height: 1px;
+      flex: 1;
+      background: repeating-linear-gradient(
+        90deg,
+        #fb923c 0px, #fb923c 4px,
+        transparent 4px, transparent 8px
+      );
+    }
+
+    .gap-value {
+      padding: 0 6px;
+      background: #0f1120;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ══════════════════════════════════════
+       TOOLBAR
+  ══════════════════════════════════════ -->
+  <header class="toolbar">
+    <div class="toolbar-left">
+      <div class="toolbar-icon">F</div>
+      <div class="toolbar-title"><span>Задача 03</span> — Flexbox / Макет</div>
+    </div>
+
+    <div class="toolbar-tabs">
+      <div class="tab">Design</div>
+      <div class="tab active">Inspect</div>
+      <div class="tab">Prototype</div>
+    </div>
+
+    <div class="toolbar-right">
+      <span class="zoom-badge">100%</span>
+    </div>
+  </header>
+
+  <!-- ══════════════════════════════════════
+       CANVAS
+  ══════════════════════════════════════ -->
+  <main class="canvas">
+
+    <!-- Navbar frame -->
+    <div class="frame" style="margin-top: 24px;">
+      <span class="frame-label">navbar</span>
+      <div class="wf-navbar">
+        <span class="wf-logo">MyPortfolio</span>
+        <nav class="wf-nav-links">
+          <div class="wf-link" style="width:58px"></div>
+          <div class="wf-link" style="width:50px"></div>
+          <div class="wf-link" style="width:62px"></div>
+        </nav>
+      </div>
+    </div>
+
+    <!-- Gap між navbar і grid -->
+    <div style="width:100%;max-width:900px;display:flex;flex-direction:column;gap:4px">
+      <div class="gap-annotation">
+        <div class="gap-line"></div>
+        <span class="gap-value">gap: 32px (body)</span>
+        <div class="gap-line"></div>
+      </div>
+    </div>
+
+    <!-- Cards grid frame -->
+    <div class="frame" style="margin-bottom: 32px;">
+      <span class="frame-label">main.cards-grid</span>
+      <div class="wf-grid">
+
+        <article class="wf-card">
+          <div class="ph ph-name"></div>
+          <div class="ph ph-sub"></div>
+          <div class="ph ph-text"></div>
+          <div class="ph ph-text s"></div>
+          <div class="ph-tags">
+            <div class="ph ph-tag"></div>
+            <div class="ph ph-tag"></div>
+          </div>
+          <div class="ph ph-btn"></div>
+        </article>
+
+        <!-- Gap між картками -->
+        <div class="gap-annotation" style="flex-direction:column;width:20px;align-self:center">
+          <div style="width:1px;height:30px;background:repeating-linear-gradient(180deg,#fb923c 0,#fb923c 4px,transparent 4px,transparent 8px)"></div>
+          <span style="transform:rotate(90deg);font-size:9px;color:#fb923c;font-family:monospace;white-space:nowrap">20px</span>
+          <div style="width:1px;height:30px;background:repeating-linear-gradient(180deg,#fb923c 0,#fb923c 4px,transparent 4px,transparent 8px)"></div>
+        </div>
+
+        <article class="wf-card">
+          <div class="ph ph-name"></div>
+          <div class="ph ph-sub"></div>
+          <div class="ph ph-text"></div>
+          <div class="ph ph-text s"></div>
+          <div class="ph-tags">
+            <div class="ph ph-tag"></div>
+            <div class="ph ph-tag"></div>
+          </div>
+          <div class="ph ph-btn"></div>
+        </article>
+
+        <div class="gap-annotation" style="flex-direction:column;width:20px;align-self:center">
+          <div style="width:1px;height:30px;background:repeating-linear-gradient(180deg,#fb923c 0,#fb923c 4px,transparent 4px,transparent 8px)"></div>
+          <span style="transform:rotate(90deg);font-size:9px;color:#fb923c;font-family:monospace;white-space:nowrap">20px</span>
+          <div style="width:1px;height:30px;background:repeating-linear-gradient(180deg,#fb923c 0,#fb923c 4px,transparent 4px,transparent 8px)"></div>
+        </div>
+
+        <article class="wf-card">
+          <div class="ph ph-name"></div>
+          <div class="ph ph-sub"></div>
+          <div class="ph ph-text"></div>
+          <div class="ph ph-text s"></div>
+          <div class="ph-tags">
+            <div class="ph ph-tag"></div>
+            <div class="ph ph-tag"></div>
+          </div>
+          <div class="ph ph-btn"></div>
+        </article>
+
+      </div>
+    </div>
+
+  </main>
+
+  <!-- ══════════════════════════════════════
+       RIGHT PANEL
+  ══════════════════════════════════════ -->
+  <aside class="panel">
+
+    <!-- Шари -->
+    <div class="panel-section">
+      <div class="panel-section-title">Шари</div>
+
+      <div class="layer-item">
+        <div class="layer-icon">
+          <svg viewBox="0 0 10 10" fill="none"><rect x="1" y="1" width="8" height="8" rx="1" stroke="#6b7280" stroke-width="1.2"/></svg>
+        </div>
+        <span class="layer-name">header.navbar</span>
+      </div>
+
+      <div class="layer-item active">
+        <div class="layer-icon" style="border-color:#6366f1">
+          <svg viewBox="0 0 10 10" fill="none"><rect x="1" y="1" width="8" height="8" rx="1" stroke="#6366f1" stroke-width="1.2"/></svg>
+        </div>
+        <span class="layer-name">main.cards-grid</span>
+      </div>
+
+      <div class="layer-item" style="padding-left:22px">
+        <div class="layer-icon">
+          <svg viewBox="0 0 10 10" fill="none"><rect x="1" y="1" width="8" height="8" rx="1" stroke="#6b7280" stroke-width="1.2"/></svg>
+        </div>
+        <span class="layer-name">article.card ×3</span>
+      </div>
+
+    </div>
+
+    <!-- Flexbox: navbar -->
+    <div class="panel-section">
+      <div class="panel-section-title">.navbar — Layout</div>
+      <div class="prop">
+        <span class="prop-name">display</span>
+        <span class="prop-value">flex</span>
+      </div>
+      <div class="prop">
+        <span class="prop-name">justify-content</span>
+        <span class="prop-value orange">space-between</span>
+      </div>
+      <div class="prop">
+        <span class="prop-name">align-items</span>
+        <span class="prop-value">center</span>
+      </div>
+      <div class="prop">
+        <span class="prop-name">padding</span>
+        <span class="prop-value white">16px 28px</span>
+      </div>
+    </div>
+
+    <!-- Flexbox: nav-links -->
+    <div class="panel-section">
+      <div class="panel-section-title">.nav-links — Layout</div>
+      <div class="prop">
+        <span class="prop-name">display</span>
+        <span class="prop-value">flex</span>
+      </div>
+      <div class="prop">
+        <span class="prop-name">gap</span>
+        <span class="prop-value orange">24px</span>
+      </div>
+    </div>
+
+    <!-- Flexbox: cards-grid -->
+    <div class="panel-section">
+      <div class="panel-section-title">.cards-grid — Layout</div>
+      <div class="prop">
+        <span class="prop-name">display</span>
+        <span class="prop-value">flex</span>
+      </div>
+      <div class="prop">
+        <span class="prop-name">flex-wrap</span>
+        <span class="prop-value green">wrap</span>
+      </div>
+      <div class="prop">
+        <span class="prop-name">gap</span>
+        <span class="prop-value orange">24px</span>
+      </div>
+      <div class="prop">
+        <span class="prop-name">justify-content</span>
+        <span class="prop-value">center</span>
+      </div>
+      <div class="prop">
+        <span class="prop-name">padding</span>
+        <span class="prop-value white">28px</span>
+      </div>
+    </div>
+
+    <!-- Flexbox: card -->
+    <div class="panel-section">
+      <div class="panel-section-title">.card — Flex Item</div>
+      <div class="prop">
+        <span class="prop-name">flex</span>
+        <span class="prop-value green">1 1 280px</span>
+      </div>
+      <div class="prop">
+        <span class="prop-name">max-width</span>
+        <span class="prop-value white">360px</span>
+      </div>
+      <div class="prop">
+        <span class="prop-name">border-radius</span>
+        <span class="prop-value white">10px</span>
+      </div>
+      <div class="prop">
+        <span class="prop-name">padding</span>
+        <span class="prop-value white">28px 24px</span>
+      </div>
+    </div>
+
+    <!-- Spacing (padding box) -->
+    <div class="panel-section">
+      <div class="panel-section-title">.card — Spacing</div>
+      <div class="spacing-box">
+        <span class="spacing-label top">28</span>
+        <span class="spacing-label bottom">28</span>
+        <span class="spacing-label left">24</span>
+        <span class="spacing-label right">24</span>
+        <div class="spacing-inner"></div>
+      </div>
+    </div>
+
+    <!-- Кольори -->
+    <div class="panel-section">
+      <div class="panel-section-title">Кольори</div>
+
+      <div class="color-row">
+        <div class="color-swatch" style="background:#090b13"></div>
+        <div class="color-info">
+          <span class="color-hex">#090b13</span>
+          <span class="color-role">body background</span>
+        </div>
+      </div>
+
+      <div class="color-row">
+        <div class="color-swatch" style="background:#1a1d2e"></div>
+        <div class="color-info">
+          <span class="color-hex">#1a1d2e</span>
+          <span class="color-role">navbar / card bg</span>
+        </div>
+      </div>
+
+      <div class="color-row">
+        <div class="color-swatch" style="background:#a5b4fc"></div>
+        <div class="color-info">
+          <span class="color-hex">#a5b4fc</span>
+          <span class="color-role">logo / accent text</span>
+        </div>
+      </div>
+
+      <div class="color-row">
+        <div class="color-swatch" style="background:#5d69c7"></div>
+        <div class="color-info">
+          <span class="color-hex">#5d69c7</span>
+          <span class="color-role">border / link</span>
+        </div>
+      </div>
+
+      <div class="color-row">
+        <div class="color-swatch" style="background:#c7d2fe"></div>
+        <div class="color-info">
+          <span class="color-hex">#c7d2fe</span>
+          <span class="color-role">body text</span>
+        </div>
+      </div>
+
+    </div>
+
+  </aside>
+
+</body>
+</html>

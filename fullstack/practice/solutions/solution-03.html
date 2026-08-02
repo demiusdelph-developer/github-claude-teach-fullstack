@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Рішення 03 — Flexbox</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: #0d1117; color: #e6edf3; font-family: system-ui, sans-serif; line-height: 1.6; }
+    a { color: #388bfd; text-decoration: none; } a:hover { text-decoration: underline; }
+    .sol-meta { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; margin: 12px 0 0; }
+    .meta-badge { font-size: 12px; padding: 3px 10px; border-radius: 10px; border: 1px solid #30363d; color: #8b949e; }
+    .status-done { background: #1b3626; border-color: #2ea043; color: #7ee787; }
+    .section { margin-bottom: 40px; }
+    .section-title { font-size: 18px; font-weight: 700; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid #21262d; }
+    .card { background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 20px; margin-bottom: 12px; }
+    pre { background: #010409; border: 1px solid #30363d; border-radius: 6px; padding: 14px; font-family: 'Courier New', monospace; font-size: 13px; color: #c9d1d9; white-space: pre; overflow-x: auto; line-height: 1.6; }
+    .t { color: #7ee787; } .v { color: #ffa657; } .c { color: #8b949e; font-style: italic; }
+    code { background: #1c2128; border: 1px solid #30363d; border-radius: 3px; padding: 1px 5px; font-family: monospace; font-size: 12px; color: #a5d6ff; }
+    .topic-card { background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 16px; margin-bottom: 12px; }
+    .topic-title { font-size: 14px; font-weight: 700; color: #79c0ff; margin-bottom: 8px; }
+    .topic-body { font-size: 13px; color: #8b949e; }
+    .topic-body ul { padding-left: 18px; margin-top: 4px; }
+    .topic-body li { margin-bottom: 4px; }
+    .highlight-box { background: #1f3a5f; border: 1px solid #388bfd; border-radius: 8px; padding: 16px; margin-bottom: 12px; }
+    .highlight-title { font-size: 13px; font-weight: 700; color: #79c0ff; margin-bottom: 8px; }
+    .progress-grid { display: grid; grid-template-columns: 1fr; gap: 6px; }
+    .diff-item { display: flex; align-items: flex-start; gap: 10px; padding: 8px 12px; border-radius: 6px; font-size: 13px; }
+    .diff-new     { background: #1b3626; border: 1px solid #2ea043; }
+    .diff-advanced{ background: #2d1f47; border: 1px solid #d2a8ff; }
+    .diff-note    { background: #161b22; border: 1px solid #21262d; }
+    .diff-badge { font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 4px; white-space: nowrap; margin-top: 1px; }
+    .badge-new      { background: #2ea043; color: #fff; }
+    .badge-advanced { background: #8957e5; color: #fff; }
+    .badge-note     { background: #30363d; color: #8b949e; }
+    .diff-text { color: #c9d1d9; }
+    .diff-text code { background: #0d1117; border: none; color: #a5d6ff; }
+    .link-btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 18px; border-radius: 8px; font-size: 13px; font-weight: 600; text-decoration: none; transition: background .15s; border: 1px solid; margin-right: 10px; margin-bottom: 8px; }
+    .link-btn-green { background: #161b22; border-color: #2ea043; color: #7ee787; }
+    .link-btn-green:hover { background: #1b3626; text-decoration: none; }
+    .link-btn-blue  { background: #161b22; border-color: #388bfd; color: #79c0ff; }
+    .link-btn-blue:hover  { background: #1f3a5f; text-decoration: none; }
+  </style>
+</head>
+<body>
+
+<div class="page-header">
+  <p class="page-tag">Рішення / 03</p>
+  <h1 class="page-title">Flexbox — навбар і сітка карток</h1>
+  <div class="sol-meta">
+    <span class="meta-badge status-done">✅ Виконано 04.06.2026</span>
+    <span class="meta-badge">📚 CSS / 04 — Flexbox</span>
+  </div>
+  <p class="page-desc">Розбір виконаної задачі: що зроблено, додаткові техніки, що обговорювали.</p>
+</div>
+
+<div class="page-body">
+  <div class="content">
+
+    <div class="section">
+      <h2 class="section-title">Результат роботи</h2>
+      <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center">
+        <a href="../task-03/index.html" target="_blank" class="link-btn link-btn-green">
+          ✅ Відкрити виконану роботу
+        </a>
+        <a href="../task-03/mockup.html" target="_blank" class="link-btn link-btn-blue">
+          🖼 Еталонний макет
+        </a>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2 class="section-title">Що було зроблено</h2>
+      <div class="card">
+        <ul style="padding-left:18px;display:flex;flex-direction:column;gap:6px;font-size:14px">
+          <li>Навбар з SVG-лого зліва і навігацією справа (<code>justify-content: space-between</code>)</li>
+          <li>Сітка з 4 карток з переносом по 3 в рядок (<code>flex-wrap: wrap</code>)</li>
+          <li>Кнопка "↑" фіксована в правому нижньому куті (<code>position: fixed</code>)</li>
+          <li>Список навичок переноситься при нестачі місця (<code>flex-wrap: wrap</code> на ul)</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2 class="section-title">Додатково до умови</h2>
+      <div class="highlight-box">
+        <p class="highlight-title">Точна формула ширини картки замість flex: 1 1 280px</p>
+<pre><span class="c">/* Умова задачі: */</span>
+<span class="t">.card</span> { <span class="v">flex</span>: 1 1 280px; <span class="v">max-width</span>: 360px; }
+
+<span class="c">/* Точніше рішення: */</span>
+<span class="t">.articles article</span> {
+  <span class="v">flex</span>: 0 1 calc((100% - 80px) / 3);
+  <span class="v">min-width</span>: 0;
+}
+<span class="c">/* 100% - 80px = контейнер мінус два gap по 40px → / 3 */</span></pre>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2 class="section-title">Теми які обговорювали</h2>
+      <div class="topic-card">
+        <p class="topic-title">flex-grow і одинока картка в рядку</p>
+        <div class="topic-body"><ul>
+          <li><code>flex-grow: 1</code> — займає весь вільний простір у рядку</li>
+          <li>3 картки: простір ділиться рівно — добре</li>
+          <li>1 картка: розтягується на всю ширину — не завжди бажано</li>
+          <li>Рішення: <code>flex: 0 1 calc(...)</code> або <code>max-width</code></li>
+        </ul></div>
+      </div>
+      <div class="topic-card">
+        <p class="topic-title">min-width: 0 на flex-елементі</p>
+        <div class="topic-body"><ul>
+          <li>За замовчуванням flex-елемент не може звужуватись нижче ширини свого контенту (<code>min-width: auto</code>)</li>
+          <li><code>min-width: 0</code> знімає це обмеження</li>
+        </ul></div>
+      </div>
+      <div class="topic-card">
+        <p class="topic-title">Відсотки vs пікселі у flex-basis</p>
+        <div class="topic-body"><ul>
+          <li><code>flex: 1 1 20%</code> — непередбачуваний з gap у пікселях</li>
+          <li><code>flex: 1 1 280px</code> — фіксований мінімум, стабільніше</li>
+          <li><code>calc((100% - gap*(n-1)) / n)</code> — найточніший варіант</li>
+        </ul></div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2 class="section-title">Прогрес — нові патерни у задачі 03</h2>
+      <p style="font-size:13px;color:#8b949e;margin-bottom:14px">Задача 03 — нова окрема сторінка (не розширення задачі 02). Повністю нові flexbox-патерни.</p>
+      <div class="progress-grid">
+        <div class="diff-item diff-new"><span class="diff-badge badge-new">НОВЕ</span><span class="diff-text">Навбар: <code>.navbar { display: flex; justify-content: space-between; align-items: center }</code></span></div>
+        <div class="diff-item diff-new"><span class="diff-badge badge-new">НОВЕ</span><span class="diff-text">Посилання в рядок: <code>.nav-links { display: flex; gap: 24px }</code></span></div>
+        <div class="diff-item diff-new"><span class="diff-badge badge-new">НОВЕ</span><span class="diff-text">Адаптивна сітка: <code>.cards-grid { display: flex; flex-wrap: wrap; gap: 24px }</code></span></div>
+        <div class="diff-item diff-new"><span class="diff-badge badge-new">НОВЕ</span><span class="diff-text">Гнучка картка: <code>.card { flex: 1 1 280px; max-width: 360px }</code> — 3 в рядок, переносяться</span></div>
+        <div class="diff-item diff-advanced"><span class="diff-badge badge-advanced">ПОНАД УМОВУ</span><span class="diff-text">Точна формула: <code>flex: 0 1 calc((100% - 80px) / 3)</code> — завжди рівно 3 в рядок + <code>min-width: 0</code></span></div>
+        <div class="diff-item diff-note"><span class="diff-badge badge-note">КОНЦЕПЦІЯ</span><span class="diff-text">Задачі 01–02 будували розуміння <em>одного</em> flex-контейнера. Задача 03 — flex на двох різних рівнях одночасно</span></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script src="../../abstracts/js/nav.js" data-root="../../abstracts"></script>
+</body>
+</html>

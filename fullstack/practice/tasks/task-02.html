@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Задача 02 — Позиціонування</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: #0d1117; color: #e6edf3; font-family: system-ui, sans-serif; line-height: 1.6; }
+    a { color: #388bfd; text-decoration: none; } a:hover { text-decoration: underline; }
+    .task-meta { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; margin: 12px 0 0; }
+    .meta-badge { font-size: 12px; padding: 3px 10px; border-radius: 10px; border: 1px solid #30363d; color: #8b949e; }
+    .section { margin-bottom: 40px; }
+    .section-title { font-size: 18px; font-weight: 700; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid #21262d; }
+    .section-title.html-color { color: #ffa657; }
+    .section-title.css-color  { color: #79c0ff; }
+    .card { background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 20px; margin-bottom: 12px; }
+    pre { background: #010409; border: 1px solid #30363d; border-radius: 6px; padding: 14px; font-family: 'Courier New', monospace; font-size: 13px; color: #c9d1d9; white-space: pre; overflow-x: auto; line-height: 1.6; }
+    .t { color: #7ee787; } .a { color: #79c0ff; } .v { color: #ffa657; } .c { color: #8b949e; font-style: italic; }
+    code { background: #1c2128; border: 1px solid #30363d; border-radius: 3px; padding: 1px 5px; font-family: monospace; font-size: 12px; color: #a5d6ff; }
+    .mockup { background: #010409; border: 1px solid #30363d; border-radius: 8px; padding: 20px; font-family: 'Courier New', monospace; font-size: 12px; line-height: 1.5; color: #6e7681; white-space: pre; overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    th { background: #1c2128; color: #e6edf3; padding: 8px 12px; text-align: left; border: 1px solid #30363d; }
+    td { padding: 8px 12px; border: 1px solid #21262d; color: #c9d1d9; }
+    td:first-child { color: #79c0ff; font-family: monospace; font-size: 12px; }
+    tr:hover td { background: #161b22; }
+    .checklist { list-style: none; }
+    .checklist li { padding: 8px 0; border-bottom: 1px solid #21262d; font-size: 14px; display: flex; gap: 10px; align-items: flex-start; }
+    .checklist li:last-child { border-bottom: none; }
+    .checklist li::before { content: '○'; color: #30363d; font-size: 16px; line-height: 1; flex-shrink: 0; margin-top: 2px; }
+    .note { background: #1b3626; border: 1px solid #2ea043; border-radius: 6px; padding: 12px 16px; font-size: 13px; color: #7ee787; margin-bottom: 12px; }
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .done-box { background: #161b22; border: 1px solid #2ea043; border-radius: 10px; padding: 24px; text-align: center; margin-top: 48px; }
+    .done-box p { color: #7ee787; font-size: 15px; font-weight: 600; margin-bottom: 8px; }
+    .done-box small { color: #8b949e; font-size: 13px; }
+  </style>
+</head>
+<body>
+
+<div class="page-header">
+  <p class="page-tag">Задача / 02</p>
+  <h1 class="page-title">Позиціонування (position)</h1>
+  <div class="task-meta">
+    <span class="meta-badge">⏱ 45–75 хвилин</span>
+    <span class="meta-badge">📚 CSS / 03 — Позиціонування</span>
+    <span class="meta-badge">🎯 Початковий+</span>
+  </div>
+  <p class="page-desc">Береш картку з задачі 01 і додаєш бейдж та фіксовану кнопку через <code style="background:rgba(255,255,255,.1);padding:1px 6px;border-radius:3px">position</code>.</p>
+</div>
+
+<div class="page-body">
+  <div class="content">
+
+    <div class="section">
+      <h2 class="section-title">Що будеш робити</h2>
+      <div class="card">
+        <ol style="padding-left:20px;display:flex;flex-direction:column;gap:8px;font-size:14px">
+          <li><strong>Бейдж</strong> — кольоровий ярлик "Open to work ✓" у верхньому правому куті картки</li>
+          <li><strong>Кнопка "↑"</strong> — фіксована кнопка внизу праворуч, завжди видима при скролі</li>
+          <li>Скопіюй картку 4–5 разів, щоб сторінка прокручувалась</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2 class="section-title">Макет</h2>
+      <div class="two-col">
+        <div>
+          <p style="font-size:12px;color:#6e7681;margin-bottom:8px">Картка з бейджем:</p>
+          <div class="mockup">┌───────────────────────┐
+│               ┌───────────────┐
+│  Дмитро       │ Open to work  │
+│  Junior Dev   │      ✓        │
+│               └───────────────┘
+│  Текст...             │
+│  [ Зв'язатись ]       │
+└───────────────────────┘</div>
+        </div>
+        <div>
+          <p style="font-size:12px;color:#6e7681;margin-bottom:8px">Фіксована кнопка:</p>
+          <div class="mockup">┌──────────────────────┐
+│ сторінка прокручується│
+│                       │
+│                  ┌──┐ │
+│                  │↑ │ ← fixed
+│                  └──┘ │
+└──────────────────────┘</div>
+        </div>
+      </div>
+      <a href="../task-02/mockup.html" target="_blank"
+         style="display:inline-flex;align-items:center;gap:8px;margin-top:16px;background:#161b22;border:1px solid #388bfd;color:#79c0ff;padding:10px 18px;border-radius:8px;font-size:13px;font-weight:600;text-decoration:none;transition:background .15s"
+         onmouseover="this.style.background='#1f3a5f'" onmouseout="this.style.background='#161b22'">
+        🖼 Відкрити HTML-макет у новій вкладці
+      </a>
+    </div>
+
+    <div class="section">
+      <h2 class="section-title">Що тренуємо</h2>
+      <div class="card">
+        <table>
+          <tr><th>Властивість</th><th>Що робить</th></tr>
+          <tr><td>position: relative</td><td>Залишається в потоці, стає контекстом для absolute</td></tr>
+          <tr><td>position: absolute</td><td>Виривається з потоку, позиціонується відносно relative-батька</td></tr>
+          <tr><td>position: fixed</td><td>Відносно вікна браузера, не прокручується</td></tr>
+          <tr><td>top / right / bottom / left</td><td>Зміщення від відповідного краю</td></tr>
+          <tr><td>z-index</td><td>Порядок накладення: більше число — поверх</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2 class="section-title html-color">Вимоги — HTML</h2>
+      <div class="card">
+        <ul class="checklist">
+          <li>Скопіюй структуру картки з задачі 01</li>
+          <li>Всередині картки після <code>&lt;h1&gt;</code> — <code>&lt;span class="badge"&gt;Open to work ✓&lt;/span&gt;</code></li>
+          <li>Нижче карток — <code>&lt;button class="btn-top"&gt;↑&lt;/button&gt;</code></li>
+          <li>Ще 4 копії картки щоб сторінка прокручувалась</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2 class="section-title css-color">Вимоги — CSS</h2>
+      <div class="card">
+<pre><span class="c">/* 1. Картка — потрібна для бейджа */</span>
+<span class="t">.card</span> { <span class="v">position</span>: relative; }
+
+<span class="c">/* 2. Бейдж */</span>
+<span class="t">.badge</span> {
+  <span class="v">position</span>: absolute;
+  <span class="v">top</span>: -12px;
+  <span class="v">right</span>: -12px;
+}
+
+<span class="c">/* 3. Фіксована кнопка */</span>
+<span class="t">.btn-top</span> {
+  <span class="v">position</span>: fixed;
+  <span class="v">bottom</span>: 24px;
+  <span class="v">right</span>: 24px;
+  <span class="v">z-index</span>: 10;
+}</pre>
+      </div>
+      <div class="note">Body вже має <code>display: flex</code> з задачі 01 — додай <code>flex-direction: column</code> і <code>align-items: center</code> щоб картки йшли колонкою.</div>
+    </div>
+
+    <div class="section">
+      <h2 class="section-title">Перевір себе</h2>
+      <div class="card">
+        <ul class="checklist">
+          <li>Бейдж виходить за межі картки? — Саме так і повинно бути</li>
+          <li>При скролі вниз кнопка "↑" залишається на місці?</li>
+          <li>Прибери <code>position: relative</code> з <code>.card</code> — куди переїхав бейдж? Зрозумій чому.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="done-box">
+      <p>Коли готово — скажи: "Задача 02 готова"</p>
+      <small>Я перевірю код і дам детальний розбір</small>
+    </div>
+
+  </div>
+</div>
+
+<script src="../../abstracts/js/nav.js" data-root="../../abstracts"></script>
+</body>
+</html>

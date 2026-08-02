@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Задача 01 — Картка розробника</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: #0d1117; color: #e6edf3; font-family: system-ui, sans-serif; line-height: 1.6; }
+    a { color: #388bfd; text-decoration: none; } a:hover { text-decoration: underline; }
+
+    /* Контент-специфічні стилі */
+    .task-meta { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; margin: 12px 0 0; }
+    .meta-badge { font-size: 12px; padding: 3px 10px; border-radius: 10px; border: 1px solid #30363d; color: #8b949e; }
+    .section { margin-bottom: 40px; }
+    .section-title { font-size: 18px; font-weight: 700; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid #21262d; }
+    .section-title.html-color { color: #ffa657; }
+    .section-title.css-color  { color: #79c0ff; }
+    .card { background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 20px; margin-bottom: 12px; }
+    pre { background: #010409; border: 1px solid #30363d; border-radius: 6px; padding: 14px; font-family: 'Courier New', monospace; font-size: 13px; color: #c9d1d9; white-space: pre; overflow-x: auto; line-height: 1.6; }
+    .t { color: #7ee787; } .a { color: #79c0ff; } .v { color: #ffa657; } .c { color: #8b949e; font-style: italic; }
+    code { background: #1c2128; border: 1px solid #30363d; border-radius: 3px; padding: 1px 5px; font-family: monospace; font-size: 12px; color: #a5d6ff; }
+    .mockup { background: #010409; border: 1px solid #30363d; border-radius: 8px; padding: 20px; font-family: 'Courier New', monospace; font-size: 12px; line-height: 1.5; color: #6e7681; white-space: pre; overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    th { background: #1c2128; color: #e6edf3; padding: 8px 12px; text-align: left; border: 1px solid #30363d; }
+    td { padding: 8px 12px; border: 1px solid #21262d; color: #c9d1d9; }
+    td:first-child { color: #79c0ff; font-family: monospace; font-size: 12px; }
+    tr:hover td { background: #161b22; }
+    .checklist { list-style: none; }
+    .checklist li { padding: 8px 0; border-bottom: 1px solid #21262d; font-size: 14px; display: flex; gap: 10px; align-items: flex-start; }
+    .checklist li:last-child { border-bottom: none; }
+    .checklist li::before { content: '○'; color: #30363d; font-size: 16px; line-height: 1; flex-shrink: 0; margin-top: 2px; }
+    .note { background: #1b3626; border: 1px solid #2ea043; border-radius: 6px; padding: 12px 16px; font-size: 13px; color: #7ee787; margin-bottom: 12px; }
+    .warn { background: #3d2206; border: 1px solid #d29922; border-radius: 6px; padding: 12px 16px; font-size: 13px; color: #ffa657; margin-bottom: 12px; }
+    .done-box { background: #161b22; border: 1px solid #2ea043; border-radius: 10px; padding: 24px; text-align: center; margin-top: 48px; }
+    .done-box p { color: #7ee787; font-size: 15px; font-weight: 600; margin-bottom: 8px; }
+    .done-box small { color: #8b949e; font-size: 13px; }
+  </style>
+</head>
+<body>
+
+<div class="page-header">
+  <p class="page-tag">Задача / 01</p>
+  <h1 class="page-title">Особиста картка розробника</h1>
+  <div class="task-meta">
+    <span class="meta-badge">⏱ 45–90 хвилин</span>
+    <span class="meta-badge">📚 HTML + CSS базовий</span>
+    <span class="meta-badge">🎯 Початковий рівень</span>
+  </div>
+  <p class="page-desc">Перша повноцінна сторінка — семантичний HTML і базовий CSS з Flexbox-центруванням.</p>
+</div>
+
+<div class="page-body">
+  <div class="content">
+
+    <div class="section">
+      <h2 class="section-title">Макет</h2>
+      <div class="mockup">┌─────────────────────────────────────────────────────┐
+│   фон сторінки (будь-який колір, не білий)          │
+│                                                     │
+│        ┌───────────────────────────────┐            │
+│        │   Твоє Ім'я Прізвище    ← h1  │            │
+│        │   Junior Full Stack Dev  ← p   │            │
+│        │                               │            │
+│        │   Короткий текст про себе,    │            │
+│        │   2–3 речення.         ← p    │            │
+│        │                               │            │
+│        │   Мої навички:                │            │
+│        │   • HTML              ← ul/li │            │
+│        │   • CSS                       │            │
+│        │   • Git                       │            │
+│        │                               │            │
+│        │   [ Зв'язатись зі мною ] ← a  │            │
+│        └───────────────────────────────┘            │
+│              ↑ картка по центру                     │
+│              білий фон, padding, border-radius      │
+└─────────────────────────────────────────────────────┘</div>
+      <p style="font-size:13px;color:#8b949e;margin-top:12px">Кольори — твій вибір. Це лише схема розташування елементів.</p>
+      <a href="../task-01/mockup.html" target="_blank"
+         style="display:inline-flex;align-items:center;gap:8px;margin-top:16px;background:#161b22;border:1px solid #388bfd;color:#79c0ff;padding:10px 18px;border-radius:8px;font-size:13px;font-weight:600;text-decoration:none;transition:background .15s"
+         onmouseover="this.style.background='#1f3a5f'" onmouseout="this.style.background='#161b22'">
+        🖼 Відкрити HTML-макет у новій вкладці
+      </a>
+    </div>
+
+    <div class="section">
+      <h2 class="section-title html-color">Вимоги — HTML</h2>
+      <div class="card">
+        <ul class="checklist">
+          <li><code>&lt;!DOCTYPE html&gt;</code> та правильна структура (<code>html</code>, <code>head</code>, <code>body</code>)</li>
+          <li>Мета-теги: <code>charset</code>, <code>viewport</code>, <code>description</code></li>
+          <li><code>&lt;title&gt;</code> — твоє ім'я або нікнейм</li>
+          <li>Блок-картка <code>&lt;article class="card"&gt;</code> з ім'ям у <code>&lt;h1&gt;</code></li>
+          <li>Підзаголовок у <code>&lt;p class="subtitle"&gt;</code> (не h2!)</li>
+          <li>Короткий текст про себе у <code>&lt;p&gt;</code></li>
+          <li>Список навичок <code>&lt;ul&gt;</code> з мінімум 3 пунктами <code>&lt;li&gt;</code></li>
+          <li>Посилання <code>&lt;a href="#"&gt;</code> з текстом "Зв'язатись зі мною"</li>
+        </ul>
+      </div>
+      <div class="card">
+<pre><span class="t">&lt;body&gt;</span>
+  <span class="t">&lt;article</span> <span class="a">class</span>=<span class="v">"card"</span><span class="t">&gt;</span>
+    <span class="t">&lt;h1&gt;</span>Ім'я Прізвище<span class="t">&lt;/h1&gt;</span>
+    <span class="t">&lt;p</span> <span class="a">class</span>=<span class="v">"subtitle"</span><span class="t">&gt;</span>Junior Full Stack Developer<span class="t">&lt;/p&gt;</span>
+    <span class="t">&lt;p&gt;</span>Текст про себе...<span class="t">&lt;/p&gt;</span>
+    <span class="t">&lt;ul&gt;</span>
+      <span class="t">&lt;li&gt;</span>HTML<span class="t">&lt;/li&gt;</span>
+      <span class="t">&lt;li&gt;</span>CSS<span class="t">&lt;/li&gt;</span>
+      <span class="t">&lt;li&gt;</span>Git<span class="t">&lt;/li&gt;</span>
+    <span class="t">&lt;/ul&gt;</span>
+    <span class="t">&lt;a</span> <span class="a">href</span>=<span class="v">"#"</span><span class="t">&gt;</span>Зв'язатись зі мною<span class="t">&lt;/a&gt;</span>
+  <span class="t">&lt;/article&gt;</span>
+<span class="t">&lt;/body&gt;</span></pre>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2 class="section-title css-color">Вимоги — CSS</h2>
+      <div class="warn">Підключи окремий файл <code>style.css</code> через <code>&lt;link&gt;</code> — не пиши стилі прямо в HTML.</div>
+      <div class="card">
+        <ul class="checklist">
+          <li>CSS reset: <code>*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }</code></li>
+          <li>Колір фону для всієї сторінки (не білий)</li>
+          <li>Картка по центру через Flexbox на <code>body</code></li>
+          <li><code>min-height: 100vh</code> на body щоб займало весь екран</li>
+          <li>Картка з <code>padding</code>, <code>border-radius</code>, <code>max-width: 420–500px</code></li>
+          <li>Заголовок <code>h1</code> — інший колір або розмір</li>
+          <li>Посилання без підкреслення за замовчуванням, але з <code>:hover</code></li>
+        </ul>
+      </div>
+      <div class="card">
+<pre><span class="c">/* Центрування картки */</span>
+<span class="t">body</span> {
+  <span class="v">display</span>: flex;
+  <span class="v">justify-content</span>: center;
+  <span class="v">align-items</span>: center;
+  <span class="v">min-height</span>: 100vh;
+}
+
+<span class="t">.card</span> {
+  <span class="v">background</span>: white;
+  <span class="v">padding</span>: 32px;
+  <span class="v">border-radius</span>: 12px;
+  <span class="v">max-width</span>: 460px;
+  <span class="v">width</span>: 100%;
+}</pre>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2 class="section-title">Що тренуємо</h2>
+      <div class="card">
+        <table>
+          <tr><th>Тема</th><th>Розділ конспекту</th><th>Де застосовуємо</th></tr>
+          <tr><td>Семантика HTML</td><td>HTML / 03</td><td>article, h1, p, ul, a</td></tr>
+          <tr><td>Підключення CSS</td><td>CSS / 01</td><td>&lt;link rel="stylesheet"&gt;</td></tr>
+          <tr><td>Селектори і класи</td><td>CSS / 01</td><td>.card, h1, a:hover</td></tr>
+          <tr><td>Box model</td><td>CSS / 02</td><td>padding, border-radius, max-width</td></tr>
+          <tr><td>Flexbox</td><td>CSS / 04</td><td>body — центрування картки</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="done-box">
+      <p>Коли готово — скажи: "Задача 01 готова"</p>
+      <small>Я перевірю код і дам детальний розбір</small>
+    </div>
+
+  </div>
+</div>
+
+<script src="../../abstracts/js/nav.js" data-root="../../abstracts"></script>
+</body>
+</html>

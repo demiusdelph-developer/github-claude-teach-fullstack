@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mockup — Задача 01</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+      font-family: system-ui, sans-serif;
+    }
+
+    .card {
+      background: #ffffff;
+      border-radius: 16px;
+      padding: 40px;
+      max-width: 460px;
+      width: 90%;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+    }
+
+    h1 {
+      font-size: 28px;
+      font-weight: 800;
+      color: #1a1a2e;
+      margin-bottom: 4px;
+    }
+
+    .card-subtitle {
+      font-size: 14px;
+      font-weight: 600;
+      color: #6366f1;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+
+    p.bio {
+      font-size: 15px;
+      color: #64748b;
+      line-height: 1.7;
+      margin-bottom: 24px;
+    }
+
+    .skills-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: #94a3b8;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 10px;
+    }
+
+    ul.skills {
+      list-style: none;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 28px;
+    }
+
+    ul.skills li {
+      background: #f1f5f9;
+      border: 1px solid #e2e8f0;
+      border-radius: 6px;
+      padding: 4px 12px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #475569;
+    }
+
+    .contact-link {
+      display: inline-block;
+      background: #6366f1;
+      color: #ffffff;
+      text-decoration: none;
+      padding: 12px 28px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 700;
+      transition: background 0.2s ease, transform 0.1s ease;
+    }
+
+    .contact-link:hover {
+      background: #4f46e5;
+      transform: translateY(-1px);
+    }
+
+    /* Annotation overlay */
+    .annotations {
+      position: fixed;
+      bottom: 16px;
+      right: 16px;
+      background: rgba(13, 17, 23, 0.9);
+      border: 1px solid #30363d;
+      border-radius: 10px;
+      padding: 16px;
+      font-size: 12px;
+      color: #8b949e;
+      max-width: 220px;
+      backdrop-filter: blur(8px);
+    }
+
+    .annotations p { margin-bottom: 6px; font-weight: 700; color: #e6edf3; }
+    .ann-item { display: flex; align-items: center; gap: 6px; margin-bottom: 4px; }
+    .ann-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+    .dot-blue   { background: #6366f1; }
+    .dot-gray   { background: #94a3b8; }
+    .dot-green  { background: #22c55e; }
+  </style>
+</head>
+<body>
+
+  <article class="card">
+    <h1>Дмитро Шувар</h1>
+    <p class="card-subtitle">Junior Full Stack Developer</p>
+
+    <p class="bio">
+      Привіт! Я Дмитро — починаючий розробник, захоплений веб-технологіями.
+      Навчаюсь щодня і прагну стати хорошим спеціалістом.
+    </p>
+
+    <p class="skills-title">Мої навички</p>
+    <ul class="skills">
+      <li>HTML</li>
+      <li>CSS</li>
+      <li>Git</li>
+      <li>JavaScript</li>
+    </ul>
+
+    <a href="#" class="contact-link">Зв'язатись зі мною</a>
+  </article>
+
+  <div class="annotations">
+    <p>Задача 01 — Mockup</p>
+    <div class="ann-item"><span class="ann-dot dot-blue"></span> Кнопка — кольоровий фон, без підкреслення</div>
+    <div class="ann-item"><span class="ann-dot dot-gray"></span> Навички — flex-wrap, gap між тегами</div>
+    <div class="ann-item"><span class="ann-dot dot-green"></span> Картка — max-width 460px, border-radius</div>
+  </div>
+
+</body>
+</html>

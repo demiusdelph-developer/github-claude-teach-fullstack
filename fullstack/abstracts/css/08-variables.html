@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CSS — Змінні</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: #0d1117; color: #e6edf3; font-family: system-ui, sans-serif; line-height: 1.6; }
+    a { color: #388bfd; text-decoration: none; } a:hover { text-decoration: underline; }
+    .section { padding-top: 48px; }
+    .section-title { font-size: 20px; font-weight: 700; margin-bottom: 4px; }
+    .section-desc { font-size: 14px; color: #8b949e; margin-bottom: 24px; }
+    .card { background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 20px; margin-bottom: 16px; }
+    pre { background: #010409; border: 1px solid #30363d; border-radius: 6px; padding: 14px; font-family: 'Courier New', monospace; font-size: 13px; color: #c9d1d9; white-space: pre; overflow-x: auto; line-height: 1.6; }
+    .p { color: #79c0ff; } .v { color: #ffa657; } .s { color: #7ee787; } .c { color: #8b949e; font-style: italic; } .kw { color: #ff7b72; } .var { color: #d2a8ff; }
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    code { background: #1c2128; border: 1px solid #30363d; border-radius: 3px; padding: 1px 5px; font-family: monospace; font-size: 12px; color: #a5d6ff; }
+    .nav-pills { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 32px; padding-top: 24px; }
+    .nav-pill { font-size: 12px; font-weight: 600; padding: 4px 12px; border-radius: 20px; background: #1c2128; border: 1px solid #30363d; color: #8b949e; }
+    a.nav-pill:hover { border-color: #388bfd; color: #388bfd; text-decoration: none; }
+
+    /* Live theme demo */
+    :root {
+      --demo-bg: #f8fafc;
+      --demo-text: #0f172a;
+      --demo-surface: #ffffff;
+      --demo-border: #e2e8f0;
+      --demo-primary: #3b82f6;
+    }
+    .theme-demo { border-radius: 8px; padding: 16px; border: 1px solid var(--demo-border); background: var(--demo-bg); margin-top: 12px; }
+    .theme-demo .t-title { font-size: 15px; font-weight: 700; color: var(--demo-text); margin-bottom: 4px; }
+    .theme-demo .t-text { font-size: 13px; color: var(--demo-text); opacity: 0.7; margin-bottom: 10px; }
+    .theme-demo .t-btn { background: var(--demo-primary); color: #fff; padding: 6px 14px; border-radius: 5px; font-size: 12px; font-weight: 600; display: inline-block; }
+    .dark-theme { --demo-bg: #0f172a; --demo-text: #f1f5f9; --demo-surface: #1e293b; --demo-border: #334155; --demo-primary: #60a5fa; }
+  </style>
+</head>
+<body>
+
+
+<div class="page-header">
+  <p class="page-tag">CSS / 08</p>
+  <h1 class="page-title">Змінні (Custom Properties)</h1>
+  <p class="page-desc">CSS-змінні зберігають значення в одному місці — змінюєш в одному місці, змінюється скрізь. Ключ до масштабованого коду.</p>
+</div>
+
+<div class="page-body">
+  <div class="content">
+
+  <div class="nav-pills">
+    <a href="07-animations.html" class="nav-pill">← 07 — Анімації</a>
+    <a href="../html/01-structure.html" class="nav-pill">HTML / 01 →</a>
+  </div>
+
+  <!-- DECLARE AND USE -->
+  <div class="section">
+    <h2 class="section-title">Оголошення і використання</h2>
+    <div class="card">
+<pre><span class="c">/* Оголошення — зазвичай у :root щоб були глобальними */</span>
+<span class="kw">:root</span> {
+  <span class="var">--color-primary</span>: <span class="v">#3b82f6</span>;
+  <span class="var">--color-text</span>: <span class="v">#111827</span>;
+  <span class="var">--color-bg</span>: <span class="v">#ffffff</span>;
+
+  <span class="var">--font-size-base</span>: <span class="v">16px</span>;
+  <span class="var">--font-size-lg</span>: <span class="v">20px</span>;
+
+  <span class="var">--spacing-sm</span>: <span class="v">8px</span>;
+  <span class="var">--spacing-md</span>: <span class="v">16px</span>;
+  <span class="var">--spacing-lg</span>: <span class="v">32px</span>;
+
+  <span class="var">--border-radius</span>: <span class="v">8px</span>;
+  <span class="var">--shadow</span>: <span class="v">0 2px 8px rgba(0, 0, 0, 0.1)</span>;
+}
+
+<span class="c">/* Використання — через функцію var() */</span>
+<span class="s">.button</span> {
+  <span class="p">background</span>: <span class="v">var(<span class="var">--color-primary</span>)</span>;
+  <span class="p">padding</span>: <span class="v">var(<span class="var">--spacing-sm</span>) var(<span class="var">--spacing-md</span>)</span>;
+  <span class="p">border-radius</span>: <span class="v">var(<span class="var">--border-radius</span>)</span>;
+  <span class="p">font-size</span>: <span class="v">var(<span class="var">--font-size-base</span>)</span>;
+}
+
+<span class="c">/* var() з запасним значенням якщо змінна не визначена */</span>
+<span class="s">.card</span> {
+  <span class="p">color</span>: <span class="v">var(<span class="var">--color-text</span>, black)</span>;
+}</pre>
+    </div>
+  </div>
+
+  <!-- NAMING CONVENTIONS -->
+  <div class="section">
+    <h2 class="section-title">Хороший нейминг змінних</h2>
+    <div class="card">
+<pre><span class="c">/* По семантиці (рекомендовано) — що значить, не як виглядає */</span>
+<span class="kw">:root</span> {
+  <span class="var">--color-primary</span>: <span class="v">#3b82f6</span>;   <span class="c">/* ✓ */</span>
+  <span class="var">--color-blue</span>: <span class="v">#3b82f6</span>;       <span class="c">/* ✗ — якщо зміниш на зелений, ім'я хибне */</span>
+
+  <span class="var">--font-size-body</span>: <span class="v">16px</span>;      <span class="c">/* ✓ */</span>
+  <span class="var">--size-16</span>: <span class="v">16px</span>;             <span class="c">/* ✗ — неочевидно для чого */</span>
+}
+
+<span class="c">/* Система spacing */</span>
+<span class="kw">:root</span> {
+  <span class="var">--space-1</span>: <span class="v">4px</span>;
+  <span class="var">--space-2</span>: <span class="v">8px</span>;
+  <span class="var">--space-3</span>: <span class="v">12px</span>;
+  <span class="var">--space-4</span>: <span class="v">16px</span>;
+  <span class="var">--space-6</span>: <span class="v">24px</span>;
+  <span class="var">--space-8</span>: <span class="v">32px</span>;
+}</pre>
+    </div>
+  </div>
+
+  <!-- DARK THEME -->
+  <div class="section">
+    <h2 class="section-title">Темна тема через змінні</h2>
+    <p class="section-desc">Перевизначаєш змінні в одному місці — весь сайт змінює тему.</p>
+    <div class="card">
+<pre><span class="kw">:root</span> {
+  <span class="var">--bg</span>: <span class="v">#ffffff</span>;
+  <span class="var">--text</span>: <span class="v">#111827</span>;
+  <span class="var">--surface</span>: <span class="v">#f3f4f6</span>;
+  <span class="var">--primary</span>: <span class="v">#3b82f6</span>;
+}
+
+<span class="kw">@media</span> (<span class="p">prefers-color-scheme</span>: <span class="v">dark</span>) {
+  <span class="kw">:root</span> {
+    <span class="var">--bg</span>: <span class="v">#0f172a</span>;        <span class="c">/* ← тільки тут змінюємо */</span>
+    <span class="var">--text</span>: <span class="v">#f1f5f9</span>;
+    <span class="var">--surface</span>: <span class="v">#1e293b</span>;
+    <span class="var">--primary</span>: <span class="v">#60a5fa</span>;
+  }
+}
+
+<span class="c">/* Весь інший код залишається без змін */</span>
+<span class="s">body</span>  { <span class="p">background</span>: <span class="v">var(<span class="var">--bg</span>)</span>; <span class="p">color</span>: <span class="v">var(<span class="var">--text</span>)</span>; }
+<span class="s">.card</span> { <span class="p">background</span>: <span class="v">var(<span class="var">--surface</span>)</span>; }</pre>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px">
+        <div>
+          <p style="font-size:11px;color:#6e7681;margin-bottom:6px">Світла тема</p>
+          <div class="theme-demo">
+            <div class="t-title">Заголовок</div>
+            <div class="t-text">Основний текст сторінки</div>
+            <div class="t-btn">Кнопка</div>
+          </div>
+        </div>
+        <div>
+          <p style="font-size:11px;color:#6e7681;margin-bottom:6px">Темна тема (ті самі класи!)</p>
+          <div class="theme-demo dark-theme">
+            <div class="t-title">Заголовок</div>
+            <div class="t-text">Основний текст сторінки</div>
+            <div class="t-btn">Кнопка</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LOCAL VARS -->
+  <div class="section">
+    <h2 class="section-title">Локальні змінні</h2>
+    <p class="section-desc">Змінна може бути тільки для одного компонента — і дочірні мають до неї доступ.</p>
+    <div class="card">
+<pre><span class="s">.card</span> {
+  <span class="var">--card-padding</span>: <span class="v">24px</span>;   <span class="c">/* локальна — тільки для .card */</span>
+  <span class="var">--card-bg</span>: <span class="v">#f9fafb</span>;
+
+  <span class="p">padding</span>: <span class="v">var(<span class="var">--card-padding</span>)</span>;
+  <span class="p">background</span>: <span class="v">var(<span class="var">--card-bg</span>)</span>;
+}
+
+<span class="c">/* Дочірні теж мають доступ */</span>
+<span class="s">.card .title</span> {
+  <span class="p">padding-bottom</span>: <span class="v">calc(var(<span class="var">--card-padding</span>) / 2)</span>; <span class="c">/* 12px */</span>
+}</span></pre>
+    </div>
+  </div>
+
+  <!-- CALC -->
+  <div class="section">
+    <h2 class="section-title">calc() — обчислення</h2>
+    <p class="section-desc">Дозволяє змішувати одиниці і виконувати математику прямо в CSS.</p>
+    <div class="card">
+<pre><span class="s">.container</span> {
+  <span class="p">width</span>: <span class="v">calc(100% - 40px)</span>;               <span class="c">/* повна ширина мінус відступи */</span>
+  <span class="p">height</span>: <span class="v">calc(100vh - 80px)</span>;             <span class="c">/* на всю висоту мінус хедер */</span>
+  <span class="p">font-size</span>: <span class="v">calc(var(<span class="var">--font-size-base</span>) * 1.25)</span>; <span class="c">/* 20px */</span>
+  <span class="p">padding</span>: <span class="v">calc(var(<span class="var">--spacing-md</span>) * 2)</span>;  <span class="c">/* 32px */</span>
+  <span class="p">grid-template-columns</span>: <span class="v">calc(50% - 8px) calc(50% - 8px)</span>; <span class="c">/* два рівні стовпці з gap 16px */</span>
+}</pre>
+    </div>
+  </div>
+
+  <!-- JS -->
+  <div class="section">
+    <h2 class="section-title">Зміна змінних через JavaScript</h2>
+    <div class="card">
+<pre><span class="c">// Встановлення змінної</span>
+document.documentElement.style.setProperty(<span class="str">'--color-primary'</span>, <span class="str">'#ef4444'</span>);
+
+<span class="c">// Читання значення</span>
+<span class="kw">const</span> value = getComputedStyle(document.documentElement)
+  .getPropertyValue(<span class="str">'--color-primary'</span>); <span class="c">// "#3b82f6"</span>
+
+<span class="c">// Практичний приклад — перемикач теми</span>
+<span class="s">document.querySelector('.theme-btn')</span>.addEventListener(<span class="str">'click'</span>, () => {
+  document.documentElement.classList.toggle(<span class="str">'dark'</span>);
+});</pre>
+    </div>
+  </div>
+
+</div>
+</div>
+  <script src="../js/nav.js" data-root=".."></script>
+</body>
+</html>

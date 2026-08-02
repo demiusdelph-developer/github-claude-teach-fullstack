@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CSS — Анімації</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: #0d1117; color: #e6edf3; font-family: system-ui, sans-serif; line-height: 1.6; }
+    a { color: #388bfd; text-decoration: none; } a:hover { text-decoration: underline; }
+    .section { padding-top: 48px; }
+    .section-title { font-size: 20px; font-weight: 700; margin-bottom: 4px; }
+    .section-desc { font-size: 14px; color: #8b949e; margin-bottom: 24px; }
+    .card { background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 20px; margin-bottom: 16px; }
+    .card-title { font-size: 14px; font-weight: 700; color: #79c0ff; font-family: monospace; margin-bottom: 10px; }
+    pre { background: #010409; border: 1px solid #30363d; border-radius: 6px; padding: 14px; font-family: 'Courier New', monospace; font-size: 13px; color: #c9d1d9; white-space: pre; overflow-x: auto; line-height: 1.6; }
+    .p { color: #79c0ff; } .v { color: #ffa657; } .s { color: #7ee787; } .c { color: #8b949e; font-style: italic; } .kw { color: #ff7b72; }
+    .demo { background: #1c2128; border: 1px solid #30363d; border-radius: 6px; padding: 20px; margin-top: 12px; display: flex; gap: 16px; flex-wrap: wrap; align-items: center; }
+    .demo-label { font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #6e7681; margin-bottom: 10px; }
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    code { background: #1c2128; border: 1px solid #30363d; border-radius: 3px; padding: 1px 5px; font-family: monospace; font-size: 12px; color: #a5d6ff; }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 8px; }
+    th { background: #1c2128; color: #e6edf3; padding: 8px 12px; text-align: left; border: 1px solid #30363d; }
+    td { padding: 8px 12px; border: 1px solid #21262d; color: #c9d1d9; }
+    td:first-child { color: #79c0ff; font-family: monospace; font-size: 12px; }
+    tr:hover td { background: #161b22; }
+    .nav-pills { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 32px; padding-top: 24px; }
+    .nav-pill { font-size: 12px; font-weight: 600; padding: 4px 12px; border-radius: 20px; background: #1c2128; border: 1px solid #30363d; color: #8b949e; }
+    a.nav-pill:hover { border-color: #388bfd; color: #388bfd; text-decoration: none; }
+
+    /* Live animation demos */
+    @keyframes spin      { to { transform: rotate(360deg); } }
+    @keyframes pulse     { 0%,100%{transform:scale(1)} 50%{transform:scale(1.15)} }
+    @keyframes fadeIn    { from{opacity:0;transform:translateY(-10px)} to{opacity:1;transform:translateY(0)} }
+    @keyframes slide     { from{transform:translateX(-30px);opacity:0} to{transform:translateX(0);opacity:1} }
+    @keyframes bounce    { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-16px)} }
+    @keyframes shake     { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-8px)} 75%{transform:translateX(8px)} }
+
+    .demo-box { width: 56px; height: 56px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; color: #fff; }
+    .anim-spin    { background: #1f6feb; animation: spin 1.5s linear infinite; }
+    .anim-pulse   { background: #2ea043; animation: pulse 1.2s ease-in-out infinite; }
+    .anim-fadein  { background: #6e40c9; animation: fadeIn 1.5s ease forwards; }
+    .anim-slide   { background: #d29922; animation: slide 1.5s ease infinite; }
+    .anim-bounce  { background: #8b1a1a; border:1px solid #f85149; animation: bounce 1s ease-in-out infinite; }
+    .anim-shake   { background: #8b1a1a; border:1px solid #f85149; animation: shake 0.5s ease infinite; }
+
+    /* Hover transition demo */
+    .hover-btn { background: #1f6feb; color: #fff; padding: 10px 20px; border-radius: 6px; font-size: 13px; font-weight: 600; cursor: pointer; transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease; border: none; }
+    .hover-btn:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(31,111,235,0.4); background: #388bfd; }
+
+    /* Transform demos */
+    .tf-box { width: 48px; height: 48px; background: #1f6feb; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 11px; color: #fff; font-weight: 700; }
+
+    .anim-item { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+    .anim-item span { font-size: 10px; color: #6e7681; text-align: center; }
+
+    /* Spinner */
+    .spinner { width: 32px; height: 32px; border: 3px solid #30363d; border-top-color: #388bfd; border-radius: 50%; animation: spin 0.8s linear infinite; }
+  </style>
+</head>
+<body>
+
+
+<div class="page-header">
+  <p class="page-tag">CSS / 07</p>
+  <h1 class="page-title">Анімації та переходи</h1>
+  <p class="page-desc">transition — плавна зміна між станами. transform — трансформації елемента. animation + @keyframes — складні сценарії.</p>
+</div>
+
+<div class="page-body">
+  <div class="content">
+
+  <div class="nav-pills">
+    <a href="06-media-queries.html" class="nav-pill">← 06 — Медіа-запити</a>
+    <a href="08-variables.html" class="nav-pill">08 — Змінні →</a>
+  </div>
+
+  <!-- LIVE DEMOS -->
+  <div class="section">
+    <h2 class="section-title">Живі анімації</h2>
+    <div class="card">
+      <div class="demo" style="justify-content:flex-start">
+        <div class="anim-item"><div class="demo-box anim-spin">↻</div><span>spin<br>linear infinite</span></div>
+        <div class="anim-item"><div class="demo-box anim-pulse">●</div><span>pulse<br>ease infinite</span></div>
+        <div class="anim-item"><div class="demo-box anim-bounce">↑</div><span>bounce<br>ease-in-out</span></div>
+        <div class="anim-item"><div class="spinner"></div><span>spinner<br>border trick</span></div>
+        <div class="anim-item"><button class="hover-btn">Наведи →</button><span>transition<br>hover effect</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TRANSITION -->
+  <div class="section">
+    <h2 class="section-title">transition — плавна зміна</h2>
+    <p class="section-desc">Анімує зміну CSS-властивостей між двома станами (напр. при :hover).</p>
+    <div class="card">
+<pre><span class="s">.button</span> {
+  <span class="p">background</span>: <span class="v">blue</span>;
+
+  <span class="c">/* властивість | тривалість | функція | затримка */</span>
+  <span class="p">transition</span>: <span class="v">background 0.3s ease 0s</span>;
+
+  <span class="c">/* Кілька властивостей */</span>
+  <span class="p">transition</span>: <span class="v">background 0.3s ease, transform 0.2s ease</span>;
+
+  <span class="c">/* Всі властивості (уникати — повільніше) */</span>
+  <span class="p">transition</span>: <span class="v">all 0.3s ease</span>;
+}
+
+<span class="s">.button:hover</span> {
+  <span class="p">background</span>: <span class="v">darkblue</span>;
+  <span class="p">transform</span>: <span class="v">scale(1.05)</span>;
+}
+
+<span class="c">/* transition: ЗАВЖДИ на початковому стані, НЕ на :hover */</span></pre>
+
+      <div class="demo" style="flex-direction:column;align-items:flex-start">
+        <p class="demo-label">Функції часу (timing functions)</p>
+        <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:8px;width:100%">
+          <div style="text-align:center"><div style="height:4px;background:#388bfd;border-radius:2px;margin-bottom:4px"></div><span style="font-size:10px;color:#6e7681">linear</span></div>
+          <div style="text-align:center"><div style="height:4px;background:#2ea043;border-radius:2px;margin-bottom:4px"></div><span style="font-size:10px;color:#6e7681">ease</span></div>
+          <div style="text-align:center"><div style="height:4px;background:#d29922;border-radius:2px;margin-bottom:4px"></div><span style="font-size:10px;color:#6e7681">ease-in</span></div>
+          <div style="text-align:center"><div style="height:4px;background:#6e40c9;border-radius:2px;margin-bottom:4px"></div><span style="font-size:10px;color:#6e7681">ease-out</span></div>
+          <div style="text-align:center"><div style="height:4px;background:#f85149;border-radius:2px;margin-bottom:4px"></div><span style="font-size:10px;color:#6e7681">ease-in-out</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TRANSFORM -->
+  <div class="section">
+    <h2 class="section-title">transform — трансформації</h2>
+    <p class="section-desc">Не впливає на потік документа — сусідні елементи не зміщуються. Ідеальний для анімацій.</p>
+
+    <div class="card">
+<pre><span class="s">.el</span> {
+  <span class="c">/* Переміщення */</span>
+  <span class="p">transform</span>: <span class="v">translateX(50px)</span>;      <span class="c">/* вправо */</span>
+  <span class="p">transform</span>: <span class="v">translateY(-20px)</span>;     <span class="c">/* вгору */</span>
+  <span class="p">transform</span>: <span class="v">translate(50px, -20px)</span>; <span class="c">/* X і Y разом */</span>
+
+  <span class="c">/* Масштаб */</span>
+  <span class="p">transform</span>: <span class="v">scale(1.2)</span>;   <span class="c">/* 120% від оригінального розміру */</span>
+  <span class="p">transform</span>: <span class="v">scaleX(2)</span>;   <span class="c">/* тільки по горизонталі */</span>
+
+  <span class="c">/* Поворот */</span>
+  <span class="p">transform</span>: <span class="v">rotate(45deg)</span>;
+
+  <span class="c">/* Кілька трансформацій (порядок важливий!) */</span>
+  <span class="p">transform</span>: <span class="v">translateX(20px) rotate(45deg) scale(1.1)</span>;
+}</pre>
+
+      <div class="demo">
+        <div class="anim-item">
+          <div class="tf-box" style="transform:translateX(10px)">→</div>
+          <span>translate</span>
+        </div>
+        <div class="anim-item">
+          <div class="tf-box" style="transform:scale(1.3);background:#2ea043">●</div>
+          <span>scale(1.3)</span>
+        </div>
+        <div class="anim-item">
+          <div class="tf-box" style="transform:rotate(45deg);background:#d29922">◆</div>
+          <span>rotate(45deg)</span>
+        </div>
+        <div class="anim-item">
+          <div class="tf-box" style="transform:skewX(15deg);background:#6e40c9">▱</div>
+          <span>skewX(15deg)</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- KEYFRAMES -->
+  <div class="section">
+    <h2 class="section-title">@keyframes + animation</h2>
+    <p class="section-desc">Для складних анімацій з кількома кроками.</p>
+
+    <div class="card">
+<pre><span class="c">/* 1. Описуємо кадри */</span>
+<span class="kw">@keyframes</span> fadeIn {
+  <span class="v">from</span> {
+    <span class="p">opacity</span>: <span class="v">0</span>;
+    <span class="p">transform</span>: <span class="v">translateY(-10px)</span>;
+  }
+  <span class="v">to</span> {
+    <span class="p">opacity</span>: <span class="v">1</span>;
+    <span class="p">transform</span>: <span class="v">translateY(0)</span>;
+  }
+}
+
+<span class="kw">@keyframes</span> pulse {
+  <span class="v">0%</span>   { <span class="p">transform</span>: <span class="v">scale(1)</span>; }
+  <span class="v">50%</span>  { <span class="p">transform</span>: <span class="v">scale(1.1)</span>; }
+  <span class="v">100%</span> { <span class="p">transform</span>: <span class="v">scale(1)</span>; }
+}
+
+<span class="c">/* 2. Застосовуємо */</span>
+<span class="s">.card</span> {
+  <span class="c">/* name | duration | timing | delay | count | direction | fill */</span>
+  <span class="p">animation</span>: <span class="v">fadeIn 0.5s ease 0s 1 normal forwards</span>;
+}
+
+<span class="s">.loader</span> {
+  <span class="p">animation</span>: <span class="v">pulse 1.5s ease-in-out infinite</span>;
+}</pre>
+
+      <table>
+        <tr><th>Властивість</th><th>Значення</th></tr>
+        <tr><td>animation-name</td><td>назва @keyframes</td></tr>
+        <tr><td>animation-duration</td><td>0.5s, 1200ms</td></tr>
+        <tr><td>animation-timing-function</td><td>ease, linear, ease-in-out</td></tr>
+        <tr><td>animation-delay</td><td>0s, 0.3s (затримка старту)</td></tr>
+        <tr><td>animation-iteration-count</td><td>1, 3, infinite</td></tr>
+        <tr><td>animation-direction</td><td>normal, reverse, alternate</td></tr>
+        <tr><td>animation-fill-mode</td><td>none, forwards (зберегти кінцевий стан), backwards</td></tr>
+        <tr><td>animation-play-state</td><td>running, paused</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- COMMON PATTERNS -->
+  <div class="section">
+    <h2 class="section-title">Типові паттерни</h2>
+
+    <div class="card">
+      <p class="card-title">Spinner завантаження</p>
+<pre><span class="kw">@keyframes</span> spin {
+  <span class="v">to</span> { <span class="p">transform</span>: <span class="v">rotate(360deg)</span>; }
+}
+
+<span class="s">.spinner</span> {
+  <span class="p">width</span>: <span class="v">32px</span>; <span class="p">height</span>: <span class="v">32px</span>;
+  <span class="p">border</span>: <span class="v">3px solid #eee</span>;
+  <span class="p">border-top-color</span>: <span class="v">blue</span>; <span class="c">/* тільки верхня частина кольорова */</span>
+  <span class="p">border-radius</span>: <span class="v">50%</span>;      <span class="c">/* перетворює на коло */</span>
+  <span class="p">animation</span>: <span class="v">spin 0.8s linear infinite</span>;
+}</pre>
+      <div style="display:flex;align-items:center;gap:16px;padding:12px;background:#010409;border-radius:6px;margin-top:8px">
+        <div class="spinner"></div>
+        <span style="font-size:13px;color:#8b949e">border-top-color: #388bfd — тільки верхня частина кольорова</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <p class="card-title">Кнопка з ефектом підйому при hover</p>
+<pre><span class="s">.btn</span> {
+  <span class="p">transition</span>: <span class="v">transform 0.2s ease, box-shadow 0.2s ease</span>;
+}
+<span class="s">.btn:hover</span> {
+  <span class="p">transform</span>: <span class="v">translateY(-3px)</span>;
+  <span class="p">box-shadow</span>: <span class="v">0 6px 20px rgba(0, 0, 0, 0.2)</span>;
+}
+<span class="s">.btn:active</span> {
+  <span class="p">transform</span>: <span class="v">translateY(-1px)</span>;
+}</pre>
+      <div style="padding:12px;background:#010409;border-radius:6px;margin-top:8px">
+        <button class="hover-btn">Наведи на мене</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+</div>
+  <script src="../js/nav.js" data-root=".."></script>
+</body>
+</html>

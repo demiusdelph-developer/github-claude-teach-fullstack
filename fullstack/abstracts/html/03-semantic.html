@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HTML — Семантика</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: #0d1117; color: #e6edf3; font-family: system-ui, sans-serif; line-height: 1.6; }
+    a { color: #388bfd; text-decoration: none; } a:hover { text-decoration: underline; }
+    .section { padding-top: 48px; }
+    .section-title { font-size: 20px; font-weight: 700; margin-bottom: 4px; }
+    .section-desc { font-size: 14px; color: #8b949e; margin-bottom: 24px; }
+    .card { background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 20px; margin-bottom: 16px; }
+    pre { background: #010409; border: 1px solid #30363d; border-radius: 6px; padding: 14px; font-family: 'Courier New', monospace; font-size: 13px; color: #c9d1d9; white-space: pre; overflow-x: auto; line-height: 1.6; }
+    .t { color: #7ee787; } .a { color: #79c0ff; } .v { color: #ffa657; } .c { color: #8b949e; font-style: italic; } .tx { color: #c9d1d9; }
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    code { background: #1c2128; border: 1px solid #30363d; border-radius: 3px; padding: 1px 5px; font-family: monospace; font-size: 12px; color: #a5d6ff; }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 8px; }
+    th { background: #1c2128; color: #e6edf3; padding: 8px 12px; text-align: left; border: 1px solid #30363d; }
+    td { padding: 8px 12px; border: 1px solid #21262d; color: #c9d1d9; }
+    td:first-child { color: #7ee787; font-family: monospace; font-size: 12px; }
+    tr:hover td { background: #161b22; }
+    .nav-pills { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 32px; padding-top: 24px; }
+    .nav-pill { font-size: 12px; font-weight: 600; padding: 4px 12px; border-radius: 20px; background: #1c2128; border: 1px solid #30363d; color: #8b949e; }
+    a.nav-pill:hover { border-color: #ffa657; color: #ffa657; text-decoration: none; }
+
+    /* Page layout diagram */
+    .page-diagram { display: grid; grid-template-rows: auto auto auto; gap: 4px; background: #010409; border-radius: 8px; padding: 12px; }
+    .pd-header { background: #1f6feb33; border: 1px solid #1f6feb; border-radius: 4px; padding: 8px 12px; font-size: 12px; font-weight: 700; color: #79c0ff; }
+    .pd-nav { background: #2ea04333; border: 1px solid #2ea043; border-radius: 4px; padding: 6px 12px; font-size: 11px; color: #7ee787; }
+    .pd-middle { display: grid; grid-template-columns: 1fr 2fr; gap: 4px; }
+    .pd-aside { background: #d2992233; border: 1px solid #d29922; border-radius: 4px; padding: 8px; font-size: 11px; color: #e3b341; min-height: 80px; display: flex; align-items: center; justify-content: center; }
+    .pd-main { background: #6e40c933; border: 1px solid #6e40c9; border-radius: 4px; padding: 8px; font-size: 11px; color: #d2a8ff; min-height: 80px; }
+    .pd-article { background: #8b1a1a33; border: 1px solid #f85149; border-radius: 3px; padding: 6px; margin-bottom: 4px; font-size: 10px; color: #ff7b72; }
+    .pd-footer { background: #37415133; border: 1px solid #6b7280; border-radius: 4px; padding: 8px 12px; font-size: 12px; color: #9ca3af; }
+  </style>
+</head>
+<body>
+
+
+<div class="page-header">
+  <p class="page-tag">HTML / 03</p>
+  <h1 class="page-title">Семантичні елементи</h1>
+  <p class="page-desc">Семантичні теги описують роль вмісту. Пошукові системи і читалки екрану використовують їх для розуміння структури.</p>
+</div>
+
+<div class="page-body">
+  <div class="content">
+
+  <div class="nav-pills">
+    <a href="02-text.html" class="nav-pill">← 02 — Текст</a>
+    <a href="04-lists-links.html" class="nav-pill">04 — Списки і посилання →</a>
+  </div>
+
+  <!-- WHY SEMANTIC -->
+  <div class="section">
+    <h2 class="section-title">Чому семантика важлива</h2>
+
+    <div class="two-col">
+      <div class="card">
+        <p style="font-size:13px;font-weight:700;color:#ff7b72;margin-bottom:10px">✗ Без семантики</p>
+<pre><span class="t">&lt;div</span> <span class="a">class</span>=<span class="v">"header"</span><span class="t">&gt;</span>
+  <span class="t">&lt;div</span> <span class="a">class</span>=<span class="v">"nav"</span><span class="t">&gt;</span>...<span class="t">&lt;/div&gt;</span>
+<span class="t">&lt;/div&gt;</span>
+<span class="t">&lt;div</span> <span class="a">class</span>=<span class="v">"main"</span><span class="t">&gt;</span>
+  <span class="t">&lt;div</span> <span class="a">class</span>=<span class="v">"article"</span><span class="t">&gt;</span>...<span class="t">&lt;/div&gt;</span>
+<span class="t">&lt;/div&gt;</span>
+<span class="t">&lt;div</span> <span class="a">class</span>=<span class="v">"footer"</span><span class="t">&gt;</span>...<span class="t">&lt;/div&gt;</span></pre>
+      </div>
+
+      <div class="card">
+        <p style="font-size:13px;font-weight:700;color:#7ee787;margin-bottom:10px">✓ З семантикою</p>
+<pre><span class="t">&lt;header&gt;</span>
+  <span class="t">&lt;nav&gt;</span>...<span class="t">&lt;/nav&gt;</span>
+<span class="t">&lt;/header&gt;</span>
+<span class="t">&lt;main&gt;</span>
+  <span class="t">&lt;article&gt;</span>...<span class="t">&lt;/article&gt;</span>
+<span class="t">&lt;/main&gt;</span>
+<span class="t">&lt;footer&gt;</span>...<span class="t">&lt;/footer&gt;</span></pre>
+      </div>
+    </div>
+
+    <div style="background:#1b3626;border:1px solid #2ea043;border-radius:6px;padding:12px 16px;font-size:13px;color:#7ee787;margin-top:4px">
+      Семантика = краще SEO + доступність для людей зі скрінрідерами + зрозуміліший код для команди.
+    </div>
+  </div>
+
+  <!-- PAGE LAYOUT -->
+  <div class="section">
+    <h2 class="section-title">Типова структура сторінки</h2>
+
+    <div class="card">
+      <div class="page-diagram">
+        <div class="pd-header">&lt;header&gt; — шапка: лого, назва, навігація</div>
+        <div class="pd-nav">&lt;nav&gt; — навігація</div>
+        <div class="pd-middle">
+          <div class="pd-aside">&lt;aside&gt;<br>бічна панель</div>
+          <div class="pd-main">
+            &lt;main&gt; — основний вміст (один на сторінку)
+            <div class="pd-article">&lt;article&gt; — стаття або пост</div>
+            <div class="pd-article">&lt;section&gt; — секція з заголовком</div>
+          </div>
+        </div>
+        <div class="pd-footer">&lt;footer&gt; — підвал: копірайт, контакти</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ALL SEMANTIC TAGS -->
+  <div class="section">
+    <h2 class="section-title">Всі семантичні теги</h2>
+
+    <div class="card">
+<pre><span class="t">&lt;header&gt;</span>
+  <span class="c">&lt;!-- Шапка сторінки або секції: лого, назва, навігація --&gt;</span>
+  <span class="c">&lt;!-- На сторінці може бути декілька (один для page, ще для article) --&gt;</span>
+<span class="t">&lt;/header&gt;</span>
+
+<span class="t">&lt;nav&gt;</span>
+  <span class="c">&lt;!-- Блок навігаційних посилань --&gt;</span>
+  <span class="c">&lt;!-- Тільки для ГОЛОВНИХ навігаційних блоків --&gt;</span>
+<span class="t">&lt;/nav&gt;</span>
+
+<span class="t">&lt;main&gt;</span>
+  <span class="c">&lt;!-- Основний унікальний вміст. ОДИН НА СТОРІНКУ. --&gt;</span>
+
+  <span class="t">&lt;article&gt;</span>
+    <span class="c">&lt;!-- Самодостатній контент: стаття, пост, коментар, картка --&gt;</span>
+    <span class="c">&lt;!-- Може існувати окремо від контексту --&gt;</span>
+  <span class="t">&lt;/article&gt;</span>
+
+  <span class="t">&lt;section&gt;</span>
+    <span class="c">&lt;!-- Тематична секція з заголовком --&gt;</span>
+    <span class="t">&lt;h2&gt;</span><span class="tx">Назва секції (обов'язково!)</span><span class="t">&lt;/h2&gt;</span>
+  <span class="t">&lt;/section&gt;</span>
+
+<span class="t">&lt;/main&gt;</span>
+
+<span class="t">&lt;aside&gt;</span>
+  <span class="c">&lt;!-- Вміст пов'язаний але не головний: бічна панель, реклама, теги --&gt;</span>
+<span class="t">&lt;/aside&gt;</span>
+
+<span class="t">&lt;footer&gt;</span>
+  <span class="c">&lt;!-- Підвал: копірайт, контакти, посилання --&gt;</span>
+<span class="t">&lt;/footer&gt;</span>
+
+<span class="t">&lt;figure&gt;</span>
+  <span class="c">&lt;!-- Самодостатній медіа-блок --&gt;</span>
+  <span class="t">&lt;img</span> <span class="a">src</span>=<span class="v">"chart.png"</span> <span class="a">alt</span>=<span class="v">"Графік"</span> <span class="t">/&gt;</span>
+  <span class="t">&lt;figcaption&gt;</span><span class="tx">Підпис до зображення</span><span class="t">&lt;/figcaption&gt;</span>
+<span class="t">&lt;/figure&gt;</span>
+
+<span class="t">&lt;details&gt;</span>
+  <span class="c">&lt;!-- Розгортуваний блок (акордеон без JS) --&gt;</span>
+  <span class="t">&lt;summary&gt;</span><span class="tx">Клікни щоб розкрити</span><span class="t">&lt;/summary&gt;</span>
+  <span class="t">&lt;p&gt;</span><span class="tx">Прихований текст</span><span class="t">&lt;/p&gt;</span>
+<span class="t">&lt;/details&gt;</span></pre>
+    </div>
+  </div>
+
+  <!-- ARTICLE VS SECTION -->
+  <div class="section">
+    <h2 class="section-title">article vs section — коли що</h2>
+
+    <div class="two-col">
+      <div class="card">
+        <p style="font-size:13px;font-weight:700;color:#7ee787;margin-bottom:10px">&lt;article&gt;</p>
+        <p style="font-size:13px;color:#c9d1d9;margin-bottom:10px">Самодостатній контент — може існувати окремо від сторінки. Питай себе: "якщо вирвати цей блок і показати окремо — він матиме сенс?"</p>
+        <div style="background:#010409;padding:8px;border-radius:4px;font-size:12px;color:#6e7681">
+          ✓ Стаття блогу<br>
+          ✓ Коментар<br>
+          ✓ Картка продукту<br>
+          ✓ Пост у соцмережі
+        </div>
+      </div>
+
+      <div class="card">
+        <p style="font-size:13px;font-weight:700;color:#79c0ff;margin-bottom:10px">&lt;section&gt;</p>
+        <p style="font-size:13px;color:#c9d1d9;margin-bottom:10px">Тематична частина контента з заголовком. Групує пов'язаний вміст. Завжди повинна мати h2-h6 всередині.</p>
+        <div style="background:#010409;padding:8px;border-radius:4px;font-size:12px;color:#6e7681">
+          ✓ Секція "Про нас"<br>
+          ✓ Секція "Наші послуги"<br>
+          ✓ Глава в статті<br>
+          ✗ Просто контейнер → використовуй div
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- QUICK REFERENCE -->
+  <div class="section">
+    <h2 class="section-title">Швидкий довідник</h2>
+    <div class="card">
+      <table>
+        <tr><th>Тег</th><th>Роль</th><th>Кількість на сторінці</th></tr>
+        <tr><td>&lt;header&gt;</td><td>Шапка сторінки або секції</td><td>Декілька (одна на сторінку + в article)</td></tr>
+        <tr><td>&lt;nav&gt;</td><td>Головна навігація</td><td>1-2 (основна + хлібні крихти)</td></tr>
+        <tr><td>&lt;main&gt;</td><td>Основний вміст</td><td>Тільки один!</td></tr>
+        <tr><td>&lt;article&gt;</td><td>Самодостатній контент</td><td>Багато</td></tr>
+        <tr><td>&lt;section&gt;</td><td>Тематична секція</td><td>Багато</td></tr>
+        <tr><td>&lt;aside&gt;</td><td>Допоміжний контент</td><td>Декілька</td></tr>
+        <tr><td>&lt;footer&gt;</td><td>Підвал</td><td>Декілька (одна головна)</td></tr>
+        <tr><td>&lt;figure&gt;</td><td>Медіа + підпис</td><td>Багато</td></tr>
+        <tr><td>&lt;details&gt;</td><td>Акордеон без JS</td><td>Багато</td></tr>
+        <tr><td>&lt;div&gt;</td><td>Контейнер без семантики</td><td>Коли жоден інший не підходить</td></tr>
+      </table>
+    </div>
+  </div>
+
+</div>
+</div>
+  <script src="../js/nav.js" data-root=".."></script>
+</body>
+</html>

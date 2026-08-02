@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Задача 04 — CSS Grid</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: #0d1117; color: #e6edf3; font-family: system-ui, sans-serif; line-height: 1.6; }
+    a { color: #388bfd; text-decoration: none; } a:hover { text-decoration: underline; }
+    .task-meta { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; margin: 12px 0 0; }
+    .meta-badge { font-size: 12px; padding: 3px 10px; border-radius: 10px; border: 1px solid #30363d; color: #8b949e; }
+    .section { margin-bottom: 40px; }
+    .section-title { font-size: 18px; font-weight: 700; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid #21262d; }
+    .section-title.html-color { color: #ffa657; }
+    .section-title.css-color  { color: #79c0ff; }
+    .card { background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 20px; margin-bottom: 12px; }
+    pre { background: #010409; border: 1px solid #30363d; border-radius: 6px; padding: 14px; font-family: 'Courier New', monospace; font-size: 13px; color: #c9d1d9; white-space: pre; overflow-x: auto; line-height: 1.6; }
+    .t { color: #7ee787; } .a { color: #79c0ff; } .v { color: #ffa657; } .c { color: #8b949e; font-style: italic; }
+    code { background: #1c2128; border: 1px solid #30363d; border-radius: 3px; padding: 1px 5px; font-family: monospace; font-size: 12px; color: #a5d6ff; }
+    .mockup { background: #010409; border: 1px solid #30363d; border-radius: 8px; padding: 20px; font-family: 'Courier New', monospace; font-size: 12px; line-height: 1.5; color: #6e7681; white-space: pre; overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    th { background: #1c2128; color: #e6edf3; padding: 8px 12px; text-align: left; border: 1px solid #30363d; }
+    td { padding: 8px 12px; border: 1px solid #21262d; color: #c9d1d9; }
+    td:first-child { color: #79c0ff; font-family: monospace; font-size: 12px; }
+    tr:hover td { background: #161b22; }
+    .checklist { list-style: none; }
+    .checklist li { padding: 8px 0; border-bottom: 1px solid #21262d; font-size: 14px; display: flex; gap: 10px; align-items: flex-start; }
+    .checklist li:last-child { border-bottom: none; }
+    .checklist li::before { content: '○'; color: #30363d; font-size: 16px; line-height: 1; flex-shrink: 0; margin-top: 2px; }
+    .note { background: #1b3626; border: 1px solid #2ea043; border-radius: 6px; padding: 12px 16px; font-size: 13px; color: #7ee787; margin-bottom: 12px; }
+    .question-box { background: #161b22; border: 1px solid #388bfd; border-radius: 8px; padding: 16px; margin-top: 12px; font-size: 14px; color: #79c0ff; }
+    .done-box { background: #161b22; border: 1px solid #2ea043; border-radius: 10px; padding: 24px; text-align: center; margin-top: 48px; }
+    .done-box p { color: #7ee787; font-size: 15px; font-weight: 600; margin-bottom: 8px; }
+    .done-box small { color: #8b949e; font-size: 13px; }
+  </style>
+</head>
+<body>
+
+<div class="page-header">
+  <p class="page-tag">Задача / 04</p>
+  <h1 class="page-title">CSS Grid — layout сторінки і сітка постів</h1>
+  <div class="task-meta">
+    <span class="meta-badge">⏱ 60–90 хвилин</span>
+    <span class="meta-badge">📚 CSS / 05 — Grid</span>
+    <span class="meta-badge">🎯 Початковий+</span>
+  </div>
+  <p class="page-desc">Побудуєш сторінку блогу з layout через grid-template-areas та сіткою постів, де один пост займає дві колонки.</p>
+</div>
+
+<div class="page-body">
+  <div class="content">
+
+    <div class="section">
+      <h2 class="section-title">Що будеш робити</h2>
+      <div class="card">
+        <ol style="padding-left:20px;display:flex;flex-direction:column;gap:8px;font-size:14px">
+          <li><strong>Шапка (header)</strong> — на всю ширину: назва сайту зліва, навігація справа (Flexbox з таску 03)</li>
+          <li><strong>Двоколонковий макет</strong> — вузький сайдбар зліва + основний контент справа</li>
+          <li><strong>Сітка постів</strong> — п'ять карток, де <strong>один пост займає дві колонки</strong></li>
+          <li><strong>Підвал (footer)</strong> — на всю ширину</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2 class="section-title">Макет</h2>
+      <p style="font-size:12px;color:#6e7681;margin-bottom:8px">Загальний layout (grid-template-areas):</p>
+      <div class="mockup">┌─────────────────────────────────────────────────┐
+│  HEADER: MyBlog              Головна  Про  Теги │
+├──────────────┬──────────────────────────────────┤
+│              │  ┌──────────┐  ┌──────────┐      │
+│   SIDEBAR    │  │  Пост 1  │  │  Пост 2  │      │
+│              │  ├──────────┴──┴──────────┤      │
+│  Про мене    │  │      Пост 3 (широкий)  │      │
+│              │  ├──────────┬─────────────┤      │
+│  Теги:       │  │  Пост 4  │  Пост 5    │      │
+│  #css #html  │  └──────────┴────────────┘      │
+├──────────────┴──────────────────────────────────┤
+│  FOOTER: © 2026 MyBlog                          │
+└─────────────────────────────────────────────────┘</div>
+      <a href="../task-04/mockup.html" target="_blank"
+         style="display:inline-flex;align-items:center;gap:8px;margin-top:16px;background:#161b22;border:1px solid #388bfd;color:#79c0ff;padding:10px 18px;border-radius:8px;font-size:13px;font-weight:600;text-decoration:none;transition:background .15s"
+         onmouseover="this.style.background='#1f3a5f'" onmouseout="this.style.background='#161b22'">
+        🖼 Відкрити HTML-макет у новій вкладці
+      </a>
+    </div>
+
+    <div class="section">
+      <h2 class="section-title">Що тренуємо</h2>
+      <div class="card">
+        <table>
+          <tr><th>Властивість</th><th>Де застосовуємо</th></tr>
+          <tr><td>display: grid</td><td>body (layout сторінки) і main.posts (сітка)</td></tr>
+          <tr><td>grid-template-columns: 220px 1fr</td><td>фіксований сайдбар + гнучкий main</td></tr>
+          <tr><td>grid-template-rows: auto 1fr auto</td><td>шапка, контент, підвал</td></tr>
+          <tr><td>grid-template-areas</td><td>іменовані зони layout сторінки</td></tr>
+          <tr><td>grid-area</td><td>прив'язати елемент до зони</td></tr>
+          <tr><td>grid-template-columns: repeat(2, 1fr)</td><td>сітка постів — рівні колонки</td></tr>
+          <tr><td>grid-column: span 2</td><td>Пост 3 займає обидві колонки</td></tr>
+          <tr><td>gap</td><td>відступи між усіма grid-елементами</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2 class="section-title html-color">Вимоги — HTML</h2>
+      <div class="card">
+<pre><span class="t">&lt;body&gt;</span>
+  <span class="t">&lt;header</span> <span class="a">class</span>=<span class="v">"header"</span><span class="t">&gt;</span>
+    <span class="t">&lt;span</span> <span class="a">class</span>=<span class="v">"logo"</span><span class="t">&gt;</span>MyBlog<span class="t">&lt;/span&gt;</span>
+    <span class="t">&lt;nav</span> <span class="a">class</span>=<span class="v">"nav-links"</span><span class="t">&gt;</span>
+      <span class="t">&lt;a</span> <span class="a">href</span>=<span class="v">"#"</span><span class="t">&gt;</span>Головна<span class="t">&lt;/a&gt;</span>
+      <span class="t">&lt;a</span> <span class="a">href</span>=<span class="v">"#"</span><span class="t">&gt;</span>Про мене<span class="t">&lt;/a&gt;</span>
+      <span class="t">&lt;a</span> <span class="a">href</span>=<span class="v">"#"</span><span class="t">&gt;</span>Теги<span class="t">&lt;/a&gt;</span>
+    <span class="t">&lt;/nav&gt;</span>
+  <span class="t">&lt;/header&gt;</span>
+
+  <span class="t">&lt;aside</span> <span class="a">class</span>=<span class="v">"sidebar"</span><span class="t">&gt;</span>
+    <span class="t">&lt;h2&gt;</span>Про мене<span class="t">&lt;/h2&gt;</span>
+    <span class="t">&lt;p&gt;</span>Пишу про веб і CSS.<span class="t">&lt;/p&gt;</span>
+    <span class="t">&lt;h3&gt;</span>Теги<span class="t">&lt;/h3&gt;</span>
+    <span class="t">&lt;ul&gt;&lt;li&gt;</span>#css<span class="t">&lt;/li&gt;&lt;li&gt;</span>#html<span class="t">&lt;/li&gt;&lt;li&gt;</span>#grid<span class="t">&lt;/li&gt;&lt;/ul&gt;</span>
+  <span class="t">&lt;/aside&gt;</span>
+
+  <span class="t">&lt;main</span> <span class="a">class</span>=<span class="v">"posts"</span><span class="t">&gt;</span>
+    <span class="t">&lt;article</span> <span class="a">class</span>=<span class="v">"post"</span><span class="t">&gt;</span> ... <span class="t">&lt;/article&gt;</span>
+    <span class="t">&lt;article</span> <span class="a">class</span>=<span class="v">"post"</span><span class="t">&gt;</span> ... <span class="t">&lt;/article&gt;</span>
+    <span class="c">&lt;!-- цей пост займає 2 колонки --&gt;</span>
+    <span class="t">&lt;article</span> <span class="a">class</span>=<span class="v">"post post--featured"</span><span class="t">&gt;</span> ... <span class="t">&lt;/article&gt;</span>
+    <span class="t">&lt;article</span> <span class="a">class</span>=<span class="v">"post"</span><span class="t">&gt;</span> ... <span class="t">&lt;/article&gt;</span>
+    <span class="t">&lt;article</span> <span class="a">class</span>=<span class="v">"post"</span><span class="t">&gt;</span> ... <span class="t">&lt;/article&gt;</span>
+  <span class="t">&lt;/main&gt;</span>
+
+  <span class="t">&lt;footer</span> <span class="a">class</span>=<span class="v">"footer"</span><span class="t">&gt;</span>
+    <span class="t">&lt;p&gt;</span>© 2026 MyBlog<span class="t">&lt;/p&gt;</span>
+  <span class="t">&lt;/footer&gt;</span>
+<span class="t">&lt;/body&gt;</span></pre>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2 class="section-title css-color">Вимоги — CSS</h2>
+      <div class="card">
+<pre><span class="c">/* Layout сторінки */</span>
+<span class="t">body</span> {
+  <span class="v">display</span>: grid;
+  <span class="v">grid-template-columns</span>: 220px 1fr;
+  <span class="v">grid-template-rows</span>: auto 1fr auto;
+  <span class="v">grid-template-areas</span>:
+    <span class="v">"header  header"</span>
+    <span class="v">"sidebar posts"</span>
+    <span class="v">"footer  footer"</span>;
+  <span class="v">min-height</span>: 100vh;
+}
+<span class="t">.header</span>  { <span class="v">grid-area</span>: header; }
+<span class="t">.sidebar</span> { <span class="v">grid-area</span>: sidebar; }
+<span class="t">.posts</span>   { <span class="v">grid-area</span>: posts; }
+<span class="t">.footer</span>  { <span class="v">grid-area</span>: footer; }
+
+<span class="c">/* Шапка (Flexbox — вже знаєш) */</span>
+<span class="t">.header</span> { <span class="v">display</span>: flex; <span class="v">justify-content</span>: space-between; <span class="v">align-items</span>: center; }
+
+<span class="c">/* Сітка постів */</span>
+<span class="t">.posts</span> {
+  <span class="v">display</span>: grid;
+  <span class="v">grid-template-columns</span>: repeat(2, 1fr);
+  <span class="v">gap</span>: 24px;
+  <span class="v">padding</span>: 24px;
+}
+<span class="t">.post--featured</span> { <span class="v">grid-column</span>: span 2; }</pre>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2 class="section-title">Перевір себе</h2>
+      <div class="card">
+        <ul class="checklist">
+          <li>Сайдбар зліва, пости справа — завдяки <code>grid-template-areas</code>?</li>
+          <li>Шапка і підвал на всю ширину (обидві колонки)?</li>
+          <li>Пост 3 займає весь рядок (обидві колонки)?</li>
+          <li>Між постами є відступ (<code>gap</code>)?</li>
+          <li>Сайдбар не розтягується по горизонталі — 220px фіксовано?</li>
+        </ul>
+      </div>
+      <div class="question-box">
+        💡 <strong>Питання для роздумів:</strong> Що станеться, якщо прибрати <code style="background:rgba(255,255,255,.1)">grid-column: span 2</code> з <code style="background:rgba(255,255,255,.1)">.post--featured</code>? Спробуй.
+      </div>
+    </div>
+
+    <div class="section">
+      <h2 class="section-title">Grid vs Flexbox</h2>
+      <div class="card">
+        <table>
+          <tr><th></th><th>Flexbox</th><th>Grid</th></tr>
+          <tr><td>Напрямок</td><td>один вимір (рядок або стовпець)</td><td>два виміри (рядки і стовпці)</td></tr>
+          <tr><td>Застосування</td><td>navbar, ряд кнопок, картки</td><td>layout сторінки, галерея</td></tr>
+          <tr><td>Контроль</td><td>елементи самі визначають розмір</td><td>ти задаєш точну сітку заздалегідь</td></tr>
+        </table>
+      </div>
+      <div class="note">У цій задачі використовуємо обидва: Grid для layout (де стоять зони) і Flexbox для шапки (де стоять елементи всередині зони).</div>
+    </div>
+
+    <div class="done-box">
+      <p>Коли готово — скажи: "Задача 04 готова"</p>
+      <small>Я перевірю код і дам детальний розбір</small>
+    </div>
+
+  </div>
+</div>
+
+<script src="../../abstracts/js/nav.js" data-root="../../abstracts"></script>
+</body>
+</html>

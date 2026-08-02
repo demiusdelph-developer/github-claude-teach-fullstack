@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Рішення 01 — Картка розробника</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: #0d1117; color: #e6edf3; font-family: system-ui, sans-serif; line-height: 1.6; }
+    a { color: #388bfd; text-decoration: none; } a:hover { text-decoration: underline; }
+    .sol-meta { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; margin: 12px 0 0; }
+    .meta-badge { font-size: 12px; padding: 3px 10px; border-radius: 10px; border: 1px solid #30363d; color: #8b949e; }
+    .status-done { background: #1b3626; border-color: #2ea043; color: #7ee787; }
+    .section { margin-bottom: 40px; }
+    .section-title { font-size: 18px; font-weight: 700; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid #21262d; }
+    .card { background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 20px; margin-bottom: 12px; }
+    pre { background: #010409; border: 1px solid #30363d; border-radius: 6px; padding: 14px; font-family: 'Courier New', monospace; font-size: 13px; color: #c9d1d9; white-space: pre; overflow-x: auto; line-height: 1.6; }
+    code { background: #1c2128; border: 1px solid #30363d; border-radius: 3px; padding: 1px 5px; font-family: monospace; font-size: 12px; color: #a5d6ff; }
+    .bug { background: #3d0f10; border: 1px solid #f85149; border-radius: 6px; padding: 12px 16px; margin-bottom: 10px; }
+    .bug-title { font-size: 12px; font-weight: 700; color: #ff7b72; margin-bottom: 4px; }
+    .bug-body { font-size: 13px; color: #c9d1d9; }
+    .topic-card { background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 16px; margin-bottom: 12px; }
+    .topic-title { font-size: 14px; font-weight: 700; color: #79c0ff; margin-bottom: 8px; }
+    .topic-body { font-size: 13px; color: #8b949e; }
+    .topic-body ul { padding-left: 18px; margin-top: 4px; }
+    .topic-body li { margin-bottom: 4px; }
+    /* Прогрес */
+    .progress-grid { display: grid; grid-template-columns: 1fr; gap: 6px; }
+    .diff-item { display: flex; align-items: flex-start; gap: 10px; padding: 8px 12px; border-radius: 6px; font-size: 13px; }
+    .diff-new  { background: #1b3626; border: 1px solid #2ea043; }
+    .diff-changed { background: #1f2e4a; border: 1px solid #388bfd; }
+    .diff-badge { font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 4px; white-space: nowrap; margin-top: 1px; }
+    .badge-new     { background: #2ea043; color: #fff; }
+    .badge-changed { background: #388bfd; color: #fff; }
+    .diff-text { color: #c9d1d9; }
+    .diff-text code { background: #0d1117; border: none; color: #a5d6ff; }
+    /* Кнопки посилань */
+    .link-btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 18px; border-radius: 8px; font-size: 13px; font-weight: 600; text-decoration: none; transition: background .15s, border-color .15s; border: 1px solid; margin-right: 10px; margin-bottom: 8px; }
+    .link-btn-green  { background: #161b22; border-color: #2ea043; color: #7ee787; }
+    .link-btn-green:hover  { background: #1b3626; text-decoration: none; }
+    .link-btn-blue   { background: #161b22; border-color: #388bfd; color: #79c0ff; }
+    .link-btn-blue:hover   { background: #1f3a5f; text-decoration: none; }
+  </style>
+</head>
+<body>
+
+<div class="page-header">
+  <p class="page-tag">Рішення / 01</p>
+  <h1 class="page-title">Особиста картка розробника</h1>
+  <div class="sol-meta">
+    <span class="meta-badge status-done">✅ Виконано 03.06.2026</span>
+    <span class="meta-badge">📚 HTML + CSS базовий</span>
+  </div>
+  <p class="page-desc">Розбір виконаної задачі: помилки, що обговорювали, посилання на роботу.</p>
+</div>
+
+<div class="page-body">
+  <div class="content">
+
+    <div class="section">
+      <h2 class="section-title">Результат роботи</h2>
+      <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center">
+        <a href="../task-01/index.html" target="_blank" class="link-btn link-btn-green">
+          ✅ Відкрити виконану роботу
+        </a>
+        <a href="../task-01/mockup.html" target="_blank" class="link-btn link-btn-blue">
+          🖼 Еталонний макет
+        </a>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2 class="section-title">Помилки які були знайдені</h2>
+      <div class="bug">
+        <p class="bug-title">Помилка #1 — lang="en" на українській сторінці</p>
+        <p class="bug-body">Правильно: <code>lang="uk"</code> — браузер і пошуковики визначають мову документа саме з цього атрибута.</p>
+      </div>
+      <div class="bug">
+        <p class="bug-title">Помилка #2 — &lt;h2&gt; для підзаголовка замість &lt;p&gt;</p>
+        <p class="bug-body">"Junior Full Stack Developer" — це підпис, не новий розділ. Правильно: <code>&lt;p class="card-subtitle"&gt;</code>.</p>
+      </div>
+      <div class="bug">
+        <p class="bug-title">Помилка #3 — відсутній CSS reset</p>
+        <p class="bug-body">Завжди починай з: <code>*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }</code></p>
+      </div>
+      <div class="bug">
+        <p class="bug-title">Помилка #4 — height: 100vh замість min-height</p>
+        <p class="bug-body"><code>height: 100vh</code> — фіксована висота, контент обріжеться. <code>min-height: 100vh</code> — правильно.</p>
+      </div>
+      <div class="bug">
+        <p class="bug-title">Помилка #5 — text-decoration: underline на кнопці</p>
+        <p class="bug-body">Для елементів стилізованих як кнопка — підкреслення виглядає погано. Краще: зміна фону або <code>transform: translateY(-1px)</code> при hover.</p>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2 class="section-title">Теми які обговорювали</h2>
+      <div class="topic-card">
+        <p class="topic-title">Семантика HTML</p>
+        <div class="topic-body"><ul>
+          <li><code>&lt;article&gt;</code> — для самодостатнього контенту, не тільки для статей</li>
+          <li>Заголовки h1–h6 позначають структуру, а не вигляд</li>
+          <li><code>&lt;a&gt;</code> vs <code>&lt;button&gt;</code> — посилання переходить кудись, кнопка виконує дію</li>
+        </ul></div>
+      </div>
+      <div class="topic-card">
+        <p class="topic-title">Назви класів — по ролі, не по вигляду</p>
+        <div class="topic-body"><ul>
+          <li><code>.card-subtitle</code> — правильно (роль елемента)</li>
+          <li><code>.header-3</code> — неправильно (описує вигляд)</li>
+        </ul></div>
+      </div>
+      <div class="topic-card">
+        <p class="topic-title">Margin collapsing — схлопування марджинів</p>
+        <div class="topic-body"><ul>
+          <li>Вертикальні марджини сусідніх блоків не додаються — перемагає більший</li>
+          <li>Не відбувається у flex/grid контейнерах</li>
+        </ul></div>
+      </div>
+      <div class="topic-card">
+        <p class="topic-title">max-width vs width</p>
+        <div class="topic-body"><ul>
+          <li><code>width: 400px</code> — завжди 400px, навіть якщо екран вужчий (зламає мобільний)</li>
+          <li><code>max-width: 400px</code> — максимум 400px, але може бути вужче ✓</li>
+        </ul></div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2 class="section-title">Прогрес — що з'явилось у цій задачі</h2>
+      <p style="font-size:13px;color:#8b949e;margin-bottom:14px">Перша задача — все будується з нуля. Базові блоки які будемо використовувати у всіх наступних задачах.</p>
+      <div class="progress-grid">
+        <div class="diff-item diff-new"><span class="diff-badge badge-new">НОВЕ</span><span class="diff-text">HTML-структура: <code>&lt;!DOCTYPE&gt;</code>, <code>lang="uk"</code>, мета-теги, <code>&lt;link&gt;</code></span></div>
+        <div class="diff-item diff-new"><span class="diff-badge badge-new">НОВЕ</span><span class="diff-text">Семантичний HTML: <code>&lt;article&gt;</code>, <code>&lt;h1&gt;</code>, <code>&lt;ul&gt;</code>, <code>&lt;a&gt;</code></span></div>
+        <div class="diff-item diff-new"><span class="diff-badge badge-new">НОВЕ</span><span class="diff-text">CSS reset: <code>box-sizing: border-box; margin: 0; padding: 0</code></span></div>
+        <div class="diff-item diff-new"><span class="diff-badge badge-new">НОВЕ</span><span class="diff-text">Flexbox-центрування: <code>display: flex; justify-content: center; align-items: center</code> на body</span></div>
+        <div class="diff-item diff-new"><span class="diff-badge badge-new">НОВЕ</span><span class="diff-text">Картка: <code>max-width</code>, <code>padding</code>, <code>border-radius</code>, <code>box-shadow</code></span></div>
+        <div class="diff-item diff-new"><span class="diff-badge badge-new">НОВЕ</span><span class="diff-text">Стан посилання: <code>a:hover { text-decoration: underline }</code></span></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script src="../../abstracts/js/nav.js" data-root="../../abstracts"></script>
+</body>
+</html>

@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CSS — Медіа-запити</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: #0d1117; color: #e6edf3; font-family: system-ui, sans-serif; line-height: 1.6; }
+    a { color: #388bfd; text-decoration: none; } a:hover { text-decoration: underline; }
+    .section { padding-top: 48px; }
+    .section-title { font-size: 20px; font-weight: 700; margin-bottom: 4px; }
+    .section-desc { font-size: 14px; color: #8b949e; margin-bottom: 24px; }
+    .card { background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 20px; margin-bottom: 16px; }
+    .card-title { font-size: 14px; font-weight: 700; color: #79c0ff; font-family: monospace; margin-bottom: 10px; }
+    pre { background: #010409; border: 1px solid #30363d; border-radius: 6px; padding: 14px; font-family: 'Courier New', monospace; font-size: 13px; color: #c9d1d9; white-space: pre; overflow-x: auto; line-height: 1.6; }
+    .p { color: #79c0ff; } .v { color: #ffa657; } .s { color: #7ee787; } .c { color: #8b949e; font-style: italic; } .kw { color: #ff7b72; }
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    code { background: #1c2128; border: 1px solid #30363d; border-radius: 3px; padding: 1px 5px; font-family: monospace; font-size: 12px; color: #a5d6ff; }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 8px; }
+    th { background: #1c2128; color: #e6edf3; padding: 8px 12px; text-align: left; border: 1px solid #30363d; }
+    td { padding: 8px 12px; border: 1px solid #21262d; color: #c9d1d9; }
+    td:first-child { color: #79c0ff; font-family: monospace; font-size: 12px; }
+    tr:hover td { background: #161b22; }
+    .nav-pills { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 32px; padding-top: 24px; }
+    .nav-pill { font-size: 12px; font-weight: 600; padding: 4px 12px; border-radius: 20px; background: #1c2128; border: 1px solid #30363d; color: #8b949e; }
+    a.nav-pill:hover { border-color: #388bfd; color: #388bfd; text-decoration: none; }
+
+    /* Breakpoint diagram */
+    .bp-bar { display: flex; align-items: stretch; height: 48px; border-radius: 6px; overflow: hidden; border: 1px solid #30363d; margin-bottom: 12px; }
+    .bp-seg { display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; padding: 0 8px; text-align: center; }
+  </style>
+</head>
+<body>
+
+
+<div class="page-header">
+  <p class="page-tag">CSS / 06</p>
+  <h1 class="page-title">Медіа-запити</h1>
+  <p class="page-desc">Змінюють стилі залежно від розміру вікна, орієнтації, теми системи. Основа адаптивного дизайну.</p>
+</div>
+
+<div class="page-body">
+  <div class="content">
+
+  <div class="nav-pills">
+    <a href="05-grid.html" class="nav-pill">← 05 — Grid</a>
+    <a href="07-animations.html" class="nav-pill">07 — Анімації →</a>
+  </div>
+
+  <!-- SYNTAX -->
+  <div class="section">
+    <h2 class="section-title">Синтаксис</h2>
+    <div class="card">
+<pre><span class="kw">@media</span> (<span class="p">умова</span>) {
+  <span class="c">/* стилі що застосуються тільки при цій умові */</span>
+  <span class="s">.container</span> { <span class="p">padding</span>: <span class="v">16px</span>; }
+}
+
+<span class="c">/* Комбінації умов */</span>
+<span class="kw">@media</span> (<span class="p">min-width</span>: <span class="v">768px</span>) <span class="kw">and</span> (<span class="p">max-width</span>: <span class="v">1023px</span>) {
+  <span class="c">/* тільки для планшетів */</span>
+}
+
+<span class="kw">@media</span> (<span class="p">max-width</span>: <span class="v">767px</span>), (<span class="p">orientation</span>: <span class="v">portrait</span>) {
+  <span class="c">/* одна умова АБО інша (кома = OR) */</span>
+}</pre>
+    </div>
+  </div>
+
+  <!-- BREAKPOINTS -->
+  <div class="section">
+    <h2 class="section-title">Брейкпоїнти</h2>
+    <p class="section-desc">Стандартні розміри для різних пристроїв.</p>
+
+    <div class="card">
+      <div class="bp-bar">
+        <div class="bp-seg" style="flex:2;background:#1f6feb33;border-right:1px solid #30363d;color:#79c0ff">📱 мобільний<br><span style="font-size:9px;font-weight:400">0 — 767px</span></div>
+        <div class="bp-seg" style="flex:3;background:#2ea04333;border-right:1px solid #30363d;color:#7ee787">📟 планшет<br><span style="font-size:9px;font-weight:400">768 — 1023px</span></div>
+        <div class="bp-seg" style="flex:4;background:#d2992233;color:#e3b341">🖥 десктоп<br><span style="font-size:9px;font-weight:400">1024px+</span></div>
+      </div>
+
+<pre><span class="c">/* Мобільні — до 767px */</span>
+<span class="kw">@media</span> (<span class="p">max-width</span>: <span class="v">767px</span>) {
+  <span class="s">.container</span> { <span class="p">padding</span>: <span class="v">16px</span>; }
+}
+
+<span class="c">/* Планшети — 768px до 1023px */</span>
+<span class="kw">@media</span> (<span class="p">min-width</span>: <span class="v">768px</span>) <span class="kw">and</span> (<span class="p">max-width</span>: <span class="v">1023px</span>) {
+  <span class="s">.container</span> { <span class="p">padding</span>: <span class="v">24px</span>; }
+}
+
+<span class="c">/* Десктоп — від 1024px */</span>
+<span class="kw">@media</span> (<span class="p">min-width</span>: <span class="v">1024px</span>) {
+  <span class="s">.container</span> { <span class="p">padding</span>: <span class="v">40px</span>; }
+}</pre>
+    </div>
+  </div>
+
+  <!-- MOBILE FIRST -->
+  <div class="section">
+    <h2 class="section-title">Mobile First — правильний підхід</h2>
+    <p class="section-desc">Пиши стилі спочатку для мобільних, потім розширюй для більших екранів через <code>min-width</code>.</p>
+
+    <div class="two-col">
+      <div class="card">
+        <p class="card-title" style="color:#ff7b72">✗ Desktop First (застарілий)</p>
+<pre><span class="c">/* Base = desktop */</span>
+<span class="s">.cards</span> {
+  <span class="p">display</span>: <span class="v">grid</span>;
+  <span class="p">grid-template-columns</span>: <span class="v">repeat(3, 1fr)</span>;
+}
+
+<span class="c">/* Потім скорочуємо для мобільних */</span>
+<span class="kw">@media</span> (<span class="p">max-width</span>: <span class="v">767px</span>) {
+  <span class="s">.cards</span> {
+    <span class="p">grid-template-columns</span>: <span class="v">1fr</span>;
+  }
+}</pre>
+      </div>
+
+      <div class="card">
+        <p class="card-title" style="color:#7ee787">✓ Mobile First (сучасний)</p>
+<pre><span class="c">/* Base = mobile */</span>
+<span class="s">.cards</span> {
+  <span class="p">display</span>: <span class="v">flex</span>;
+  <span class="p">flex-direction</span>: <span class="v">column</span>;
+  <span class="p">gap</span>: <span class="v">16px</span>;
+}
+
+<span class="c">/* Розширюємо для більших */</span>
+<span class="kw">@media</span> (<span class="p">min-width</span>: <span class="v">768px</span>) {
+  <span class="s">.cards</span> {
+    <span class="p">flex-direction</span>: <span class="v">row</span>;
+    <span class="p">flex-wrap</span>: <span class="v">wrap</span>;
+  }
+}
+
+<span class="kw">@media</span> (<span class="p">min-width</span>: <span class="v">1024px</span>) {
+  <span class="s">.cards</span> {
+    <span class="p">display</span>: <span class="v">grid</span>;
+    <span class="p">grid-template-columns</span>: <span class="v">repeat(3, 1fr)</span>;
+  }
+}</pre>
+      </div>
+    </div>
+
+    <div class="card" style="background:#1b3626;border-color:#2ea043">
+      <p style="font-size:13px;color:#7ee787;font-weight:600">Чому Mobile First?</p>
+      <p style="font-size:13px;color:#c9d1d9;margin-top:6px">Більшість користувачів — з мобільного. Браузери мобільних завантажують Base CSS завжди; медіа-запити — тільки якщо умова виконується. Mobile First = менше CSS для мобільних.</p>
+    </div>
+  </div>
+
+  <!-- VIEWPORT META -->
+  <div class="section">
+    <h2 class="section-title">Viewport meta — обов'язково!</h2>
+    <p class="section-desc">Без цього тегу мобільні браузери масштабують сторінку і медіа-запити не спрацьовують правильно.</p>
+    <div class="card">
+<pre><span class="c">&lt;!-- У &lt;head&gt; кожної HTML-сторінки --&gt;</span>
+<span class="t">&lt;meta</span> <span class="a">name</span>=<span class="v">"viewport"</span> <span class="a">content</span>=<span class="v">"width=device-width, initial-scale=1.0"</span> <span class="t">/&gt;</span></pre>
+    </div>
+  </div>
+
+  <!-- OTHER CONDITIONS -->
+  <div class="section">
+    <h2 class="section-title">Інші умови медіа-запитів</h2>
+
+    <div class="card">
+<pre><span class="c">/* Орієнтація пристрою */</span>
+<span class="kw">@media</span> (<span class="p">orientation</span>: <span class="v">portrait</span>)  { <span class="c">/* вертикально */</span> }
+<span class="kw">@media</span> (<span class="p">orientation</span>: <span class="v">landscape</span>) { <span class="c">/* горизонтально */</span> }
+
+<span class="c">/* Темна тема системи */</span>
+<span class="kw">@media</span> (<span class="p">prefers-color-scheme</span>: <span class="v">dark</span>) {
+  <span class="s">body</span> { <span class="p">background</span>: <span class="v">#111</span>; <span class="p">color</span>: <span class="v">#fff</span>; }
+}
+
+<span class="c">/* Зменшення анімацій (вестибулярні порушення) */</span>
+<span class="kw">@media</span> (<span class="p">prefers-reduced-motion</span>: <span class="v">reduce</span>) {
+  <span class="s">*</span> { <span class="p">animation</span>: <span class="v">none !important</span>; <span class="p">transition</span>: <span class="v">none !important</span>; }
+}
+
+<span class="c">/* Роздільна здатність (Retina-дисплеї) */</span>
+<span class="kw">@media</span> (<span class="p">min-resolution</span>: <span class="v">2dppx</span>) {
+  <span class="c">/* використати @2x зображення */</span>
+}
+
+<span class="c">/* Друк */</span>
+<span class="kw">@media</span> <span class="v">print</span> {
+  <span class="s">.navbar, .sidebar</span> { <span class="p">display</span>: <span class="v">none</span>; }
+  <span class="s">body</span> { <span class="p">font-size</span>: <span class="v">12pt</span>; <span class="p">color</span>: <span class="v">black</span>; }
+}</pre>
+    </div>
+  </div>
+
+  <!-- COMMON BREAKPOINTS TABLE -->
+  <div class="section">
+    <h2 class="section-title">Популярні брейкпоїнти</h2>
+    <div class="card">
+      <table>
+        <tr><th>Назва</th><th>min-width</th><th>Пристрої</th></tr>
+        <tr><td>xs (base)</td><td>0px</td><td>Малі телефони</td></tr>
+        <tr><td>sm</td><td>576px</td><td>Великі телефони (Bootstrap)</td></tr>
+        <tr><td>md</td><td>768px</td><td>Планшети</td></tr>
+        <tr><td>lg</td><td>1024px</td><td>Малий десктоп</td></tr>
+        <tr><td>xl</td><td>1280px</td><td>Великий десктоп</td></tr>
+        <tr><td>2xl</td><td>1536px</td><td>Широкий монітор (Tailwind)</td></tr>
+      </table>
+    </div>
+  </div>
+
+</div>
+</div>
+  <script src="../js/nav.js" data-root=".."></script>
+</body>
+</html>

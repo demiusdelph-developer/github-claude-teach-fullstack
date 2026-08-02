@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Задача 04 — Макет</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    /* ════════════════════════════════
+       FIGMA SHELL
+    ════════════════════════════════ */
+
+    html, body { height: 100%; overflow: hidden; }
+
+    body {
+      font-family: system-ui, sans-serif;
+      background: #090b13;
+      display: grid;
+      grid-template-rows: 44px 1fr;
+      grid-template-columns: 1fr 260px;
+      grid-template-areas:
+        "toolbar toolbar"
+        "canvas  panel";
+    }
+
+    /* ─── Toolbar ─── */
+    .toolbar {
+      grid-area: toolbar;
+      background: #111827;
+      border-bottom: 1px solid #1f2937;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 16px;
+      gap: 12px;
+    }
+
+    .toolbar-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .toolbar-icon {
+      width: 28px;
+      height: 28px;
+      background: #0d9488;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      font-weight: 800;
+      color: #fff;
+      letter-spacing: -1px;
+    }
+
+    .toolbar-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: #9ca3af;
+    }
+
+    .toolbar-title span { color: #e5e7eb; }
+
+    .toolbar-tabs { display: flex; gap: 2px; }
+
+    .tab {
+      font-size: 12px;
+      font-weight: 500;
+      color: #6b7280;
+      padding: 4px 12px;
+      border-radius: 4px;
+      cursor: default;
+    }
+
+    .tab.active {
+      background: #1f2937;
+      color: #e5e7eb;
+    }
+
+    .toolbar-right { display: flex; align-items: center; gap: 8px; }
+
+    .zoom-badge {
+      font-size: 11px;
+      color: #6b7280;
+      background: #1f2937;
+      border-radius: 4px;
+      padding: 3px 8px;
+    }
+
+    /* ─── Canvas ─── */
+    .canvas {
+      grid-area: canvas;
+      overflow-y: auto;
+      background: #0d1117;
+      background-image: radial-gradient(circle, #1f2937 1px, transparent 1px);
+      background-size: 24px 24px;
+      padding: 48px 40px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 40px;
+    }
+
+    /* ─── Right panel ─── */
+    .panel {
+      grid-area: panel;
+      background: #111827;
+      border-left: 1px solid #1f2937;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .panel-section {
+      border-bottom: 1px solid #1f2937;
+      padding: 14px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .panel-section-title {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #4b5563;
+    }
+
+    .prop {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 8px;
+    }
+
+    .prop-name {
+      font-size: 11px;
+      color: #6b7280;
+      flex-shrink: 0;
+    }
+
+    .prop-value {
+      font-size: 11px;
+      font-weight: 600;
+      color: #5eead4;
+      text-align: right;
+      font-family: 'Courier New', monospace;
+    }
+
+    .prop-value.orange { color: #fb923c; }
+    .prop-value.purple { color: #c084fc; }
+    .prop-value.white  { color: #e5e7eb; }
+    .prop-value.yellow { color: #fbbf24; }
+
+    .layer-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 5px 8px;
+      border-radius: 5px;
+      cursor: default;
+    }
+
+    .layer-item.active { background: #0d2a2a; }
+
+    .layer-icon {
+      width: 14px;
+      height: 14px;
+      border-radius: 3px;
+      border: 1px solid #374151;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .layer-icon svg { width: 9px; height: 9px; }
+
+    .layer-name {
+      font-size: 11px;
+      color: #9ca3af;
+      flex: 1;
+    }
+
+    .layer-item.active .layer-name { color: #e5e7eb; }
+
+    .color-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .color-swatch {
+      width: 20px;
+      height: 20px;
+      border-radius: 4px;
+      flex-shrink: 0;
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .color-info { display: flex; flex-direction: column; gap: 1px; }
+
+    .color-hex {
+      font-size: 11px;
+      font-weight: 600;
+      font-family: 'Courier New', monospace;
+      color: #e5e7eb;
+    }
+
+    .color-role { font-size: 10px; color: #4b5563; }
+
+    /* grid-areas badge */
+    .areas-block {
+      background: #0a1a1a;
+      border: 1px solid #134e4a;
+      border-radius: 6px;
+      padding: 8px 10px;
+      font-size: 10px;
+      font-family: 'Courier New', monospace;
+      color: #5eead4;
+      line-height: 1.8;
+      white-space: pre;
+    }
+
+    /* ════════════════════════════════
+       CANVAS: WIREFRAME ЕЛЕМЕНТИ
+    ════════════════════════════════ */
+
+    .frame-label {
+      font-size: 11px;
+      color: #4b5563;
+      font-weight: 600;
+      align-self: flex-start;
+      letter-spacing: 0.05em;
+    }
+
+    .frame {
+      width: 100%;
+      max-width: 860px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    /* ─── PAGE LAYOUT WIREFRAME ─── */
+
+    .wf-page {
+      display: grid;
+      grid-template-columns: 160px 1fr;
+      grid-template-rows: 48px 1fr 36px;
+      grid-template-areas:
+        "header  header"
+        "sidebar posts"
+        "footer  footer";
+      gap: 4px;
+      background: #0a1a1a;
+      border: 2px solid #134e4a;
+      border-radius: 12px;
+      padding: 12px;
+      position: relative;
+    }
+
+    .wf-page::before {
+      content: "display: grid  |  grid-template-areas  |  grid-template-columns: 220px 1fr";
+      position: absolute;
+      top: -20px;
+      left: 0;
+      font-size: 10px;
+      color: #0d9488;
+      font-family: 'Courier New', monospace;
+      white-space: nowrap;
+    }
+
+    .wf-zone {
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      font-size: 10px;
+      font-family: 'Courier New', monospace;
+      font-weight: 700;
+    }
+
+    .wf-zone-label {
+      font-size: 10px;
+      font-family: 'Courier New', monospace;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+    }
+
+    .wf-header {
+      grid-area: header;
+      background: #1a2e2e;
+      border: 1px solid #0d9488;
+      color: #5eead4;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 16px;
+    }
+
+    .wf-header-logo { font-size: 12px; font-weight: 700; color: #5eead4; font-family: 'Courier New', monospace; }
+
+    .wf-header-links { display: flex; gap: 10px; }
+
+    .wf-header-link {
+      height: 8px;
+      width: 36px;
+      background: #134e4a;
+      border-radius: 2px;
+    }
+
+    .wf-header::after {
+      content: "grid-area: header";
+      position: absolute;
+      bottom: -16px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 9px;
+      color: #0d9488;
+      font-family: 'Courier New', monospace;
+      white-space: nowrap;
+    }
+
+    .wf-sidebar {
+      grid-area: sidebar;
+      background: #172020;
+      border: 1px dashed #134e4a;
+      color: #6b7280;
+      flex-direction: column;
+      gap: 8px;
+      padding: 12px;
+      align-items: flex-start;
+      justify-content: flex-start;
+    }
+
+    .wf-sidebar::after {
+      content: "grid-area: sidebar";
+      position: absolute;
+      bottom: 4px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 9px;
+      color: #0d9488;
+      font-family: 'Courier New', monospace;
+      white-space: nowrap;
+    }
+
+    .wf-sidebar-line {
+      height: 7px;
+      background: #1f3535;
+      border-radius: 2px;
+    }
+
+    .wf-posts {
+      grid-area: posts;
+      background: #111f1f;
+      border: 2px solid #0d9488;
+      padding: 10px;
+      align-items: flex-start;
+      flex-direction: column;
+      gap: 6px;
+      position: relative;
+    }
+
+    .wf-posts::after {
+      content: "grid-area: posts  →  display: grid внутрі";
+      position: absolute;
+      bottom: -16px;
+      left: 0;
+      font-size: 9px;
+      color: #0d9488;
+      font-family: 'Courier New', monospace;
+      white-space: nowrap;
+    }
+
+    .wf-posts-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 6px;
+      width: 100%;
+    }
+
+    .wf-post {
+      background: #1a2e2e;
+      border: 1px solid #134e4a;
+      border-radius: 4px;
+      padding: 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .wf-post.featured {
+      grid-column: span 2;
+      border-color: #0d9488;
+      border-width: 2px;
+      background: #0d2020;
+      position: relative;
+    }
+
+    .wf-post.featured::after {
+      content: "grid-column: span 2";
+      position: absolute;
+      top: 3px;
+      right: 5px;
+      font-size: 9px;
+      color: #0d9488;
+      font-family: 'Courier New', monospace;
+    }
+
+    .wf-post-title {
+      height: 8px;
+      background: #5eead4;
+      border-radius: 2px;
+      opacity: 0.6;
+    }
+
+    .wf-post-text {
+      height: 6px;
+      background: #1f3535;
+      border-radius: 2px;
+    }
+
+    .wf-post-tag {
+      height: 12px;
+      width: 36px;
+      background: #0a1a1a;
+      border: 1px solid #134e4a;
+      border-radius: 2px;
+    }
+
+    .wf-footer {
+      grid-area: footer;
+      background: #1a2e2e;
+      border: 1px solid #134e4a;
+      color: #6b7280;
+    }
+
+    .wf-footer::after {
+      content: "grid-area: footer";
+      position: absolute;
+      bottom: -16px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 9px;
+      color: #0d9488;
+      font-family: 'Courier New', monospace;
+      white-space: nowrap;
+    }
+
+    .wf-footer-text {
+      font-size: 9px;
+      color: #374151;
+      font-family: 'Courier New', monospace;
+    }
+
+    /* ─── POSTS GRID DETAIL ─── */
+
+    .wf-posts-detail {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+      background: #0f1a1a;
+      border: 2px dashed #134e4a;
+      border-radius: 12px;
+      padding: 20px;
+      position: relative;
+      width: 100%;
+    }
+
+    .wf-posts-detail::before {
+      content: "display: grid  |  grid-template-columns: repeat(2, 1fr)  |  gap: 24px";
+      position: absolute;
+      top: -20px;
+      left: 0;
+      font-size: 10px;
+      color: #fb923c;
+      font-family: 'Courier New', monospace;
+      white-space: nowrap;
+    }
+
+    .wf-post-card {
+      background: #1a2e2e;
+      border: 1.5px solid #134e4a;
+      border-radius: 6px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      position: relative;
+    }
+
+    .wf-post-card.featured {
+      grid-column: span 2;
+      border-color: #0d9488;
+      border-width: 2px;
+      background: #0d2020;
+    }
+
+    .wf-post-card.featured::before {
+      content: "grid-column: span 2  ←  займає обидві колонки";
+      position: absolute;
+      top: -18px;
+      left: 0;
+      font-size: 10px;
+      color: #0d9488;
+      font-family: 'Courier New', monospace;
+      white-space: nowrap;
+    }
+
+    .ph { background: #2e3460; border-radius: 3px; }
+    .ph-title  { height: 14px; width: 65%; background: #5eead4; opacity: 0.5; }
+    .ph-title.big { height: 16px; width: 80%; opacity: 0.7; }
+    .ph-text   { height: 9px; width: 100%; background: #1f3535; }
+    .ph-text.s { width: 70%; }
+    .ph-tag    { height: 18px; width: 44px; border-radius: 3px; border: 1px solid #134e4a; background: #0a1a1a; }
+    .ph-tags   { display: flex; gap: 6px; flex-wrap: wrap; }
+
+    /* Gap annotation */
+    .gap-annotation {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      color: #fb923c;
+      font-family: 'Courier New', monospace;
+    }
+
+    .gap-line {
+      height: 1px;
+      flex: 1;
+      background: repeating-linear-gradient(
+        90deg,
+        #fb923c 0px, #fb923c 4px,
+        transparent 4px, transparent 8px
+      );
+    }
+
+    .gap-value { padding: 0 6px; background: #0d1117; }
+  </style>
+</head>
+<body>
+
+  <!-- ══════════════════════════════════════
+       TOOLBAR
+  ══════════════════════════════════════ -->
+  <header class="toolbar">
+    <div class="toolbar-left">
+      <div class="toolbar-icon">G</div>
+      <div class="toolbar-title"><span>Задача 04</span> — CSS Grid / Макет</div>
+    </div>
+
+    <div class="toolbar-tabs">
+      <div class="tab">Design</div>
+      <div class="tab active">Inspect</div>
+      <div class="tab">Prototype</div>
+    </div>
+
+    <div class="toolbar-right">
+      <span class="zoom-badge">100%</span>
+    </div>
+  </header>
+
+  <!-- ══════════════════════════════════════
+       CANVAS
+  ══════════════════════════════════════ -->
+  <main class="canvas">
+
+    <!-- Page layout frame -->
+    <div class="frame" style="margin-top: 28px;">
+      <span class="frame-label">body — grid-template-areas</span>
+      <div class="wf-page">
+
+        <div class="wf-zone wf-header">
+          <span class="wf-header-logo">MyBlog</span>
+          <div class="wf-header-links">
+            <div class="wf-header-link"></div>
+            <div class="wf-header-link"></div>
+            <div class="wf-header-link"></div>
+          </div>
+        </div>
+
+        <div class="wf-zone wf-sidebar">
+          <div class="wf-sidebar-line" style="width:70%"></div>
+          <div class="wf-sidebar-line" style="width:55%"></div>
+          <div class="wf-sidebar-line" style="width:80%"></div>
+          <div class="wf-sidebar-line" style="width:45%"></div>
+          <div class="wf-sidebar-line" style="width:60%"></div>
+        </div>
+
+        <div class="wf-zone wf-posts">
+          <div class="wf-posts-grid">
+            <div class="wf-post">
+              <div class="wf-post-title" style="width:55%"></div>
+              <div class="wf-post-text"></div>
+              <div class="wf-post-text" style="width:70%"></div>
+              <div class="wf-post-tag"></div>
+            </div>
+            <div class="wf-post">
+              <div class="wf-post-title" style="width:60%"></div>
+              <div class="wf-post-text"></div>
+              <div class="wf-post-text" style="width:65%"></div>
+              <div class="wf-post-tag"></div>
+            </div>
+            <div class="wf-post featured">
+              <div class="wf-post-title" style="width:75%"></div>
+              <div class="wf-post-text"></div>
+              <div class="wf-post-text" style="width:85%"></div>
+            </div>
+            <div class="wf-post">
+              <div class="wf-post-title" style="width:50%"></div>
+              <div class="wf-post-text"></div>
+              <div class="wf-post-tag"></div>
+            </div>
+            <div class="wf-post">
+              <div class="wf-post-title" style="width:55%"></div>
+              <div class="wf-post-text"></div>
+              <div class="wf-post-tag"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="wf-zone wf-footer">
+          <span class="wf-footer-text">© 2026 MyBlog</span>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Gap між фреймами -->
+    <div style="width:100%;max-width:860px;">
+      <div class="gap-annotation">
+        <div class="gap-line"></div>
+        <span class="gap-value">posts — збільшений вигляд</span>
+        <div class="gap-line"></div>
+      </div>
+    </div>
+
+    <!-- Posts grid detail -->
+    <div class="frame" style="margin-bottom: 48px;">
+      <span class="frame-label">main.posts — CSS Grid (деталь)</span>
+      <div class="wf-posts-detail">
+
+        <div class="wf-post-card">
+          <div class="ph ph-title"></div>
+          <div class="ph ph-text"></div>
+          <div class="ph ph-text s"></div>
+          <div class="ph-tags"><div class="ph-tag"></div></div>
+        </div>
+
+        <div class="wf-post-card">
+          <div class="ph ph-title"></div>
+          <div class="ph ph-text"></div>
+          <div class="ph ph-text s"></div>
+          <div class="ph-tags"><div class="ph-tag"></div></div>
+        </div>
+
+        <div class="wf-post-card featured">
+          <div class="ph ph-title big"></div>
+          <div class="ph ph-text"></div>
+          <div class="ph ph-text"></div>
+          <div class="ph ph-text s"></div>
+          <div class="ph-tags">
+            <div class="ph-tag"></div>
+            <div class="ph-tag"></div>
+          </div>
+        </div>
+
+        <div class="wf-post-card">
+          <div class="ph ph-title"></div>
+          <div class="ph ph-text"></div>
+          <div class="ph ph-text s"></div>
+          <div class="ph-tags"><div class="ph-tag"></div></div>
+        </div>
+
+        <div class="wf-post-card">
+          <div class="ph ph-title"></div>
+          <div class="ph ph-text"></div>
+          <div class="ph ph-text s"></div>
+          <div class="ph-tags"><div class="ph-tag"></div></div>
+        </div>
+
+      </div>
+    </div>
+
+  </main>
+
+  <!-- ══════════════════════════════════════
+       RIGHT PANEL
+  ══════════════════════════════════════ -->
+  <aside class="panel">
+
+    <!-- Шари -->
+    <div class="panel-section">
+      <div class="panel-section-title">Шари</div>
+
+      <div class="layer-item">
+        <div class="layer-icon">
+          <svg viewBox="0 0 10 10" fill="none"><rect x="1" y="1" width="8" height="8" rx="1" stroke="#6b7280" stroke-width="1.2"/></svg>
+        </div>
+        <span class="layer-name">header.header</span>
+      </div>
+
+      <div class="layer-item">
+        <div class="layer-icon">
+          <svg viewBox="0 0 10 10" fill="none"><rect x="1" y="1" width="8" height="8" rx="1" stroke="#6b7280" stroke-width="1.2"/></svg>
+        </div>
+        <span class="layer-name">aside.sidebar</span>
+      </div>
+
+      <div class="layer-item active">
+        <div class="layer-icon" style="border-color:#0d9488">
+          <svg viewBox="0 0 10 10" fill="none"><rect x="1" y="1" width="8" height="8" rx="1" stroke="#0d9488" stroke-width="1.2"/></svg>
+        </div>
+        <span class="layer-name">main.posts</span>
+      </div>
+
+      <div class="layer-item" style="padding-left:22px">
+        <div class="layer-icon">
+          <svg viewBox="0 0 10 10" fill="none"><rect x="1" y="1" width="8" height="8" rx="1" stroke="#6b7280" stroke-width="1.2"/></svg>
+        </div>
+        <span class="layer-name">article.post ×4</span>
+      </div>
+
+      <div class="layer-item" style="padding-left:22px">
+        <div class="layer-icon" style="border-color:#0d9488">
+          <svg viewBox="0 0 10 10" fill="none"><rect x="1" y="1" width="8" height="8" rx="1" stroke="#0d9488" stroke-width="1.2"/></svg>
+        </div>
+        <span class="layer-name">article.post--featured</span>
+      </div>
+
+      <div class="layer-item">
+        <div class="layer-icon">
+          <svg viewBox="0 0 10 10" fill="none"><rect x="1" y="1" width="8" height="8" rx="1" stroke="#6b7280" stroke-width="1.2"/></svg>
+        </div>
+        <span class="layer-name">footer.footer</span>
+      </div>
+    </div>
+
+    <!-- body grid -->
+    <div class="panel-section">
+      <div class="panel-section-title">body — Page Layout</div>
+      <div class="prop">
+        <span class="prop-name">display</span>
+        <span class="prop-value">grid</span>
+      </div>
+      <div class="prop">
+        <span class="prop-name">grid-template-columns</span>
+        <span class="prop-value orange">220px 1fr</span>
+      </div>
+      <div class="prop">
+        <span class="prop-name">grid-template-rows</span>
+        <span class="prop-value orange">auto 1fr auto</span>
+      </div>
+      <div class="areas-block">"header  header"
+"sidebar posts"
+"footer  footer"</div>
+    </div>
+
+    <!-- grid-area прив'язки -->
+    <div class="panel-section">
+      <div class="panel-section-title">Grid Areas</div>
+      <div class="prop">
+        <span class="prop-name">.header</span>
+        <span class="prop-value yellow">header</span>
+      </div>
+      <div class="prop">
+        <span class="prop-name">.sidebar</span>
+        <span class="prop-value yellow">sidebar</span>
+      </div>
+      <div class="prop">
+        <span class="prop-name">.posts</span>
+        <span class="prop-value yellow">posts</span>
+      </div>
+      <div class="prop">
+        <span class="prop-name">.footer</span>
+        <span class="prop-value yellow">footer</span>
+      </div>
+    </div>
+
+    <!-- posts grid -->
+    <div class="panel-section">
+      <div class="panel-section-title">.posts — Inner Grid</div>
+      <div class="prop">
+        <span class="prop-name">display</span>
+        <span class="prop-value">grid</span>
+      </div>
+      <div class="prop">
+        <span class="prop-name">grid-template-columns</span>
+        <span class="prop-value orange">repeat(2, 1fr)</span>
+      </div>
+      <div class="prop">
+        <span class="prop-name">gap</span>
+        <span class="prop-value orange">24px</span>
+      </div>
+    </div>
+
+    <!-- featured -->
+    <div class="panel-section">
+      <div class="panel-section-title">.post--featured</div>
+      <div class="prop">
+        <span class="prop-name">grid-column</span>
+        <span class="prop-value purple">span 2</span>
+      </div>
+    </div>
+
+    <!-- Кольори -->
+    <div class="panel-section">
+      <div class="panel-section-title">Кольори</div>
+
+      <div class="color-row">
+        <div class="color-swatch" style="background:#090b13"></div>
+        <div class="color-info">
+          <span class="color-hex">#090b13</span>
+          <span class="color-role">body background</span>
+        </div>
+      </div>
+
+      <div class="color-row">
+        <div class="color-swatch" style="background:#1a2e2e"></div>
+        <div class="color-info">
+          <span class="color-hex">#1a2e2e</span>
+          <span class="color-role">header / post bg</span>
+        </div>
+      </div>
+
+      <div class="color-row">
+        <div class="color-swatch" style="background:#134e4a"></div>
+        <div class="color-info">
+          <span class="color-hex">#134e4a</span>
+          <span class="color-role">border / sidebar</span>
+        </div>
+      </div>
+
+      <div class="color-row">
+        <div class="color-swatch" style="background:#5eead4"></div>
+        <div class="color-info">
+          <span class="color-hex">#5eead4</span>
+          <span class="color-role">accent / headings</span>
+        </div>
+      </div>
+
+      <div class="color-row">
+        <div class="color-swatch" style="background:#0d2020"></div>
+        <div class="color-info">
+          <span class="color-hex">#0d2020</span>
+          <span class="color-role">featured post bg</span>
+        </div>
+      </div>
+
+    </div>
+
+  </aside>
+
+</body>
+</html>

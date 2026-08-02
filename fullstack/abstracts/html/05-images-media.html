@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HTML — Зображення і медіа</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: #0d1117; color: #e6edf3; font-family: system-ui, sans-serif; line-height: 1.6; }
+    a { color: #388bfd; text-decoration: none; } a:hover { text-decoration: underline; }
+    .section { padding-top: 48px; }
+    .section-title { font-size: 20px; font-weight: 700; margin-bottom: 4px; }
+    .section-desc { font-size: 14px; color: #8b949e; margin-bottom: 24px; }
+    .card { background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 20px; margin-bottom: 16px; }
+    pre { background: #010409; border: 1px solid #30363d; border-radius: 6px; padding: 14px; font-family: 'Courier New', monospace; font-size: 13px; color: #c9d1d9; white-space: pre; overflow-x: auto; line-height: 1.6; }
+    .t { color: #7ee787; } .a { color: #79c0ff; } .v { color: #ffa657; } .c { color: #8b949e; font-style: italic; } .tx { color: #c9d1d9; }
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    code { background: #1c2128; border: 1px solid #30363d; border-radius: 3px; padding: 1px 5px; font-family: monospace; font-size: 12px; color: #a5d6ff; }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 8px; }
+    th { background: #1c2128; color: #e6edf3; padding: 8px 12px; text-align: left; border: 1px solid #30363d; }
+    td { padding: 8px 12px; border: 1px solid #21262d; color: #c9d1d9; }
+    td:first-child { color: #7ee787; font-family: monospace; font-size: 12px; }
+    tr:hover td { background: #161b22; }
+    .nav-pills { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 32px; padding-top: 24px; }
+    .nav-pill { font-size: 12px; font-weight: 600; padding: 4px 12px; border-radius: 20px; background: #1c2128; border: 1px solid #30363d; color: #8b949e; }
+    a.nav-pill:hover { border-color: #ffa657; color: #ffa657; text-decoration: none; }
+
+    /* Img placeholder */
+    .img-ph { background: #21262d; border: 2px dashed #30363d; border-radius: 6px; display: flex; align-items: center; justify-content: center; color: #6e7681; font-size: 12px; font-weight: 600; }
+  </style>
+</head>
+<body>
+
+
+<div class="page-header">
+  <p class="page-tag">HTML / 05</p>
+  <h1 class="page-title">Зображення і медіа</h1>
+  <p class="page-desc">img, picture, srcset, video, audio, iframe — як правильно вставляти зображення і медіа контент.</p>
+</div>
+
+<div class="page-body">
+  <div class="content">
+
+  <div class="nav-pills">
+    <a href="04-lists-links.html" class="nav-pill">← 04 — Списки і посилання</a>
+    <a href="06-tables.html" class="nav-pill">06 — Таблиці →</a>
+  </div>
+
+  <!-- IMG -->
+  <div class="section">
+    <h2 class="section-title">Зображення &lt;img&gt;</h2>
+    <div class="card">
+<pre><span class="c">&lt;!-- Базове зображення --&gt;</span>
+<span class="t">&lt;img</span> <span class="a">src</span>=<span class="v">"photo.jpg"</span> <span class="a">alt</span>=<span class="v">"Опис зображення"</span> <span class="t">/&gt;</span>
+
+<span class="c">&lt;!-- alt обов'язковий завжди! --&gt;</span>
+<span class="c">&lt;!-- Для декоративних зображень alt залишати порожнім --&gt;</span>
+<span class="t">&lt;img</span> <span class="a">src</span>=<span class="v">"divider.png"</span> <span class="a">alt</span>=<span class="v">""</span> <span class="t">/&gt;</span>
+
+<span class="c">&lt;!-- З розмірами (покращує CLS — Cumulative Layout Shift) --&gt;</span>
+<span class="t">&lt;img</span> <span class="a">src</span>=<span class="v">"photo.jpg"</span> <span class="a">alt</span>=<span class="v">"Фото"</span> <span class="a">width</span>=<span class="v">"800"</span> <span class="a">height</span>=<span class="v">"600"</span> <span class="t">/&gt;</span>
+
+<span class="c">&lt;!-- Lazy loading — завантажує тільки коли видно --&gt;</span>
+<span class="t">&lt;img</span> <span class="a">src</span>=<span class="v">"photo.jpg"</span> <span class="a">alt</span>=<span class="v">"Фото"</span> <span class="a">loading</span>=<span class="v">"lazy"</span> <span class="t">/&gt;</span></pre>
+
+      <div style="background:#3d2206;border:1px solid #d29922;border-radius:6px;padding:12px 16px;font-size:13px;color:#ffa657;margin-top:10px">
+        <strong>alt обов'язковий:</strong> якщо зображення не завантажиться — користувач побачить текст. Для скрінрідерів alt — єдиний спосіб дізнатись що зображено.
+      </div>
+    </div>
+  </div>
+
+  <!-- ADAPTIVE IMAGES -->
+  <div class="section">
+    <h2 class="section-title">Адаптивні зображення</h2>
+    <p class="section-desc">Різні зображення для різних розмірів екрану — менше трафіку, кращий Lighthouse.</p>
+
+    <div class="card">
+      <p style="font-size:13px;font-weight:700;color:#79c0ff;margin-bottom:10px">srcset — різні розміри одного фото</p>
+<pre><span class="t">&lt;img</span>
+  <span class="a">src</span>=<span class="v">"photo-800.jpg"</span>          <span class="c">&lt;!-- fallback для старих браузерів --&gt;</span>
+  <span class="a">srcset</span>=<span class="v">"photo-400.jpg 400w,  &lt;!-- 400px ширина --&gt;
+          photo-800.jpg 800w,
+          photo-1200.jpg 1200w"</span>
+  <span class="a">sizes</span>=<span class="v">"(max-width: 600px) 400px,
+         (max-width: 900px) 800px,
+         1200px"</span>
+  <span class="a">alt</span>=<span class="v">"Адаптивне фото"</span>
+<span class="t">/&gt;</span></pre>
+    </div>
+
+    <div class="card">
+      <p style="font-size:13px;font-weight:700;color:#79c0ff;margin-bottom:10px">&lt;picture&gt; — різні формати або макети</p>
+<pre><span class="t">&lt;picture&gt;</span>
+  <span class="c">&lt;!-- Сучасний формат WebP для браузерів що підтримують --&gt;</span>
+  <span class="t">&lt;source</span> <span class="a">type</span>=<span class="v">"image/webp"</span> <span class="a">srcset</span>=<span class="v">"photo.webp"</span> <span class="t">/&gt;</span>
+
+  <span class="c">&lt;!-- Мобільне зображення (вертикальне) --&gt;</span>
+  <span class="t">&lt;source</span> <span class="a">media</span>=<span class="v">"(max-width: 600px)"</span> <span class="a">srcset</span>=<span class="v">"photo-mobile.jpg"</span> <span class="t">/&gt;</span>
+
+  <span class="c">&lt;!-- Fallback — обов'язковий! --&gt;</span>
+  <span class="t">&lt;img</span> <span class="a">src</span>=<span class="v">"photo-desktop.jpg"</span> <span class="a">alt</span>=<span class="v">"Фото"</span> <span class="t">/&gt;</span>
+<span class="t">&lt;/picture&gt;</span></pre>
+    </div>
+  </div>
+
+  <!-- VIDEO -->
+  <div class="section">
+    <h2 class="section-title">Відео і аудіо</h2>
+
+    <div class="two-col">
+      <div class="card">
+        <p style="font-size:13px;font-weight:700;color:#7ee787;margin-bottom:10px">&lt;video&gt;</p>
+<pre><span class="t">&lt;video</span> <span class="a">controls</span><span class="t">&gt;</span>
+  <span class="t">&lt;source</span> <span class="a">src</span>=<span class="v">"video.mp4"</span>
+          <span class="a">type</span>=<span class="v">"video/mp4"</span> <span class="t">/&gt;</span>
+  <span class="t">&lt;source</span> <span class="a">src</span>=<span class="v">"video.webm"</span>
+          <span class="a">type</span>=<span class="v">"video/webm"</span> <span class="t">/&gt;</span>
+  <span class="tx">Браузер не підтримує відео.</span>
+<span class="t">&lt;/video&gt;</span>
+
+<span class="c">&lt;!-- Атрибути --&gt;</span>
+<span class="t">&lt;video</span>
+  <span class="a">controls</span>           <span class="c">&lt;!-- панель керування --&gt;</span>
+  <span class="a">autoplay</span> <span class="a">muted</span>     <span class="c">&lt;!-- авто + без звуку --&gt;</span>
+  <span class="a">loop</span>               <span class="c">&lt;!-- повтор --&gt;</span>
+  <span class="a">poster</span>=<span class="v">"cover.jpg"</span> <span class="c">&lt;!-- обкладинка --&gt;</span>
+<span class="t">&gt;&lt;/video&gt;</span></pre>
+      </div>
+
+      <div class="card">
+        <p style="font-size:13px;font-weight:700;color:#7ee787;margin-bottom:10px">&lt;audio&gt;</p>
+<pre><span class="t">&lt;audio</span> <span class="a">controls</span><span class="t">&gt;</span>
+  <span class="t">&lt;source</span> <span class="a">src</span>=<span class="v">"audio.mp3"</span>
+          <span class="a">type</span>=<span class="v">"audio/mpeg"</span> <span class="t">/&gt;</span>
+  <span class="t">&lt;source</span> <span class="a">src</span>=<span class="v">"audio.ogg"</span>
+          <span class="a">type</span>=<span class="v">"audio/ogg"</span> <span class="t">/&gt;</span>
+<span class="t">&lt;/audio&gt;</span></pre>
+
+        <p style="font-size:13px;font-weight:700;color:#79c0ff;margin-top:16px;margin-bottom:10px">&lt;iframe&gt; — YouTube</p>
+<pre><span class="t">&lt;iframe</span>
+  <span class="a">src</span>=<span class="v">"https://www.youtube.com/
+       embed/VIDEO_ID"</span>
+  <span class="a">width</span>=<span class="v">"560"</span>
+  <span class="a">height</span>=<span class="v">"315"</span>
+  <span class="a">title</span>=<span class="v">"Назва відео"</span>
+  <span class="a">allowfullscreen</span>
+<span class="t">&gt;&lt;/iframe&gt;</span></pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- IMAGE FORMATS -->
+  <div class="section">
+    <h2 class="section-title">Формати зображень</h2>
+    <div class="card">
+      <table>
+        <tr><th>Формат</th><th>Коли використовувати</th><th>Переваги</th></tr>
+        <tr><td>WebP</td><td>Будь-які зображення (перший вибір)</td><td>30-50% менше ніж JPEG при тій самій якості</td></tr>
+        <tr><td>JPEG / JPG</td><td>Фотографії, складні зображення</td><td>Широка підтримка, стиснення з втратами</td></tr>
+        <tr><td>PNG</td><td>Зображення з прозорістю, скріншоти</td><td>Без втрат якості, підтримує alpha-канал</td></tr>
+        <tr><td>SVG</td><td>Іконки, логотипи, ілюстрації</td><td>Масштабується без втрат, невеликий розмір</td></tr>
+        <tr><td>AVIF</td><td>Сучасні браузери (2023+)</td><td>Найкраще стиснення, але не всі підтримують</td></tr>
+        <tr><td>GIF</td><td>Короткі анімації</td><td>Краще замінити WebP animated або &lt;video&gt;</td></tr>
+      </table>
+    </div>
+  </div>
+
+</div>
+</div>
+  <script src="../js/nav.js" data-root=".."></script>
+</body>
+</html>

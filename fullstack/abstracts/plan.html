@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Дорожня карта — Full Stack Developer</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: #0d1117; color: #e6edf3; font-family: system-ui, sans-serif; line-height: 1.6; }
+    a { color: #388bfd; text-decoration: none; } a:hover { text-decoration: underline; }
+
+    .plan-content { padding: 32px 0 80px; }
+
+    /* ── Hero ── */
+    .hero { margin-bottom: 48px; }
+    .hero-stats { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 16px; }
+    .stat-chip { background: #161b22; border: 1px solid #30363d; border-radius: 20px; padding: 4px 14px; font-size: 12px; font-weight: 600; color: #8b949e; }
+
+    /* ── Загальний прогрес ── */
+    .overall-progress { background: #161b22; border: 1px solid #30363d; border-radius: 10px; padding: 20px 24px; margin-bottom: 48px; }
+    .op-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+    .op-title { font-size: 13px; font-weight: 700; color: #e6edf3; }
+    .op-pct   { font-size: 13px; font-weight: 700; color: #7ee787; }
+    .progress-bar { height: 8px; background: #21262d; border-radius: 4px; overflow: hidden; }
+    .progress-fill { height: 100%; border-radius: 4px; background: linear-gradient(90deg, #2ea043 0%, #7ee787 100%); transition: width .6s ease; }
+    .phase-dots { display: flex; gap: 6px; margin-top: 10px; }
+    .phase-dot { flex: 1; height: 4px; border-radius: 2px; }
+    .dot-done    { background: #2ea043; }
+    .dot-active  { background: #388bfd; }
+    .dot-pending { background: #21262d; }
+
+    /* ── Стек ── */
+    .stack-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 48px; }
+    .stack-col { background: #161b22; border: 1px solid #30363d; border-radius: 10px; padding: 16px 20px; }
+    .stack-label { font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: #6e7681; margin-bottom: 12px; }
+    .stack-items { display: flex; flex-direction: column; gap: 6px; }
+    .stack-arrow { display: flex; align-items: center; gap: 8px; font-size: 13px; color: #c9d1d9; }
+    .stack-arrow + .stack-arrow::before { content: '↓'; color: #30363d; font-size: 11px; margin: -4px 0 -4px 0; display: block; }
+    .tech-done    { color: #7ee787; }
+    .tech-active  { color: #79c0ff; }
+    .tech-pending { color: #8b949e; }
+    .tech-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+    .dot-green  { background: #2ea043; }
+    .dot-blue   { background: #388bfd; }
+    .dot-gray   { background: #30363d; }
+
+    /* ── Фази ── */
+    .phases { display: flex; flex-direction: column; gap: 16px; }
+
+    .phase-card { background: #161b22; border: 1px solid #30363d; border-radius: 10px; overflow: hidden; transition: border-color .15s; }
+    .phase-card.is-active  { border-color: #388bfd; }
+    .phase-card.is-done    { border-color: #2ea04340; }
+    .phase-card.is-pending { opacity: .75; }
+
+    .phase-head { display: flex; align-items: center; gap: 16px; padding: 18px 24px; border-bottom: 1px solid #21262d; }
+    .phase-num { font-size: 11px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; width: 28px; flex-shrink: 0; }
+    .num-done    { color: #2ea043; }
+    .num-active  { color: #388bfd; }
+    .num-pending { color: #6e7681; }
+    .phase-title-wrap { flex: 1; }
+    .phase-title { font-size: 17px; font-weight: 700; }
+    .phase-months { font-size: 12px; color: #6e7681; margin-top: 1px; }
+    .phase-status { font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 10px; white-space: nowrap; }
+    .status-done    { background: #1b3626; color: #7ee787; border: 1px solid #2ea043; }
+    .status-active  { background: #1f2e4a; color: #79c0ff; border: 1px solid #388bfd; }
+    .status-pending { background: #161b22; color: #6e7681; border: 1px solid #30363d; }
+
+    .phase-body { padding: 20px 24px; }
+
+    /* Topics table */
+    .topics-table { width: 100%; border-collapse: collapse; font-size: 13px; margin-bottom: 16px; }
+    .topics-table th { background: #1c2128; color: #8b949e; font-weight: 600; font-size: 11px; letter-spacing: .06em; text-transform: uppercase; padding: 7px 12px; text-align: left; border: 1px solid #21262d; }
+    .topics-table td { padding: 8px 12px; border: 1px solid #21262d; color: #c9d1d9; }
+    .topics-table td:first-child { font-weight: 700; color: #e6edf3; white-space: nowrap; }
+    .topics-table tr:hover td { background: #1c2128; }
+
+    /* Topic progress */
+    .topic-progress { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
+    .tp-item { display: flex; align-items: center; gap: 6px; background: #1c2128; border-radius: 6px; padding: 5px 10px; font-size: 12px; font-weight: 600; }
+    .tp-done    { color: #7ee787; border: 1px solid #2ea043; background: #1b3626; }
+    .tp-active  { color: #79c0ff; border: 1px solid #388bfd; background: #1f2e4a; }
+    .tp-next    { color: #8b949e; border: 1px solid #30363d; }
+    .tp-icon    { font-size: 14px; line-height: 1; }
+
+    /* Outcome */
+    .phase-outcome { background: #1c2128; border-left: 3px solid #388bfd; border-radius: 0 6px 6px 0; padding: 10px 14px; font-size: 13px; color: #8b949e; }
+    .phase-outcome strong { color: #e6edf3; }
+
+    /* ── Поради ── */
+    .tips { background: #161b22; border: 1px solid #30363d; border-radius: 10px; padding: 24px; margin-top: 48px; }
+    .tips-title { font-size: 16px; font-weight: 700; margin-bottom: 16px; }
+    .tip-item { display: flex; gap: 12px; padding: 8px 0; border-bottom: 1px solid #21262d; font-size: 14px; }
+    .tip-item:last-child { border-bottom: none; }
+    .tip-bullet { font-size: 16px; flex-shrink: 0; }
+  </style>
+</head>
+<body>
+
+<div class="page-header">
+  <p class="page-tag">Повний план дій</p>
+  <h1 class="page-title">Full Stack Developer</h1>
+  <p class="page-desc">Персональний план навчання від нуля до першої роботи джуна.</p>
+</div>
+
+<div class="page-body">
+<div class="content">
+<div class="plan-content">
+
+  <!-- ── Hero stats ── -->
+  <div class="hero">
+    <div class="hero-stats">
+      <span class="stat-chip">⏱ 12–14 місяців</span>
+      <span class="stat-chip">⚡ 3–5 год / день</span>
+      <span class="stat-chip">🎯 Перша робота джуна</span>
+      <span class="stat-chip">🔄 Фаза 1 — в процесі</span>
+    </div>
+  </div>
+
+  <!-- ── Загальний прогрес ── -->
+  <div class="overall-progress">
+    <div class="op-header">
+      <span class="op-title">Загальний прогрес навчання</span>
+      <span class="op-pct">Фаза 1 / 6</span>
+    </div>
+    <div class="progress-bar">
+      <div class="progress-fill" style="width: 12%"></div>
+    </div>
+    <div class="phase-dots">
+      <div class="phase-dot dot-active" title="Фаза 1 — В процесі"></div>
+      <div class="phase-dot dot-pending" title="Фаза 2 — Заплановано"></div>
+      <div class="phase-dot dot-pending" title="Фаза 3 — Заплановано"></div>
+      <div class="phase-dot dot-pending" title="Фаза 4 — Заплановано"></div>
+      <div class="phase-dot dot-pending" title="Фаза 5 — Заплановано"></div>
+      <div class="phase-dot dot-pending" title="Фаза 6 — Заплановано"></div>
+    </div>
+  </div>
+
+  <!-- ── Стек технологій ── -->
+  <div class="stack-grid">
+    <div class="stack-col">
+      <p class="stack-label">Frontend</p>
+      <div class="stack-items">
+        <div class="stack-arrow"><span class="tech-dot dot-green"></span><span class="tech-done">HTML5</span></div>
+        <div class="stack-arrow"><span class="tech-dot dot-blue"></span><span class="tech-active">CSS3</span></div>
+        <div class="stack-arrow"><span class="tech-dot dot-gray"></span><span class="tech-pending">JavaScript</span></div>
+        <div class="stack-arrow"><span class="tech-dot dot-gray"></span><span class="tech-pending">TypeScript</span></div>
+        <div class="stack-arrow"><span class="tech-dot dot-gray"></span><span class="tech-pending">React</span></div>
+      </div>
+    </div>
+    <div class="stack-col">
+      <p class="stack-label">Backend</p>
+      <div class="stack-items">
+        <div class="stack-arrow"><span class="tech-dot dot-gray"></span><span class="tech-pending">Node.js</span></div>
+        <div class="stack-arrow"><span class="tech-dot dot-gray"></span><span class="tech-pending">Express.js</span></div>
+        <div class="stack-arrow"><span class="tech-dot dot-gray"></span><span class="tech-pending">PostgreSQL</span></div>
+        <div class="stack-arrow"><span class="tech-dot dot-gray"></span><span class="tech-pending">Prisma ORM</span></div>
+      </div>
+    </div>
+    <div class="stack-col">
+      <p class="stack-label">Інструменти</p>
+      <div class="stack-items">
+        <div class="stack-arrow"><span class="tech-dot dot-blue"></span><span class="tech-active">Git + GitHub</span></div>
+        <div class="stack-arrow"><span class="tech-dot dot-green"></span><span class="tech-done">VS Code</span></div>
+        <div class="stack-arrow"><span class="tech-dot dot-gray"></span><span class="tech-pending">Docker (базово)</span></div>
+        <div class="stack-arrow"><span class="tech-dot dot-gray"></span><span class="tech-pending">Vercel / Railway</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════
+       ФАЗИ
+  ══════════════════════════════════ -->
+  <div class="phases">
+
+    <!-- ФАЗА 1 -->
+    <div class="phase-card is-active">
+      <div class="phase-head">
+        <span class="phase-num num-active">01</span>
+        <div class="phase-title-wrap">
+          <p class="phase-title">Фундамент</p>
+          <p class="phase-months">Місяці 1–3 &nbsp;·&nbsp; Зараз</p>
+        </div>
+        <span class="phase-status status-active">🔄 В процесі</span>
+      </div>
+      <div class="phase-body">
+        <p style="font-size:13px;color:#8b949e;margin-bottom:14px">Мета: впевнено писати HTML, CSS, базовий JavaScript, вміти користуватись Git.</p>
+
+        <div class="topic-progress">
+          <span class="tp-item tp-done"><span class="tp-icon">✅</span> HTML5 — виконано</span>
+          <span class="tp-item tp-active"><span class="tp-icon">🔄</span> CSS3 — в процесі</span>
+          <span class="tp-item tp-next"><span class="tp-icon">⏳</span> JavaScript</span>
+          <span class="tp-item tp-next"><span class="tp-icon">⏳</span> Git + GitHub</span>
+        </div>
+
+        <table class="topics-table">
+          <tr><th>Тема</th><th>Що опанувати</th></tr>
+          <tr><td>HTML5 ✅</td><td>Семантична розмітка, форми, атрибути доступності</td></tr>
+          <tr><td>CSS3 🔄</td><td>Flexbox, Grid, медіа-запити, анімації, змінні, іконки, шрифти</td></tr>
+          <tr><td>JavaScript ⏳</td><td>Типи, функції, масиви, об'єкти, DOM, події, fetch</td></tr>
+          <tr><td>Git + GitHub ⏳</td><td>commit, push, pull, гілки, pull request</td></tr>
+        </table>
+
+        <div class="phase-outcome">
+          <strong>Результат:</strong> робочий landing page + форма зворотного зв'язку, опублікований на GitHub
+        </div>
+      </div>
+    </div>
+
+    <!-- ФАЗА 2 -->
+    <div class="phase-card is-pending">
+      <div class="phase-head">
+        <span class="phase-num num-pending">02</span>
+        <div class="phase-title-wrap">
+          <p class="phase-title">JavaScript в глибину</p>
+          <p class="phase-months">Місяці 3–5</p>
+        </div>
+        <span class="phase-status status-pending">⏳ Заплановано</span>
+      </div>
+      <div class="phase-body">
+        <p style="font-size:13px;color:#8b949e;margin-bottom:14px">Мета: зрозуміти мову на рівні, достатньому для React і Node.</p>
+        <table class="topics-table">
+          <tr><th>Тема</th><th>Що опанувати</th></tr>
+          <tr><td>ES6+</td><td>let/const, arrow functions, деструктуризація, spread, модулі</td></tr>
+          <tr><td>Асинхронність</td><td>Callbacks → Promises → async/await</td></tr>
+          <tr><td>ООП</td><td>Класи, прототипи, this</td></tr>
+          <tr><td>Алгоритми</td><td>Базові структури даних, сортування, рекурсія</td></tr>
+        </table>
+        <div class="phase-outcome">
+          <strong>Результат:</strong> SPA-додаток (todo або погода) з API запитами, без фреймворку
+        </div>
+      </div>
+    </div>
+
+    <!-- ФАЗА 3 -->
+    <div class="phase-card is-pending">
+      <div class="phase-head">
+        <span class="phase-num num-pending">03</span>
+        <div class="phase-title-wrap">
+          <p class="phase-title">Frontend з React</p>
+          <p class="phase-months">Місяці 5–8</p>
+        </div>
+        <span class="phase-status status-pending">⏳ Заплановано</span>
+      </div>
+      <div class="phase-body">
+        <p style="font-size:13px;color:#8b949e;margin-bottom:14px">Мета: будувати сучасні UI на рівні джуна.</p>
+        <table class="topics-table">
+          <tr><th>Тема</th><th>Що опанувати</th></tr>
+          <tr><td>React</td><td>JSX, компоненти, props, state, хуки (useState, useEffect, useContext)</td></tr>
+          <tr><td>TypeScript</td><td>Типи, інтерфейси, generics — достатньо для React</td></tr>
+          <tr><td>React Router</td><td>Навігація, вкладені маршрути</td></tr>
+          <tr><td>Стан</td><td>useReducer, Zustand або Redux Toolkit</td></tr>
+          <tr><td>Стилі</td><td>Tailwind CSS (пріоритет) або CSS Modules</td></tr>
+        </table>
+        <div class="phase-outcome">
+          <strong>Результат:</strong> React-застосунок з авторизацією, маршрутизацією, TypeScript — у портфоліо
+        </div>
+      </div>
+    </div>
+
+    <!-- ФАЗА 4 -->
+    <div class="phase-card is-pending">
+      <div class="phase-head">
+        <span class="phase-num num-pending">04</span>
+        <div class="phase-title-wrap">
+          <p class="phase-title">Backend</p>
+          <p class="phase-months">Місяці 8–11</p>
+        </div>
+        <span class="phase-status status-pending">⏳ Заплановано</span>
+      </div>
+      <div class="phase-body">
+        <p style="font-size:13px;color:#8b949e;margin-bottom:14px">Мета: писати REST API, працювати з базою даних.</p>
+        <table class="topics-table">
+          <tr><th>Тема</th><th>Що опанувати</th></tr>
+          <tr><td>Node.js</td><td>Event loop, модулі, файлова система</td></tr>
+          <tr><td>Express.js</td><td>Роутінг, middleware, обробка помилок</td></tr>
+          <tr><td>PostgreSQL</td><td>SQL запити, JOIN, транзакції</td></tr>
+          <tr><td>Prisma ORM</td><td>Схема, міграції, CRUD операції</td></tr>
+          <tr><td>Автентифікація</td><td>JWT, bcrypt, сесії</td></tr>
+          <tr><td>REST API</td><td>Дизайн ендпоінтів, статус-коди, валідація</td></tr>
+        </table>
+        <div class="phase-outcome">
+          <strong>Результат:</strong> повноцінний backend API з базою даних, авторизацією, задокументований
+        </div>
+      </div>
+    </div>
+
+    <!-- ФАЗА 5 -->
+    <div class="phase-card is-pending">
+      <div class="phase-head">
+        <span class="phase-num num-pending">05</span>
+        <div class="phase-title-wrap">
+          <p class="phase-title">Full Stack інтеграція</p>
+          <p class="phase-months">Місяці 11–13</p>
+        </div>
+        <span class="phase-status status-pending">⏳ Заплановано</span>
+      </div>
+      <div class="phase-body">
+        <p style="font-size:13px;color:#8b949e;margin-bottom:14px">Мета: зібрати все разом, задеплоїти реальний проект.</p>
+        <table class="topics-table">
+          <tr><th>Тема</th><th>Що опанувати</th></tr>
+          <tr><td>Next.js</td><td>SSR, SSG, App Router — об'єднує React + Node</td></tr>
+          <tr><td>Docker</td><td>Базові контейнери для розробки</td></tr>
+          <tr><td>Деплой</td><td>Vercel (frontend), Railway (backend + DB)</td></tr>
+          <tr><td>CI/CD</td><td>GitHub Actions — базовий пайплайн</td></tr>
+        </table>
+        <div class="phase-outcome">
+          <strong>Результат:</strong> 2–3 повноцінних full stack проекти в портфоліо, задеплоєних публічно
+        </div>
+      </div>
+    </div>
+
+    <!-- ФАЗА 6 -->
+    <div class="phase-card is-pending">
+      <div class="phase-head">
+        <span class="phase-num num-pending">06</span>
+        <div class="phase-title-wrap">
+          <p class="phase-title">Пошук роботи</p>
+          <p class="phase-months">Місяці 13–14</p>
+        </div>
+        <span class="phase-status status-pending">⏳ Заплановано</span>
+      </div>
+      <div class="phase-body">
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:14px;color:#c9d1d9">
+          <div style="display:flex;gap:10px;align-items:flex-start">
+            <span style="color:#6e7681">→</span>
+            Оформлення GitHub: README, опис проектів, скріншоти
+          </div>
+          <div style="display:flex;gap:10px;align-items:flex-start">
+            <span style="color:#6e7681">→</span>
+            CV і LinkedIn для українського / міжнародного ринку
+          </div>
+          <div style="display:flex;gap:10px;align-items:flex-start">
+            <span style="color:#6e7681">→</span>
+            Підготовка до технічного інтерв'ю — LeetCode легкий рівень (30–40 задач)
+          </div>
+          <div style="display:flex;gap:10px;align-items:flex-start">
+            <span style="color:#6e7681">→</span>
+            Mock-інтерв'ю
+          </div>
+        </div>
+        <div class="phase-outcome" style="margin-top:14px">
+          <strong>Результат:</strong> офер на першу роботу джуна 🎯
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ── Поради ── -->
+  <div class="tips">
+    <p class="tips-title">Як навчатись ефективно</p>
+    <div class="tip-item">
+      <span class="tip-bullet">⚡</span>
+      <span><strong>Не читати — робити.</strong> Кожна тема закріплюється практичним завданням. Конспект без задачі не рахується.</span>
+    </div>
+    <div class="tip-item">
+      <span class="tip-bullet">📂</span>
+      <span><strong>Публічний GitHub з першого дня.</strong> Всі проекти — у репозиторіях. Роботодавці дивляться на активність.</span>
+    </div>
+    <div class="tip-item">
+      <span class="tip-bullet">⏱</span>
+      <span><strong>Застряг — 20 хвилин сам, потім питай.</strong> Самостійний пошук рішення — теж навичка яку оцінюють на інтерв'ю.</span>
+    </div>
+    <div class="tip-item">
+      <span class="tip-bullet">🔄</span>
+      <span><strong>Щотижневе повторення.</strong> Переглядай що зробив за тиждень. Без повторення 80% забувається за 24 години.</span>
+    </div>
+  </div>
+
+</div>
+</div>
+</div>
+
+<script src="js/nav.js" data-root="."></script>
+</body>
+</html>

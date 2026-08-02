@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CSS — Основи</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: #0d1117; color: #e6edf3; font-family: system-ui, sans-serif; line-height: 1.6; }
+    a { color: #388bfd; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .section { padding-top: 48px; }
+    .section-title { font-size: 20px; font-weight: 700; margin-bottom: 4px; }
+    .section-desc { font-size: 14px; color: #8b949e; margin-bottom: 24px; }
+
+    .card { background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 20px; margin-bottom: 16px; }
+    .card-title { font-size: 14px; font-weight: 700; color: #79c0ff; font-family: monospace; margin-bottom: 6px; }
+    .card-desc { font-size: 13px; color: #8b949e; margin-bottom: 14px; }
+
+    pre { background: #010409; border: 1px solid #30363d; border-radius: 6px; padding: 16px; font-family: 'Courier New', monospace; font-size: 13px; color: #c9d1d9; white-space: pre; overflow-x: auto; line-height: 1.6; margin-bottom: 12px; }
+    .p { color: #79c0ff; } .v { color: #ffa657; } .s { color: #7ee787; } .c { color: #8b949e; font-style: italic; } .t { color: #7ee787; } .a { color: #79c0ff; } .str { color: #a5d6ff; } .kw { color: #ff7b72; }
+
+    .demo { background: #1c2128; border: 1px solid #30363d; border-radius: 6px; padding: 16px; }
+    .demo-label { font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #6e7681; margin-bottom: 10px; }
+
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+
+    table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 8px; }
+    th { background: #1c2128; color: #e6edf3; padding: 8px 12px; text-align: left; border: 1px solid #30363d; }
+    td { padding: 8px 12px; border: 1px solid #21262d; color: #c9d1d9; }
+    td:first-child { color: #79c0ff; font-family: monospace; font-size: 12px; }
+    tr:hover td { background: #161b22; }
+
+    code { background: #1c2128; border: 1px solid #30363d; border-radius: 3px; padding: 1px 5px; font-family: monospace; font-size: 12px; color: #a5d6ff; }
+
+    /* Specificity demo */
+    .spec-row { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; font-size: 13px; }
+    .spec-bar { height: 8px; border-radius: 4px; }
+    .spec-label { font-family: monospace; font-size: 12px; color: #8b949e; min-width: 200px; }
+    .spec-val { font-weight: 700; font-family: monospace; font-size: 12px; min-width: 40px; }
+
+    /* Color swatches */
+    .swatch-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 8px; }
+    .swatch { border-radius: 6px; overflow: hidden; border: 1px solid #30363d; }
+    .swatch-color { height: 48px; }
+    .swatch-info { background: #1c2128; padding: 6px 8px; }
+    .swatch-name { font-size: 11px; font-weight: 600; color: #e6edf3; }
+    .swatch-code { font-size: 10px; font-family: monospace; color: #8b949e; }
+
+    /* Units comparison */
+    .unit-row { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
+    .unit-name { font-family: monospace; font-size: 12px; color: #79c0ff; min-width: 50px; }
+    .unit-bar-wrap { flex: 1; background: #21262d; border-radius: 4px; height: 28px; position: relative; overflow: hidden; }
+    .unit-bar { height: 100%; border-radius: 4px; display: flex; align-items: center; padding-left: 8px; font-size: 11px; font-weight: 600; white-space: nowrap; }
+    .unit-desc { font-size: 12px; color: #8b949e; min-width: 200px; }
+
+    .nav-pills { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 32px; padding-top: 24px; }
+    .nav-pill { font-size: 12px; font-weight: 600; padding: 4px 12px; border-radius: 20px; background: #1c2128; border: 1px solid #30363d; color: #8b949e; }
+    a.nav-pill:hover { border-color: #388bfd; color: #388bfd; text-decoration: none; }
+  </style>
+</head>
+<body>
+
+
+<div class="page-header">
+  <p class="page-tag">CSS / 01</p>
+  <h1 class="page-title">Основи CSS</h1>
+  <p class="page-desc">Селектори, специфічність, кольори та одиниці виміру — база без якої нічого не працює.</p>
+</div>
+
+<div class="page-body">
+  <div class="content">
+
+  <div class="nav-pills">
+    <a href="02-box-model.html" class="nav-pill">02 — Box Model →</a>
+    <a href="03-positioning.html" class="nav-pill">03 — Позиціонування →</a>
+    <a href="04-flexbox.html" class="nav-pill">04 — Flexbox →</a>
+  </div>
+
+  <!-- SELECTORS -->
+  <div class="section">
+    <h2 class="section-title">Селектори</h2>
+    <p class="section-desc">Визначають до яких елементів застосовуються стилі.</p>
+
+    <div class="two-col">
+      <div>
+        <div class="card">
+          <p class="card-title">Тег / клас / ID</p>
+<pre><span class="c">/* тег — всі елементи цього типу */</span>
+<span class="s">p</span> { <span class="p">color</span>: <span class="v">black</span>; }
+
+<span class="c">/* клас — будь-який елемент з class="..." */</span>
+<span class="s">.card</span> { <span class="p">background</span>: <span class="v">white</span>; }
+
+<span class="c">/* ID — унікальний елемент */</span>
+<span class="s">#header</span> { <span class="p">height</span>: <span class="v">80px</span>; }</pre>
+        </div>
+
+        <div class="card">
+          <p class="card-title">Нащадок / дочірній / сусід</p>
+<pre><span class="c">/* нащадок — пробіл між ними */</span>
+<span class="s">.card p</span> { <span class="p">font-size</span>: <span class="v">14px</span>; }
+
+<span class="c">/* прямий дочірній — > */</span>
+<span class="s">.nav > li</span> { <span class="p">display</span>: <span class="v">inline-block</span>; }
+
+<span class="c">/* сусідній — + */</span>
+<span class="s">h2 + p</span> { <span class="p">margin-top</span>: <span class="v">0</span>; }
+
+<span class="c">/* всі сусідні — ~ */</span>
+<span class="s">h2 ~ p</span> { <span class="p">color</span>: <span class="v">gray</span>; }</pre>
+        </div>
+      </div>
+
+      <div>
+        <div class="card">
+          <p class="card-title">Псевдокласи — стан елемента</p>
+<pre><span class="s">a:hover</span>           { <span class="p">color</span>: <span class="v">blue</span>; }
+<span class="s">button:active</span>     { <span class="p">opacity</span>: <span class="v">0.8</span>; }
+<span class="s">input:focus</span>       { <span class="p">border-color</span>: <span class="v">blue</span>; }
+
+<span class="s">li:first-child</span>    { <span class="p">font-weight</span>: <span class="v">bold</span>; }
+<span class="s">li:last-child</span>     { <span class="p">margin-bottom</span>: <span class="v">0</span>; }
+<span class="s">li:nth-child(2)</span>   { <span class="p">color</span>: <span class="v">red</span>; }
+<span class="s">li:nth-child(odd)</span> { <span class="p">background</span>: <span class="v">#f0f0f0</span>; }
+
+<span class="s">a:visited</span>         { <span class="p">color</span>: <span class="v">purple</span>; }
+<span class="s">p:not(.special)</span>  { <span class="p">color</span>: <span class="v">gray</span>; }</pre>
+        </div>
+
+        <div class="card">
+          <p class="card-title">Псевдоелементи — частина елемента</p>
+<pre><span class="s">p::first-line</span>  { <span class="p">font-size</span>: <span class="v">18px</span>; }
+<span class="s">p::first-letter</span>{ <span class="p">font-size</span>: <span class="v">2em</span>; }
+
+<span class="s">.card::before</span> {
+  <span class="p">content</span>: <span class="str">"★"</span>;
+  <span class="p">color</span>: <span class="v">gold</span>;
+}
+
+<span class="s">.card::after</span> {
+  <span class="p">content</span>: <span class="str">""</span>;
+  <span class="p">display</span>: <span class="v">block</span>;
+  <span class="p">clear</span>: <span class="v">both</span>;
+}
+
+<span class="s">::selection</span> { <span class="p">background</span>: <span class="v">#3b82f6</span>; }</pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SPECIFICITY -->
+  <div class="section">
+    <h2 class="section-title">Специфічність</h2>
+    <p class="section-desc">Коли кілька правил конфліктують — перемагає те, що має вищу специфічність.</p>
+
+    <div class="card">
+      <div class="demo">
+        <p class="demo-label">Вага правил — від найнижчої до найвищої</p>
+        <div class="spec-row">
+          <span class="spec-label">tag — <code>p</code></span>
+          <div class="spec-bar" style="background:#1f6feb;width:4%"></div>
+          <span class="spec-val" style="color:#79c0ff">1</span>
+          <span style="font-size:12px;color:#8b949e">один тег = 1 очко</span>
+        </div>
+        <div class="spec-row">
+          <span class="spec-label">.class, :hover — <code>.card</code></span>
+          <div class="spec-bar" style="background:#2ea043;width:15%"></div>
+          <span class="spec-val" style="color:#7ee787">10</span>
+          <span style="font-size:12px;color:#8b949e">клас або псевдоклас = 10</span>
+        </div>
+        <div class="spec-row">
+          <span class="spec-label">#id — <code>#header</code></span>
+          <div class="spec-bar" style="background:#d29922;width:45%"></div>
+          <span class="spec-val" style="color:#ffa657">100</span>
+          <span style="font-size:12px;color:#8b949e">ID = 100 очок</span>
+        </div>
+        <div class="spec-row">
+          <span class="spec-label">style="" (inline)</span>
+          <div class="spec-bar" style="background:#8b1a1a;border:1px solid #f85149;width:80%"></div>
+          <span class="spec-val" style="color:#ff7b72">1000</span>
+          <span style="font-size:12px;color:#8b949e">інлайн стилі = 1000</span>
+        </div>
+        <div class="spec-row">
+          <span class="spec-label">!important</span>
+          <div class="spec-bar" style="background:#6e40c9;width:100%"></div>
+          <span class="spec-val" style="color:#d2a8ff">∞</span>
+          <span style="font-size:12px;color:#8b949e">перевизначає все — уникати!</span>
+        </div>
+      </div>
+<pre style="margin-top:12px"><span class="c">/* Конфлікт — яке правило переможе? */</span>
+<span class="s">p</span>          { <span class="p">color</span>: <span class="v">black</span>; }   <span class="c">/* вага: 1 */</span>
+<span class="s">.text</span>      { <span class="p">color</span>: <span class="v">blue</span>; }    <span class="c">/* вага: 10 — перемагає */</span>
+<span class="s">#main p</span>    { <span class="p">color</span>: <span class="v">green</span>; }   <span class="c">/* вага: 101 — перемагає */</span>
+<span class="s">.card.dark</span> { <span class="p">color</span>: <span class="v">white</span>; }   <span class="c">/* вага: 20 */</span></pre>
+    </div>
+  </div>
+
+  <!-- COLORS -->
+  <div class="section">
+    <h2 class="section-title">Кольори</h2>
+    <p class="section-desc">Чотири способи задати колір — всі рівноцінні, але HEX і HSL найзручніші.</p>
+
+    <div class="card">
+<pre><span class="s">.element</span> {
+  <span class="c">/* Назва кольору */</span>
+  <span class="p">color</span>: <span class="v">red</span>;
+  <span class="p">color</span>: <span class="v">transparent</span>;
+
+  <span class="c">/* HEX — #rrggbb */</span>
+  <span class="p">color</span>: <span class="v">#ff0000</span>;   <span class="c">/* повний */</span>
+  <span class="p">color</span>: <span class="v">#f00</span>;      <span class="c">/* скорочений (коли пари однакові) */</span>
+  <span class="p">color</span>: <span class="v">#ff000080</span>; <span class="c">/* з прозорістю (80 = ~50%) */</span>
+
+  <span class="c">/* RGB / RGBA */</span>
+  <span class="p">color</span>: <span class="v">rgb(255, 0, 0)</span>;
+  <span class="p">color</span>: <span class="v">rgba(255, 0, 0, 0.5)</span>;   <span class="c">/* 0 = прозорий, 1 = непрозорий */</span>
+
+  <span class="c">/* HSL — відтінок (0-360), насиченість, яскравість */</span>
+  <span class="p">color</span>: <span class="v">hsl(0, 100%, 50%)</span>;     <span class="c">/* червоний */</span>
+  <span class="p">color</span>: <span class="v">hsl(120, 100%, 50%)</span>;   <span class="c">/* зелений */</span>
+  <span class="p">color</span>: <span class="v">hsla(0, 100%, 50%, 0.5)</span>; <span class="c">/* з прозорістю */</span>
+}</pre>
+
+      <div class="demo" style="margin-top:12px">
+        <p class="demo-label">Кольоровий круг HSL — відтінок 0° → 360°</p>
+        <div style="height:24px;border-radius:4px;background:linear-gradient(to right,hsl(0,80%,55%),hsl(60,80%,55%),hsl(120,80%,55%),hsl(180,80%,55%),hsl(240,80%,55%),hsl(300,80%,55%),hsl(360,80%,55%))"></div>
+        <div style="display:flex;justify-content:space-between;font-size:10px;color:#6e7681;margin-top:4px">
+          <span>0° red</span><span>60° yellow</span><span>120° green</span><span>180° cyan</span><span>240° blue</span><span>300° magenta</span><span>360°</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- UNITS -->
+  <div class="section">
+    <h2 class="section-title">Одиниці виміру</h2>
+    <p class="section-desc">Абсолютні (px) і відносні (%, rem, em, vw) — кожна має своє призначення.</p>
+
+    <div class="two-col">
+      <div class="card">
+        <p class="card-title">Абсолютні</p>
+<pre><span class="s">.box</span> {
+  <span class="p">width</span>: <span class="v">300px</span>;  <span class="c">/* пікселі — фіксовано */</span>
+}</pre>
+        <table>
+          <tr><th>Одиниця</th><th>Призначення</th></tr>
+          <tr><td>px</td><td>Пікселі — для чітких розмірів</td></tr>
+          <tr><td>pt</td><td>Пункти — для друку</td></tr>
+        </table>
+      </div>
+
+      <div class="card">
+        <p class="card-title">Відносні</p>
+<pre><span class="s">.box</span> {
+  <span class="p">width</span>: <span class="v">50%</span>;    <span class="c">/* від ширини батька */</span>
+  <span class="p">font-size</span>: <span class="v">1rem</span>; <span class="c">/* від html (16px зазвич.) */</span>
+  <span class="p">font-size</span>: <span class="v">1.2em</span>; <span class="c">/* від батьківського font-size */</span>
+  <span class="p">width</span>: <span class="v">100vw</span>;  <span class="c">/* 100% ширини вікна */</span>
+  <span class="p">height</span>: <span class="v">100vh</span>; <span class="c">/* 100% висоти вікна */</span>
+}</pre>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:16px">
+      <p class="card-title">Коли що використовувати</p>
+      <table>
+        <tr><th>Одиниця</th><th>Коли</th><th>Приклад</th></tr>
+        <tr><td>px</td><td>Чіткі межі, border, box-shadow</td><td><code>border: 1px solid</code></td></tr>
+        <tr><td>rem</td><td>Текст, відступи — масштабується з налаштуваннями браузера</td><td><code>font-size: 1rem</code></td></tr>
+        <tr><td>em</td><td>Відступи відносно поточного шрифту</td><td><code>padding: 0.5em 1em</code></td></tr>
+        <tr><td>%</td><td>Ширина відносно батька</td><td><code>width: 50%</code></td></tr>
+        <tr><td>vw / vh</td><td>Розміри відносно вікна</td><td><code>height: 100vh</code></td></tr>
+        <tr><td>fr</td><td>Частки в Grid</td><td><code>grid-template-columns: 1fr 2fr</code></td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- RESET -->
+  <div class="section">
+    <h2 class="section-title">Скидання стилів браузера</h2>
+    <p class="section-desc">Браузер додає свої стилі — їх потрібно скинути на початку кожного проекту.</p>
+    <div class="card">
+<pre><span class="c">/* Додавай завжди першим рядком у style.css */</span>
+<span class="s">*, *::before, *::after</span> {
+  <span class="p">box-sizing</span>: <span class="v">border-box</span>; <span class="c">/* width включає padding і border */</span>
+  <span class="p">margin</span>: <span class="v">0</span>;
+  <span class="p">padding</span>: <span class="v">0</span>;
+}
+
+<span class="s">body</span> {
+  <span class="p">font-family</span>: <span class="v">system-ui, sans-serif</span>;
+  <span class="p">line-height</span>: <span class="v">1.5</span>;
+}
+
+<span class="s">img</span> {
+  <span class="p">max-width</span>: <span class="v">100%</span>;   <span class="c">/* зображення не виходять за межі контейнера */</span>
+  <span class="p">display</span>: <span class="v">block</span>;
+}</pre>
+    </div>
+  </div>
+
+</div>
+</div>
+  <script src="../js/nav.js" data-root=".."></script>
+</body>
+</html>

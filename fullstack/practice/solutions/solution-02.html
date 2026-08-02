@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Рішення 02 — Позиціонування</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: #0d1117; color: #e6edf3; font-family: system-ui, sans-serif; line-height: 1.6; }
+    a { color: #388bfd; text-decoration: none; } a:hover { text-decoration: underline; }
+    .sol-meta { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; margin: 12px 0 0; }
+    .meta-badge { font-size: 12px; padding: 3px 10px; border-radius: 10px; border: 1px solid #30363d; color: #8b949e; }
+    .status-done { background: #1b3626; border-color: #2ea043; color: #7ee787; }
+    .section { margin-bottom: 40px; }
+    .section-title { font-size: 18px; font-weight: 700; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid #21262d; }
+    .card { background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 20px; margin-bottom: 12px; }
+    code { background: #1c2128; border: 1px solid #30363d; border-radius: 3px; padding: 1px 5px; font-family: monospace; font-size: 12px; color: #a5d6ff; }
+    .bug { background: #3d0f10; border: 1px solid #f85149; border-radius: 6px; padding: 12px 16px; margin-bottom: 10px; }
+    .bug-title { font-size: 12px; font-weight: 700; color: #ff7b72; margin-bottom: 4px; }
+    .bug-body { font-size: 13px; color: #c9d1d9; }
+    .topic-card { background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 16px; margin-bottom: 12px; }
+    .topic-title { font-size: 14px; font-weight: 700; color: #79c0ff; margin-bottom: 8px; }
+    .topic-body { font-size: 13px; color: #8b949e; }
+    .topic-body ul { padding-left: 18px; margin-top: 4px; }
+    .topic-body li { margin-bottom: 4px; }
+    .progress-grid { display: grid; grid-template-columns: 1fr; gap: 6px; }
+    .diff-item { display: flex; align-items: flex-start; gap: 10px; padding: 8px 12px; border-radius: 6px; font-size: 13px; }
+    .diff-new     { background: #1b3626; border: 1px solid #2ea043; }
+    .diff-changed { background: #1f2e4a; border: 1px solid #388bfd; }
+    .diff-kept    { background: #161b22; border: 1px solid #21262d; }
+    .diff-badge { font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 4px; white-space: nowrap; margin-top: 1px; }
+    .badge-new     { background: #2ea043; color: #fff; }
+    .badge-changed { background: #388bfd; color: #fff; }
+    .badge-kept    { background: #30363d; color: #8b949e; }
+    .diff-text { color: #c9d1d9; }
+    .diff-text code { background: #0d1117; border: none; color: #a5d6ff; }
+    .link-btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 18px; border-radius: 8px; font-size: 13px; font-weight: 600; text-decoration: none; transition: background .15s; border: 1px solid; margin-right: 10px; margin-bottom: 8px; }
+    .link-btn-green { background: #161b22; border-color: #2ea043; color: #7ee787; }
+    .link-btn-green:hover { background: #1b3626; text-decoration: none; }
+    .link-btn-blue  { background: #161b22; border-color: #388bfd; color: #79c0ff; }
+    .link-btn-blue:hover  { background: #1f3a5f; text-decoration: none; }
+  </style>
+</head>
+<body>
+
+<div class="page-header">
+  <p class="page-tag">Рішення / 02</p>
+  <h1 class="page-title">Позиціонування (position)</h1>
+  <div class="sol-meta">
+    <span class="meta-badge status-done">✅ Виконано 04.06.2026</span>
+    <span class="meta-badge">📚 CSS / 03 — Позиціонування</span>
+  </div>
+  <p class="page-desc">Розбір виконаної задачі: помилки, що обговорювали, посилання на роботу.</p>
+</div>
+
+<div class="page-body">
+  <div class="content">
+
+    <div class="section">
+      <h2 class="section-title">Результат роботи</h2>
+      <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center">
+        <a href="../task-02/index.html" target="_blank" class="link-btn link-btn-green">
+          ✅ Відкрити виконану роботу
+        </a>
+        <a href="../task-02/mockup.html" target="_blank" class="link-btn link-btn-blue">
+          🖼 Еталонний макет
+        </a>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2 class="section-title">Помилки які були знайдені</h2>
+      <div class="bug">
+        <p class="bug-title">Помилка #1 — .article:nth-child(1) — клас з крапкою замість тега</p>
+        <p class="bug-body"><code>.article</code> шукає клас "article". Правильно: <code>article:nth-child(1)</code> (тег) або <code>.card:first-child</code> (клас).</p>
+      </div>
+      <div class="bug">
+        <p class="bug-title">Помилка #2 — display: inline-block на absolute-елементі</p>
+        <p class="bug-body"><code>position: absolute</code> вириває елемент з потоку — <code>display</code> встановлюється автоматично. <code>inline-block</code> зайвий.</p>
+      </div>
+      <div class="bug">
+        <p class="bug-title">Помилка #3 — margin-top: 130px тільки на першій картці</p>
+        <p class="bug-body">Достатньо <code>padding-top: 20px</code> на body — відступ буде для всіх карток, не тільки першої.</p>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2 class="section-title">Теми які обговорювали</h2>
+      <div class="topic-card">
+        <p class="topic-title">Селектори: крапка vs без крапки</p>
+        <div class="topic-body"><ul>
+          <li><code>.article</code> — клас-селектор, шукає елементи з class="article"</li>
+          <li><code>article</code> — тег-селектор, шукає всі теги &lt;article&gt;</li>
+          <li><code>article.card</code> — тег &lt;article&gt; який також має клас .card</li>
+        </ul></div>
+      </div>
+      <div class="topic-card">
+        <p class="topic-title">position: absolute і поток документа</p>
+        <div class="topic-body"><ul>
+          <li>absolute повністю вириває елемент з потоку — сусідні елементи його "не бачать"</li>
+          <li>margin, padding не впливають на розміщення інших елементів</li>
+          <li>display встановлюється автоматично — inline-block зайвий</li>
+        </ul></div>
+      </div>
+      <div class="topic-card">
+        <p class="topic-title">Пара relative + absolute</p>
+        <div class="topic-body"><ul>
+          <li>absolute позиціонується відносно найближчого батька з position != static</li>
+          <li>Якщо такого батька немає — позиціонується відносно &lt;html&gt;</li>
+          <li>Тому position: relative на батьку — обов'язковий крок</li>
+        </ul></div>
+      </div>
+      <div class="topic-card">
+        <p class="topic-title">position: fixed</p>
+        <div class="topic-body"><ul>
+          <li>Позиціонується відносно вікна браузера, не сторінки</li>
+          <li>Завжди потребує z-index якщо може перекриватись з іншими елементами</li>
+        </ul></div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2 class="section-title">Прогрес — задача 01 → задача 02</h2>
+      <p style="font-size:13px;color:#8b949e;margin-bottom:14px">Беремо готову картку з задачі 01 і додаємо позиціонування. Решта без змін.</p>
+      <div class="progress-grid">
+        <div class="diff-item diff-new"><span class="diff-badge badge-new">НОВЕ</span><span class="diff-text"><code>.card { position: relative }</code> — картка стає батьком для бейджа</span></div>
+        <div class="diff-item diff-new"><span class="diff-badge badge-new">НОВЕ</span><span class="diff-text"><code>.badge { position: absolute; top: -12px; right: -12px }</code> — бейдж виходить за межі картки</span></div>
+        <div class="diff-item diff-new"><span class="diff-badge badge-new">НОВЕ</span><span class="diff-text"><code>.btn-top { position: fixed; bottom: 24px; right: 24px; z-index: 10 }</code> — кнопка ↑ завжди на екрані</span></div>
+        <div class="diff-item diff-changed"><span class="diff-badge badge-changed">ЗМІНЕНО</span><span class="diff-text"><code>body: flex-direction: column; align-items: center</code> — картки йдуть стовпцем замість рядка</span></div>
+        <div class="diff-item diff-kept"><span class="diff-badge badge-kept">З ЗАДАЧІ 01</span><span class="diff-text">Структура картки, CSS reset, max-width, padding, border-radius, a:hover</span></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script src="../../abstracts/js/nav.js" data-root="../../abstracts"></script>
+</body>
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Контакти | Вивчаємо Fullstack</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <div class="page-header">
+    <div class="page-header-inner">
+      <p class="page-tag">Зв'язок</p>
+      <h1 class="page-title">Контакти</h1>
+      <p class="page-desc">Напиши, якщо маєш питання або пропозиції.</p>
+    </div>
+  </div>
+
+  <div class="page-body">
+    <div class="content">
+      <form action="/submit" method="POST">
+        <label for="name">Ім'я</label>
+        <input type="text" id="name" name="name" placeholder="Твоє ім'я" required />
+
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" placeholder="email@example.com" required />
+
+        <label for="message">Повідомлення</label>
+        <textarea id="message" name="message" rows="5" placeholder="Твоє повідомлення…"></textarea>
+
+        <button type="submit">Надіслати</button>
+      </form>
+    </div>
+  </div>
+
+  <script src="js/panels.js" data-root="abstracts"></script>
+</body>
+</html>

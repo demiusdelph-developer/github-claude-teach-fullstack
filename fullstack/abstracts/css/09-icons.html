@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CSS — Іконки</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: #0d1117; color: #e6edf3; font-family: system-ui, sans-serif; line-height: 1.6; }
+    a { color: #388bfd; text-decoration: none; } a:hover { text-decoration: underline; }
+    .page-header { padding: 28px 40px 20px; border-bottom: 1px solid #21262d; text-align: center; }
+    .page-tag { font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: #388bfd; margin-bottom: 8px; }
+    .page-title { font-size: 32px; font-weight: 800; margin-bottom: 8px; }
+    .page-desc { font-size: 15px; color: #8b949e; max-width: 600px; margin: 8px auto 0; }
+    .content { padding: 24px 36px 80px; min-width: 0; }
+    .section { padding-top: 48px; }
+    .section-title { font-size: 20px; font-weight: 700; margin-bottom: 4px; }
+    .section-desc { font-size: 14px; color: #8b949e; margin-bottom: 24px; }
+    .card { background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 20px; margin-bottom: 16px; }
+    .card-title { font-size: 14px; font-weight: 700; color: #79c0ff; font-family: monospace; margin-bottom: 10px; }
+    pre { background: #010409; border: 1px solid #30363d; border-radius: 6px; padding: 14px; font-family: 'Courier New', monospace; font-size: 13px; color: #c9d1d9; white-space: pre; overflow-x: auto; line-height: 1.6; }
+    .p { color: #79c0ff; } .v { color: #ffa657; } .s { color: #7ee787; } .c { color: #8b949e; font-style: italic; } .a { color: #79c0ff; } .str { color: #a5d6ff; } .kw { color: #ff7b72; }
+    .demo-wrap { background: #1c2128; border: 1px solid #30363d; border-radius: 6px; padding: 16px; margin-top: 10px; }
+    .demo-label { font-size: 10px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: #6e7681; margin-bottom: 10px; }
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    code { background: #1c2128; border: 1px solid #30363d; border-radius: 3px; padding: 1px 5px; font-family: monospace; font-size: 12px; color: #a5d6ff; }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 8px; }
+    th { background: #1c2128; color: #e6edf3; padding: 8px 12px; text-align: left; border: 1px solid #30363d; }
+    td { padding: 8px 12px; border: 1px solid #21262d; color: #c9d1d9; }
+    td:first-child { color: #79c0ff; font-family: monospace; font-size: 12px; }
+    tr:hover td { background: #161b22; }
+    .nav-pills { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 32px; padding-top: 24px; }
+    .nav-pill { font-size: 12px; font-weight: 600; padding: 4px 12px; border-radius: 20px; background: #1c2128; border: 1px solid #30363d; color: #8b949e; }
+    a.nav-pill:hover { border-color: #388bfd; color: #388bfd; text-decoration: none; }
+    .note { background: #1b3626; border: 1px solid #2ea043; border-radius: 6px; padding: 12px 16px; font-size: 13px; color: #7ee787; margin-top: 12px; }
+    .warn { background: #3d2206; border: 1px solid #d29922; border-radius: 6px; padding: 12px 16px; font-size: 13px; color: #ffa657; margin-top: 12px; }
+
+    /* Демо-стилі для іконок */
+    .icon-row { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+    .icon-box { display: flex; flex-direction: column; align-items: center; gap: 6px; background: #0d1117; border: 1px solid #30363d; border-radius: 6px; padding: 12px 16px; min-width: 72px; }
+    .icon-box span { font-size: 10px; color: #6e7681; text-align: center; font-family: monospace; }
+    .icon-size-demo { display: flex; align-items: flex-end; gap: 12px; }
+    .icon-color-demo svg { transition: color 0.2s; cursor: pointer; }
+    .icon-color-demo svg:hover { color: #388bfd; }
+  </style>
+</head>
+<body>
+
+<div class="page-header">
+  <p class="page-tag">CSS / 09</p>
+  <h1 class="page-title">Іконки</h1>
+  <p class="page-desc">Три способи додавати іконки: inline SVG, SVG-файл та Font Awesome. Плюс як стилізувати зображення через <code>object-fit</code>.</p>
+</div>
+
+<div class="page-body">
+  <div class="content">
+
+  <div class="nav-pills">
+    <a href="08-variables.html" class="nav-pill">← 08 — Змінні</a>
+    <a href="10-fonts.html" class="nav-pill">10 — Шрифти →</a>
+  </div>
+
+  <!-- СПОСОБИ ІКОНОК -->
+  <div class="section">
+    <h2 class="section-title">Три способи додавати іконки</h2>
+    <p class="section-desc">Від найпростішого до найгнучкішого.</p>
+
+    <div class="card">
+      <table>
+        <tr><th>Спосіб</th><th>Стилізація CSS</th><th>HTTP-запит</th><th>Коли використовувати</th></tr>
+        <tr><td>Font Awesome (CDN)</td><td>color, font-size</td><td>Так (зовнішній)</td><td>Швидкий старт, багато іконок</td></tr>
+        <tr><td>Inline SVG</td><td>color, fill, stroke, width, height</td><td>Ні</td><td>Власні SVG, анімації, максимум контролю</td></tr>
+        <tr><td>&lt;img src="icon.svg"&gt;</td><td>width, height, opacity</td><td>Так (свій файл)</td><td>Прості випадки без стилізації</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- FONT AWESOME -->
+  <div class="section">
+    <h2 class="section-title">Font Awesome — бібліотека іконок</h2>
+    <p class="section-desc">Підключається одним рядком у <code>&lt;head&gt;</code>. Понад 2000 безкоштовних іконок.</p>
+
+    <div class="card">
+      <p class="card-title">Підключення через CDN</p>
+<pre><span class="c">&lt;!-- Додай у &lt;head&gt; --&gt;</span>
+<span class="s">&lt;link</span> <span class="a">rel</span>=<span class="str">"stylesheet"</span>
+      <span class="a">href</span>=<span class="str">"https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"</span> <span class="s">/&gt;</span></pre>
+      <div class="note">CDN означає Content Delivery Network — файл завантажується з серверів Cloudflare, а не з твого проекту. Швидко, але потрібен інтернет.</div>
+    </div>
+
+    <div class="card">
+      <p class="card-title">Використання в HTML</p>
+<pre><span class="c">&lt;!-- Prefix: fas = solid, far = regular, fab = brands --&gt;</span>
+<span class="s">&lt;i</span> <span class="a">class</span>=<span class="str">"fas fa-heart"</span><span class="s">&gt;&lt;/i&gt;</span>         <span class="c">&lt;!-- ♥ серце --&gt;</span>
+<span class="s">&lt;i</span> <span class="a">class</span>=<span class="str">"fas fa-star"</span><span class="s">&gt;&lt;/i&gt;</span>          <span class="c">&lt;!-- ★ зірка --&gt;</span>
+<span class="s">&lt;i</span> <span class="a">class</span>=<span class="str">"fas fa-user"</span><span class="s">&gt;&lt;/i&gt;</span>          <span class="c">&lt;!-- 👤 профіль --&gt;</span>
+<span class="s">&lt;i</span> <span class="a">class</span>=<span class="str">"fas fa-envelope"</span><span class="s">&gt;&lt;/i&gt;</span>      <span class="c">&lt;!-- ✉ пошта --&gt;</span>
+<span class="s">&lt;i</span> <span class="a">class</span>=<span class="str">"fab fa-github"</span><span class="s">&gt;&lt;/i&gt;</span>        <span class="c">&lt;!-- GitHub --&gt;</span>
+<span class="s">&lt;i</span> <span class="a">class</span>=<span class="str">"fab fa-linkedin"</span><span class="s">&gt;&lt;/i&gt;</span>      <span class="c">&lt;!-- LinkedIn --&gt;</span></pre>
+      <div class="demo-wrap">
+        <p class="demo-label">Живе демо</p>
+        <div class="icon-row">
+          <div class="icon-box"><i class="fas fa-heart" style="font-size:24px;color:#ff7b72"></i><span>fa-heart</span></div>
+          <div class="icon-box"><i class="fas fa-star" style="font-size:24px;color:#ffa657"></i><span>fa-star</span></div>
+          <div class="icon-box"><i class="fas fa-user" style="font-size:24px;color:#79c0ff"></i><span>fa-user</span></div>
+          <div class="icon-box"><i class="fas fa-envelope" style="font-size:24px;color:#7ee787"></i><span>fa-envelope</span></div>
+          <div class="icon-box"><i class="fab fa-github" style="font-size:24px;color:#e6edf3"></i><span>fa-github</span></div>
+          <div class="icon-box"><i class="fab fa-linkedin" style="font-size:24px;color:#0a66c2"></i><span>fa-linkedin</span></div>
+          <div class="icon-box"><i class="fas fa-code" style="font-size:24px;color:#d2a8ff"></i><span>fa-code</span></div>
+          <div class="icon-box"><i class="fas fa-bars" style="font-size:24px;color:#8b949e"></i><span>fa-bars</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <p class="card-title">Стилізація через CSS</p>
+<pre><span class="c">/* Розмір — через font-size */</span>
+<span class="s">i</span> { <span class="p">font-size</span>: <span class="v">24px</span>; }
+
+<span class="c">/* Колір — через color */</span>
+<span class="s">.icon-primary</span> { <span class="p">color</span>: <span class="v">#388bfd</span>; }
+<span class="s">.icon-danger</span>  { <span class="p">color</span>: <span class="v">#ff7b72</span>; }
+
+<span class="c">/* Розміри від FA: fa-xs fa-sm fa-lg fa-xl fa-2x..fa-10x */</span>
+<span class="s">&lt;i</span> <span class="a">class</span>=<span class="str">"fas fa-star fa-2x"</span><span class="s">&gt;&lt;/i&gt;</span>   <span class="c">&lt;!-- 2× базовий розмір --&gt;</span>
+
+<span class="c">/* Анімація обертання */</span>
+<span class="s">&lt;i</span> <span class="a">class</span>=<span class="str">"fas fa-spinner fa-spin"</span><span class="s">&gt;&lt;/i&gt;</span>   <span class="c">&lt;!-- спінер --&gt;</span>
+<span class="s">&lt;i</span> <span class="a">class</span>=<span class="str">"fas fa-heart fa-beat"</span><span class="s">&gt;&lt;/i&gt;</span>    <span class="c">&lt;!-- пульсація --&gt;</span></pre>
+      <div class="demo-wrap">
+        <p class="demo-label">Розміри і анімації</p>
+        <div style="display:flex;align-items:flex-end;gap:16px;flex-wrap:wrap">
+          <div class="icon-box"><i class="fas fa-star" style="color:#ffa657;font-size:12px"></i><span>fa-xs</span></div>
+          <div class="icon-box"><i class="fas fa-star" style="color:#ffa657;font-size:16px"></i><span>fa-sm</span></div>
+          <div class="icon-box"><i class="fas fa-star" style="color:#ffa657;font-size:20px"></i><span>fa-lg</span></div>
+          <div class="icon-box"><i class="fas fa-star" style="color:#ffa657;font-size:32px"></i><span>fa-2x</span></div>
+          <div class="icon-box"><i class="fas fa-star" style="color:#ffa657;font-size:48px"></i><span>fa-3x</span></div>
+          <div class="icon-box"><i class="fas fa-spinner fa-spin" style="color:#79c0ff;font-size:24px"></i><span>fa-spin</span></div>
+          <div class="icon-box"><i class="fas fa-heart fa-beat" style="color:#ff7b72;font-size:24px"></i><span>fa-beat</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <p class="card-title">Іконка + текст поруч (типовий патерн)</p>
+<pre><span class="c">/* HTML */</span>
+<span class="s">&lt;button</span> <span class="a">class</span>=<span class="str">"btn"</span><span class="s">&gt;</span>
+  <span class="s">&lt;i</span> <span class="a">class</span>=<span class="str">"fas fa-envelope"</span><span class="s">&gt;&lt;/i&gt;</span>
+  Написати
+<span class="s">&lt;/button&gt;</span>
+
+<span class="c">/* CSS */</span>
+<span class="s">.btn</span> {
+  <span class="p">display</span>: <span class="v">flex</span>;
+  <span class="p">align-items</span>: <span class="v">center</span>;
+  <span class="p">gap</span>: <span class="v">8px</span>;        <span class="c">/* відстань між іконкою і текстом */</span>
+}</pre>
+      <div class="demo-wrap">
+        <p class="demo-label">Кнопки з іконками</p>
+        <div style="display:flex;gap:10px;flex-wrap:wrap">
+          <button style="display:flex;align-items:center;gap:8px;background:#388bfd;color:#fff;border:none;padding:8px 16px;border-radius:6px;font-size:14px;cursor:pointer">
+            <i class="fas fa-envelope"></i> Написати
+          </button>
+          <button style="display:flex;align-items:center;gap:8px;background:#2ea043;color:#fff;border:none;padding:8px 16px;border-radius:6px;font-size:14px;cursor:pointer">
+            <i class="fab fa-github"></i> GitHub
+          </button>
+          <button style="display:flex;align-items:center;gap:8px;background:#161b22;color:#e6edf3;border:1px solid #30363d;padding:8px 16px;border-radius:6px;font-size:14px;cursor:pointer">
+            <i class="fas fa-download"></i> Завантажити
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- INLINE SVG -->
+  <div class="section">
+    <h2 class="section-title">Inline SVG — максимум контролю</h2>
+    <p class="section-desc">SVG прямо в HTML — можна стилізувати через CSS: колір, розмір, анімацію. Підходить для власних іконок і лого.</p>
+
+    <div class="card">
+      <p class="card-title">Базова структура SVG</p>
+<pre><span class="s">&lt;svg</span>
+  <span class="a">xmlns</span>=<span class="str">"http://www.w3.org/2000/svg"</span>
+  <span class="a">width</span>=<span class="str">"24"</span>
+  <span class="a">height</span>=<span class="str">"24"</span>
+  <span class="a">viewBox</span>=<span class="str">"0 0 24 24"</span>      <span class="c">&lt;!-- координатна система --&gt;</span>
+  <span class="a">fill</span>=<span class="str">"none"</span>              <span class="c">&lt;!-- колір заливки: none або колір --&gt;</span>
+  <span class="a">stroke</span>=<span class="str">"currentColor"</span>  <span class="c">&lt;!-- stroke береться з CSS color --&gt;</span>
+  <span class="a">stroke-width</span>=<span class="str">"2"</span>
+<span class="s">&gt;</span>
+  <span class="c">&lt;!-- Фігури: circle, rect, path, line, polyline --&gt;</span>
+  <span class="s">&lt;circle</span> <span class="a">cx</span>=<span class="str">"12"</span> <span class="a">cy</span>=<span class="str">"12"</span> <span class="a">r</span>=<span class="str">"10"</span><span class="s">/&gt;</span>
+  <span class="s">&lt;line</span> <span class="a">x1</span>=<span class="str">"12"</span> <span class="a">y1</span>=<span class="str">"8"</span> <span class="a">x2</span>=<span class="str">"12"</span> <span class="a">y2</span>=<span class="str">"12"</span><span class="s">/&gt;</span>
+<span class="s">&lt;/svg&gt;</span></pre>
+      <div class="note"><strong>currentColor</strong> — спеціальне ключове слово: SVG успадкує CSS <code>color</code> батьківського елемента. Зміни <code>color</code> — зміниться і іконка.</div>
+    </div>
+
+    <div class="card">
+      <p class="card-title">Стилізація inline SVG через CSS</p>
+<pre><span class="s">.icon</span> {
+  <span class="p">width</span>: <span class="v">24px</span>;
+  <span class="p">height</span>: <span class="v">24px</span>;
+  <span class="p">color</span>: <span class="v">#388bfd</span>;         <span class="c">/* якщо SVG використовує currentColor */</span>
+  <span class="p">transition</span>: <span class="v">color 0.2s ease</span>;
+}
+
+<span class="s">.icon:hover</span> {
+  <span class="p">color</span>: <span class="v">#79c0ff</span>;
+}
+
+<span class="c">/* Або напряму через fill/stroke: */</span>
+<span class="s">.icon path</span> {
+  <span class="p">fill</span>: <span class="v">#388bfd</span>;
+}
+<span class="s">.icon circle</span> {
+  <span class="p">stroke</span>: <span class="v">#388bfd</span>;
+}</pre>
+      <div class="demo-wrap">
+        <p class="demo-label">currentColor — іконки успадковують color батька</p>
+        <div class="icon-row icon-color-demo">
+          <!-- Home icon -->
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:#79c0ff;cursor:pointer" title="hover щоб змінити колір" onmouseenter="this.style.color='#388bfd'" onmouseleave="this.style.color='#79c0ff'">
+            <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>
+          </svg>
+          <!-- Mail icon -->
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:#7ee787;cursor:pointer" onmouseenter="this.style.color='#2ea043'" onmouseleave="this.style.color='#7ee787'">
+            <rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+          </svg>
+          <!-- GitHub icon -->
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor" stroke="none" style="color:#e6edf3;cursor:pointer" onmouseenter="this.style.color='#d2a8ff'" onmouseleave="this.style.color='#e6edf3'">
+            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+          </svg>
+          <p style="font-size:12px;color:#6e7681;margin-left:8px">Наведи курсор — колір змінюється через CSS</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <p class="card-title">Де брати SVG-іконки безкоштовно</p>
+      <table>
+        <tr><th>Ресурс</th><th>Що є</th><th>Ліцензія</th></tr>
+        <tr><td>heroicons.com</td><td>Чисті outline/solid іконки від Tailwind</td><td>MIT (безкоштовно)</td></tr>
+        <tr><td>lucide.dev</td><td>Сучасні outline-іконки, fork of Feather</td><td>MIT</td></tr>
+        <tr><td>feathericons.com</td><td>Мінімалістичні outline-іконки</td><td>MIT</td></tr>
+        <tr><td>iconify.design</td><td>150 000+ іконок з різних наборів</td><td>Залежить від набору</td></tr>
+        <tr><td>simpleicons.org</td><td>Лого брендів (GitHub, LinkedIn тощо)</td><td>CC0</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- SVG FILE -->
+  <div class="section">
+    <h2 class="section-title">SVG як файл — &lt;img&gt; і &lt;object&gt;</h2>
+    <p class="section-desc">Зовнішній SVG-файл — найпростіше підключення, але стилізація CSS обмежена.</p>
+
+    <div class="two-col">
+      <div class="card">
+        <p class="card-title">&lt;img&gt; — найпростіше</p>
+<pre><span class="s">&lt;img</span>
+  <span class="a">src</span>=<span class="str">"icons/logo.svg"</span>
+  <span class="a">alt</span>=<span class="str">"Логотип"</span>
+  <span class="a">width</span>=<span class="str">"32"</span>
+  <span class="a">height</span>=<span class="str">"32"</span>
+<span class="s">/&gt;</span></pre>
+        <p style="font-size:12px;color:#8b949e;margin-top:8px">⚠ Не можна змінити колір через CSS — SVG рендериться як зображення.</p>
+      </div>
+      <div class="card">
+        <p class="card-title">CSS для &lt;img src="*.svg"&gt;</p>
+<pre><span class="s">img.icon</span> {
+  <span class="p">width</span>: <span class="v">32px</span>;
+  <span class="p">height</span>: <span class="v">32px</span>;
+  <span class="p">opacity</span>: <span class="v">0.8</span>;
+
+  <span class="c">/* Можна через filter() змінити колір! */</span>
+  <span class="p">filter</span>: <span class="v">invert(1)</span>;      <span class="c">/* чорний → білий */</span>
+  <span class="p">filter</span>: <span class="v">brightness(0)</span>; <span class="c">/* будь-який → чорний */</span>
+}</pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- OBJECT-FIT -->
+  <div class="section">
+    <h2 class="section-title">object-fit — вписати зображення в контейнер</h2>
+    <p class="section-desc">Властивість для <code>&lt;img&gt;</code> та <code>&lt;video&gt;</code> — як заповнює заданий розмір.</p>
+
+    <div class="card">
+<pre><span class="s">img</span> {
+  <span class="p">width</span>: <span class="v">200px</span>;
+  <span class="p">height</span>: <span class="v">200px</span>;
+  <span class="p">object-fit</span>: <span class="v">cover</span>;    <span class="c">/* заповнює весь прямокутник, обрізає зайве */</span>
+  <span class="p">object-fit</span>: <span class="v">contain</span>; <span class="c">/* вписує повністю, можуть бути поля */</span>
+  <span class="p">object-fit</span>: <span class="v">fill</span>;    <span class="c">/* розтягує до розмірів (спотворює) */</span>
+  <span class="p">object-fit</span>: <span class="v">none</span>;    <span class="c">/* оригінальний розмір, обрізається */</span>
+
+  <span class="c">/* Фокус — яка частина видима при cover */</span>
+  <span class="p">object-position</span>: <span class="v">center</span>;  <span class="c">/* за замовч. */</span>
+  <span class="p">object-position</span>: <span class="v">top</span>;
+  <span class="p">object-position</span>: <span class="v">50% 20%</span>; <span class="c">/* x y */</span>
+}</pre>
+      <div class="demo-wrap">
+        <p class="demo-label">Одне зображення — різні object-fit (симуляція градієнтами)</p>
+        <div style="display:flex;gap:12px;flex-wrap:wrap">
+          <div style="text-align:center">
+            <div style="width:100px;height:100px;border:1px dashed #30363d;border-radius:6px;overflow:hidden">
+              <div style="width:160px;height:80px;background:linear-gradient(135deg,#1f6feb,#388bfd,#79c0ff);object-fit:cover;display:flex;align-items:center;justify-content:center;font-size:10px;color:#fff;font-weight:700">ЗОБРАЖЕННЯ</div>
+            </div>
+            <p style="font-size:11px;color:#6e7681;margin-top:4px">fill (розтягує)</p>
+          </div>
+          <div style="text-align:center">
+            <div style="width:100px;height:100px;border:1px dashed #30363d;border-radius:6px;overflow:hidden;display:flex;align-items:center;justify-content:center;background:#010409">
+              <div style="width:80px;height:40px;background:linear-gradient(135deg,#1f6feb,#388bfd,#79c0ff);border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:9px;color:#fff;font-weight:700">ЗОБРАЖЕННЯ</div>
+            </div>
+            <p style="font-size:11px;color:#6e7681;margin-top:4px">contain (поля)</p>
+          </div>
+          <div style="text-align:center">
+            <div style="width:100px;height:100px;border:1px dashed #30363d;border-radius:6px;overflow:hidden">
+              <div style="width:100px;height:100px;background:linear-gradient(135deg,#1f6feb,#388bfd,#79c0ff);display:flex;align-items:center;justify-content:center;font-size:10px;color:#fff;font-weight:700">ЗОБРАЖЕННЯ</div>
+            </div>
+            <p style="font-size:11px;color:#6e7681;margin-top:4px">cover (обрізає)</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <p class="card-title">aspect-ratio — зберегти пропорції</p>
+<pre><span class="s">.avatar</span> {
+  <span class="p">width</span>: <span class="v">100%</span>;
+  <span class="p">aspect-ratio</span>: <span class="v">1 / 1</span>;   <span class="c">/* квадрат — ширина = висота */</span>
+  <span class="p">object-fit</span>: <span class="v">cover</span>;
+  <span class="p">border-radius</span>: <span class="v">50%</span>;    <span class="c">/* коло */</span>
+}
+
+<span class="s">.banner</span> {
+  <span class="p">width</span>: <span class="v">100%</span>;
+  <span class="p">aspect-ratio</span>: <span class="v">16 / 9</span>;  <span class="c">/* відео-формат */</span>
+  <span class="p">object-fit</span>: <span class="v">cover</span>;
+}</pre>
+      <div class="note"><strong>aspect-ratio</strong> — без нього потрібно хакати через padding-top: 56.25% (старий трюк). Тепер не потрібен.</div>
+    </div>
+  </div>
+
+  <!-- QUICK REF -->
+  <div class="section">
+    <h2 class="section-title">Швидкий довідник</h2>
+    <div class="card">
+      <table>
+        <tr><th>Властивість/Атрибут</th><th>Що робить</th></tr>
+        <tr><td>fill="currentColor"</td><td>SVG успадковує color з CSS</td></tr>
+        <tr><td>stroke="currentColor"</td><td>Контур SVG успадковує color</td></tr>
+        <tr><td>viewBox="0 0 24 24"</td><td>Координатна система SVG (не змінюй без потреби)</td></tr>
+        <tr><td>object-fit: cover</td><td>Заповнює контейнер, обрізає зайве</td></tr>
+        <tr><td>object-fit: contain</td><td>Вписується повністю, можуть бути поля</td></tr>
+        <tr><td>aspect-ratio: 1/1</td><td>Зберігає квадратні пропорції</td></tr>
+        <tr><td>aspect-ratio: 16/9</td><td>Відео-пропорції</td></tr>
+      </table>
+    </div>
+  </div>
+
+  </div>
+</div>
+
+  <script src="../js/nav.js" data-root=".."></script>
+</body>
+</html>

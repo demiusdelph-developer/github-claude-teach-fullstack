@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CSS — Flexbox</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: #0d1117; color: #e6edf3; font-family: system-ui, sans-serif; line-height: 1.6; }
+    a { color: #388bfd; text-decoration: none; } a:hover { text-decoration: underline; }
+    .section { padding-top: 48px; }
+    .section-title { font-size: 20px; font-weight: 700; margin-bottom: 4px; }
+    .section-desc { font-size: 14px; color: #8b949e; margin-bottom: 24px; }
+    .card { background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 20px; margin-bottom: 16px; }
+    .card-title { font-size: 14px; font-weight: 700; color: #79c0ff; font-family: monospace; margin-bottom: 10px; }
+    pre { background: #010409; border: 1px solid #30363d; border-radius: 6px; padding: 14px; font-family: 'Courier New', monospace; font-size: 13px; color: #c9d1d9; white-space: pre; overflow-x: auto; line-height: 1.6; }
+    .p { color: #79c0ff; } .v { color: #ffa657; } .s { color: #7ee787; } .c { color: #8b949e; font-style: italic; }
+    .demo-wrap { background: #1c2128; border: 1px solid #30363d; border-radius: 6px; padding: 16px; margin-top: 10px; }
+    .demo-label { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #6e7681; margin-bottom: 8px; }
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+    code { background: #1c2128; border: 1px solid #30363d; border-radius: 3px; padding: 1px 5px; font-family: monospace; font-size: 12px; color: #a5d6ff; }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 8px; }
+    th { background: #1c2128; color: #e6edf3; padding: 8px 12px; text-align: left; border: 1px solid #30363d; }
+    td { padding: 8px 12px; border: 1px solid #21262d; color: #c9d1d9; }
+    td:first-child { color: #79c0ff; font-family: monospace; font-size: 12px; }
+    tr:hover td { background: #161b22; }
+    .nav-pills { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 32px; padding-top: 24px; }
+    .nav-pill { font-size: 12px; font-weight: 600; padding: 4px 12px; border-radius: 20px; background: #1c2128; border: 1px solid #30363d; color: #8b949e; }
+    a.nav-pill:hover { border-color: #388bfd; color: #388bfd; text-decoration: none; }
+
+    /* Flex demo boxes */
+    .fc { background: #010409; border: 1px dashed #30363d; border-radius: 5px; padding: 10px; min-height: 60px; }
+    .fb { background: #1f6feb; color: #fff; border-radius: 4px; padding: 6px 12px; font-size: 12px; font-weight: 700; display: flex; align-items: center; justify-content: center; min-width: 36px; }
+    .fb.t { background: #1b3626; border: 1px solid #2ea043; color: #7ee787; }
+    .fb.o { background: #3d2206; border: 1px solid #d29922; color: #ffa657; min-height: 40px; }
+    .fb.h { min-height: 60px; }
+
+    .prop-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .prop-item { background: #161b22; border: 1px solid #30363d; border-radius: 6px; padding: 14px; }
+    .prop-name { font-family: monospace; font-size: 12px; color: #79c0ff; font-weight: 700; margin-bottom: 4px; }
+    .prop-val { font-family: monospace; font-size: 11px; color: #ffa657; margin-bottom: 8px; }
+    .prop-desc { font-size: 12px; color: #8b949e; margin-bottom: 8px; }
+  </style>
+</head>
+<body>
+
+
+<div class="page-header">
+  <p class="page-tag">CSS / 04</p>
+  <h1 class="page-title">Flexbox</h1>
+  <p class="page-desc">Одновимірне розміщення елементів — в рядок або стовпець. Ідеальний для навбарів, карток і будь-якого лінійного лейауту.</p>
+</div>
+
+<div class="page-body">
+  <div class="content">
+
+  <div class="nav-pills">
+    <a href="03-positioning.html" class="nav-pill">← 03 — Позиціонування</a>
+    <a href="05-grid.html" class="nav-pill">05 — Grid →</a>
+  </div>
+
+  <!-- ENABLE FLEX -->
+  <div class="section">
+    <h2 class="section-title">Вмикаємо flex</h2>
+    <p class="section-desc">Одна властивість перетворює контейнер на flex-контейнер. Всі прямі дочірні стають flex-елементами.</p>
+    <div class="card">
+<pre><span class="s">.container</span> {
+  <span class="p">display</span>: <span class="v">flex</span>;  <span class="c">/* вмикаємо flexbox */</span>
+}
+
+<span class="c">/* Дочірні елементи автоматично стають flex-items */</span></pre>
+      <div class="demo-wrap">
+        <p class="demo-label">До flex (block-елементи) → Після flex</p>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+          <div>
+            <p style="font-size:11px;color:#6e7681;margin-bottom:6px">без flex:</p>
+            <div style="background:#010409;padding:8px;border-radius:4px">
+              <div class="fb" style="margin-bottom:4px;justify-content:flex-start">div 1</div>
+              <div class="fb" style="margin-bottom:4px;justify-content:flex-start">div 2</div>
+              <div class="fb" style="justify-content:flex-start">div 3</div>
+            </div>
+          </div>
+          <div>
+            <p style="font-size:11px;color:#6e7681;margin-bottom:6px">display: flex:</p>
+            <div class="fc" style="display:flex;gap:8px">
+              <div class="fb">div 1</div>
+              <div class="fb">div 2</div>
+              <div class="fb">div 3</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FLEX-DIRECTION -->
+  <div class="section">
+    <h2 class="section-title">flex-direction — вісь</h2>
+    <p class="section-desc">Визначає напрямок головної осі.</p>
+    <div class="two-col">
+      <div class="card">
+        <p class="card-title">row (за замовч.) →</p>
+        <div class="fc" style="display:flex;flex-direction:row;gap:6px">
+          <div class="fb">1</div><div class="fb">2</div><div class="fb">3</div>
+        </div>
+      </div>
+      <div class="card">
+        <p class="card-title">column ↓</p>
+        <div class="fc" style="display:flex;flex-direction:column;gap:6px">
+          <div class="fb">1</div><div class="fb">2</div><div class="fb">3</div>
+        </div>
+      </div>
+      <div class="card">
+        <p class="card-title">row-reverse ←</p>
+        <div class="fc" style="display:flex;flex-direction:row-reverse;gap:6px">
+          <div class="fb">1</div><div class="fb">2</div><div class="fb">3</div>
+        </div>
+      </div>
+      <div class="card">
+        <p class="card-title">column-reverse ↑</p>
+        <div class="fc" style="display:flex;flex-direction:column-reverse;gap:6px">
+          <div class="fb">1</div><div class="fb">2</div><div class="fb">3</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- JUSTIFY-CONTENT -->
+  <div class="section">
+    <h2 class="section-title">justify-content — по головній осі</h2>
+    <p class="section-desc">Розподіл елементів вздовж головної осі (у row — горизонталь).</p>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+
+      <div class="card">
+        <p class="card-title">flex-start</p>
+        <div class="fc" style="display:flex;justify-content:flex-start;gap:6px">
+          <div class="fb">A</div><div class="fb">B</div><div class="fb">C</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="card-title">flex-end</p>
+        <div class="fc" style="display:flex;justify-content:flex-end;gap:6px">
+          <div class="fb">A</div><div class="fb">B</div><div class="fb">C</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="card-title">center</p>
+        <div class="fc" style="display:flex;justify-content:center;gap:6px">
+          <div class="fb">A</div><div class="fb">B</div><div class="fb">C</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="card-title">space-between</p>
+        <div class="fc" style="display:flex;justify-content:space-between">
+          <div class="fb">A</div><div class="fb">B</div><div class="fb">C</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="card-title">space-around</p>
+        <div class="fc" style="display:flex;justify-content:space-around">
+          <div class="fb">A</div><div class="fb">B</div><div class="fb">C</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="card-title">space-evenly</p>
+        <div class="fc" style="display:flex;justify-content:space-evenly">
+          <div class="fb">A</div><div class="fb">B</div><div class="fb">C</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ALIGN-ITEMS -->
+  <div class="section">
+    <h2 class="section-title">align-items — по поперечній осі</h2>
+    <p class="section-desc">Вирівнювання елементів по перпендикулярній осі (у row — вертикаль).</p>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
+
+      <div class="card">
+        <p class="card-title">flex-start</p>
+        <div class="fc" style="display:flex;align-items:flex-start;gap:6px;height:80px">
+          <div class="fb">A</div><div class="fb h">B</div><div class="fb">C</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="card-title">center</p>
+        <div class="fc" style="display:flex;align-items:center;gap:6px;height:80px">
+          <div class="fb">A</div><div class="fb h">B</div><div class="fb">C</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="card-title">flex-end</p>
+        <div class="fc" style="display:flex;align-items:flex-end;gap:6px;height:80px">
+          <div class="fb">A</div><div class="fb h">B</div><div class="fb">C</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="card-title">stretch (за замовч.)</p>
+        <div class="fc" style="display:flex;align-items:stretch;gap:6px;height:80px">
+          <div class="fb" style="height:auto">A</div><div class="fb" style="height:auto">B</div><div class="fb" style="height:auto">C</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="card-title">baseline</p>
+        <div class="fc" style="display:flex;align-items:baseline;gap:6px;height:80px">
+          <div class="fb" style="font-size:20px">A</div><div class="fb" style="font-size:10px">B</div><div class="fb" style="font-size:16px">C</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- GAP -->
+  <div class="section">
+    <h2 class="section-title">gap — відстань між елементами</h2>
+    <p class="section-desc">Замінює ручні margin між flex-елементами. Простіше і чистіше.</p>
+    <div class="two-col">
+      <div class="card">
+<pre><span class="s">.container</span> {
+  <span class="p">display</span>: <span class="v">flex</span>;
+  <span class="p">gap</span>: <span class="v">16px</span>;          <span class="c">/* всі сторони */</span>
+  <span class="p">gap</span>: <span class="v">8px 16px</span>;     <span class="c">/* рядок стовпець */</span>
+  <span class="p">row-gap</span>: <span class="v">8px</span>;
+  <span class="p">column-gap</span>: <span class="v">16px</span>;
+}</pre>
+      </div>
+      <div class="card">
+        <div class="fc" style="display:flex;gap:16px;flex-wrap:wrap">
+          <div class="fb">1</div><div class="fb">2</div><div class="fb">3</div><div class="fb">4</div>
+        </div>
+        <p style="font-size:11px;color:#6e7681;margin-top:8px">gap: 16px між усіма</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- FLEX-WRAP -->
+  <div class="section">
+    <h2 class="section-title">flex-wrap — перенос</h2>
+    <p class="section-desc">Дозволяє елементам переноситись на новий рядок якщо не вміщаються.</p>
+    <div class="two-col">
+      <div class="card">
+        <p class="card-title">nowrap (за замовч.) — здавлюється</p>
+        <div class="fc" style="display:flex;flex-wrap:nowrap;gap:6px;overflow:hidden">
+          <div class="fb" style="min-width:60px">один</div>
+          <div class="fb" style="min-width:60px">два</div>
+          <div class="fb" style="min-width:60px">три</div>
+          <div class="fb" style="min-width:60px;background:#8b1a1a;border:1px solid #f85149;color:#ff7b72">виходить</div>
+        </div>
+      </div>
+      <div class="card">
+        <p class="card-title">wrap — переноситься</p>
+        <div class="fc" style="display:flex;flex-wrap:wrap;gap:6px">
+          <div class="fb t" style="min-width:60px">один</div>
+          <div class="fb t" style="min-width:60px">два</div>
+          <div class="fb t" style="min-width:60px">три</div>
+          <div class="fb t" style="min-width:60px">на новий рядок</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FLEX ITEM PROPERTIES -->
+  <div class="section">
+    <h2 class="section-title">Властивості елемента (flex-item)</h2>
+    <p class="section-desc">Застосовуються до дочірніх елементів, а не до контейнера.</p>
+
+    <div class="card">
+      <p class="card-title">flex — скорочення (grow shrink basis)</p>
+<pre><span class="s">.item</span> {
+  <span class="p">flex</span>: <span class="v">1</span>;          <span class="c">/* = flex: 1 1 0 — росте, стискається, база 0 */</span>
+  <span class="p">flex</span>: <span class="v">0 0 200px</span>;  <span class="c">/* фіксована ширина 200px, не росте і не стискається */</span>
+  <span class="p">flex</span>: <span class="v">1 1 280px</span>;  <span class="c">/* мінімум 280px, може рости і стискатись */</span>
+
+  <span class="c">/* Окремо: */</span>
+  <span class="p">flex-grow</span>: <span class="v">1</span>;    <span class="c">/* як росте відносно інших (0 = не росте) */</span>
+  <span class="p">flex-shrink</span>: <span class="v">1</span>;  <span class="c">/* як стискається (0 = не стискається) */</span>
+  <span class="p">flex-basis</span>: <span class="v">auto</span>; <span class="c">/* базовий розмір до розподілу простору */</span>
+}</pre>
+      <div class="demo-wrap">
+        <p class="demo-label">flex-grow: різні значення</p>
+        <div class="fc" style="display:flex;gap:6px">
+          <div class="fb" style="flex-grow:1">flex: 1</div>
+          <div class="fb" style="flex-grow:2;background:#2ea043">flex: 2</div>
+          <div class="fb" style="flex-grow:1">flex: 1</div>
+        </div>
+        <p style="font-size:11px;color:#6e7681;margin-top:6px">зелений (flex:2) займає вдвічі більше вільного місця</p>
+      </div>
+    </div>
+
+    <div class="two-col">
+      <div class="card">
+        <p class="card-title">order — порядок відображення</p>
+<pre><span class="s">.item-3</span> { <span class="p">order</span>: <span class="v">-1</span>; } <span class="c">/* першим */</span>
+<span class="s">.item-1</span> { <span class="p">order</span>: <span class="v">0</span>; }  <span class="c">/* за замовч. */</span>
+<span class="s">.item-2</span> { <span class="p">order</span>: <span class="v">1</span>; }  <span class="c">/* останнім */</span></pre>
+        <div class="fc" style="display:flex;gap:6px;margin-top:10px">
+          <div class="fb" style="order:0">1 (order:0)</div>
+          <div class="fb t" style="order:-1">3 (order:-1)</div>
+          <div class="fb o" style="order:1">2 (order:1)</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="card-title">align-self — вирівнювання одного</p>
+<pre><span class="s">.special</span> {
+  <span class="p">align-self</span>: <span class="v">flex-end</span>;
+  <span class="c">/* переписує align-items для цього елемента */</span>
+}</pre>
+        <div class="fc" style="display:flex;align-items:flex-start;gap:6px;height:80px;margin-top:10px">
+          <div class="fb">A</div>
+          <div class="fb t" style="align-self:center">B (center)</div>
+          <div class="fb o" style="align-self:flex-end">C (end)</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PATTERNS -->
+  <div class="section">
+    <h2 class="section-title">Типові патерни</h2>
+
+    <div class="card">
+      <p class="card-title">Навбар: лого зліва, лінки справа</p>
+<pre><span class="s">.navbar</span> {
+  <span class="p">display</span>: <span class="v">flex</span>;
+  <span class="p">justify-content</span>: <span class="v">space-between</span>;
+  <span class="p">align-items</span>: <span class="v">center</span>;
+  <span class="p">padding</span>: <span class="v">16px 24px</span>;
+}
+<span class="s">.nav-links</span> { <span class="p">display</span>: <span class="v">flex</span>; <span class="p">gap</span>: <span class="v">24px</span>; }</pre>
+      <div class="demo-wrap">
+        <div style="display:flex;justify-content:space-between;align-items:center;background:#010409;padding:12px 16px;border-radius:4px">
+          <span style="font-weight:700;color:#a5b4fc;font-size:14px">MyPortfolio</span>
+          <nav style="display:flex;gap:20px">
+            <span style="font-size:13px;color:#8b949e">Про мене</span>
+            <span style="font-size:13px;color:#8b949e">Проекти</span>
+            <span style="font-size:13px;color:#8b949e">Контакти</span>
+          </nav>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <p class="card-title">Сітка карток з переносом</p>
+<pre><span class="s">.cards</span> {
+  <span class="p">display</span>: <span class="v">flex</span>;
+  <span class="p">flex-wrap</span>: <span class="v">wrap</span>;
+  <span class="p">gap</span>: <span class="v">16px</span>;
+}
+<span class="s">.card</span> {
+  <span class="p">flex</span>: <span class="v">1 1 280px</span>; <span class="c">/* мінімум 280px */</span>
+  <span class="p">max-width</span>: <span class="v">360px</span>;
+}</pre>
+      <div class="demo-wrap">
+        <div style="display:flex;flex-wrap:wrap;gap:8px">
+          <div style="flex:1 1 120px;max-width:200px;background:#1f6feb22;border:1px solid #1f6feb;border-radius:6px;padding:12px;font-size:12px;color:#79c0ff">Картка 1</div>
+          <div style="flex:1 1 120px;max-width:200px;background:#1f6feb22;border:1px solid #1f6feb;border-radius:6px;padding:12px;font-size:12px;color:#79c0ff">Картка 2</div>
+          <div style="flex:1 1 120px;max-width:200px;background:#1f6feb22;border:1px solid #1f6feb;border-radius:6px;padding:12px;font-size:12px;color:#79c0ff">Картка 3</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <p class="card-title">Центрування по горизонталі і вертикалі</p>
+<pre><span class="s">.center</span> {
+  <span class="p">display</span>: <span class="v">flex</span>;
+  <span class="p">justify-content</span>: <span class="v">center</span>;
+  <span class="p">align-items</span>: <span class="v">center</span>;
+  <span class="p">min-height</span>: <span class="v">100vh</span>;
+}</pre>
+      <div class="demo-wrap" style="height:100px;display:flex;justify-content:center;align-items:center">
+        <div class="fb">По центру!</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- QUICK REF -->
+  <div class="section">
+    <h2 class="section-title">Швидкий довідник</h2>
+    <div class="card">
+      <table>
+        <tr><th>Властивість</th><th>На кому</th><th>Значення</th></tr>
+        <tr><td>display: flex</td><td>контейнер</td><td>вмикає flexbox</td></tr>
+        <tr><td>flex-direction</td><td>контейнер</td><td>row | column | row-reverse | column-reverse</td></tr>
+        <tr><td>flex-wrap</td><td>контейнер</td><td>nowrap | wrap | wrap-reverse</td></tr>
+        <tr><td>justify-content</td><td>контейнер</td><td>flex-start | flex-end | center | space-between | space-around | space-evenly</td></tr>
+        <tr><td>align-items</td><td>контейнер</td><td>stretch | flex-start | flex-end | center | baseline</td></tr>
+        <tr><td>gap</td><td>контейнер</td><td>будь-яка одиниця</td></tr>
+        <tr><td>flex</td><td>елемент</td><td>grow shrink basis</td></tr>
+        <tr><td>order</td><td>елемент</td><td>число (за замовч. 0)</td></tr>
+        <tr><td>align-self</td><td>елемент</td><td>ті ж що у align-items</td></tr>
+      </table>
+    </div>
+  </div>
+
+</div>
+</div>
+  <script src="../js/nav.js" data-root=".."></script>
+</body>
+</html>

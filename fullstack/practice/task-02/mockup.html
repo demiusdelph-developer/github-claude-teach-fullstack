@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Задача 02 — Макет</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: system-ui, sans-serif;
+      background: #090b13;
+      padding: 40px 20px 120px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 32px;
+    }
+
+    /* ─── Заголовок макету ─── */
+    .mockup-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: #4b5563;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      text-align: center;
+    }
+
+    /* ─── Анотація ─── */
+    .annotation {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      font-weight: 600;
+      color: #fff;
+      background: #4338ca;
+      border-radius: 4px;
+      padding: 2px 8px;
+      white-space: nowrap;
+    }
+    .annotation.green  { background: #15803d; }
+    .annotation.orange { background: #c2410c; }
+    .annotation.gray   { background: #374151; }
+
+    .arrow {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      color: #4b5563;
+    }
+    .arrow::before { content: "→"; font-size: 14px; color: #374151; }
+
+    /* ─── Картка (вайрфрейм) ─── */
+    .card-wrapper {
+      position: relative;
+      width: 100%;
+      max-width: 440px;
+    }
+
+    .card {
+      position: relative;
+      background: #1a1d2e;
+      border: 2px dashed #2e3460;
+      border-radius: 12px;
+      padding: 32px 36px;
+      width: 100%;
+    }
+
+    /* ─── Бейдж ─── */
+    .badge-wrapper {
+      position: absolute;
+      top: -14px;
+      right: -14px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 4px;
+    }
+
+    .badge {
+      background: #14532d;
+      border: 2px solid #16a34a;
+      border-radius: 20px;
+      padding: 4px 12px;
+      font-size: 12px;
+      font-weight: 600;
+      color: #86efac;
+      white-space: nowrap;
+    }
+
+    /* ─── Вміст картки (плейсхолдери) ─── */
+    .ph { background: #2e3460; border-radius: 4px; }
+    .ph-h1    { height: 28px; width: 60%; margin-bottom: 8px; }
+    .ph-sub   { height: 16px; width: 45%; margin-bottom: 20px; background: #3b448b; }
+    .ph-text  { height: 12px; width: 100%; margin-bottom: 6px; background: #252847; }
+    .ph-text.short { width: 70%; margin-bottom: 20px; background: #252847; }
+    .ph-tags  { display: flex; gap: 8px; margin-bottom: 20px; }
+    .ph-tag   { height: 28px; width: 72px; border-radius: 4px; background: #2e3460; border: 1px solid #5d69c7; }
+    .ph-btn   { height: 36px; width: 160px; border-radius: 6px; background: #2e3460; border: 1px solid #5d69c7; }
+
+    /* ─── Підписи під елементами картки ─── */
+    .card-labels {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      margin-top: 12px;
+      padding-left: 4px;
+    }
+
+    /* ─── Кнопка вгору (фіксована) ─── */
+    .btn-top-fixed {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      width: 48px;
+      height: 48px;
+      background: #2e3460;
+      color: #a5b4fc;
+      font-size: 20px;
+      border: 1px solid #5d69c7;
+      border-radius: 50%;
+      cursor: default;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 16px rgba(99,102,241,0.3);
+    }
+
+    .btn-label {
+      position: fixed;
+      bottom: 78px;
+      right: 14px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 4px;
+    }
+
+    /* ─── Розділювач ─── */
+    .divider {
+      width: 100%;
+      max-width: 440px;
+      text-align: center;
+      font-size: 12px;
+      color: #374151;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .divider::before, .divider::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: #1f2937;
+    }
+
+    /* ─── Картки-копії (dim) ─── */
+    .card.dim {
+      opacity: 0.25;
+    }
+  </style>
+</head>
+<body>
+
+  <p class="mockup-title">Задача 02 — Позиціонування / Візуальний макет</p>
+
+  <!-- ══════════════════════════════════
+       КАРТКА 1 — головна, з бейджем
+  ══════════════════════════════════ -->
+  <div class="card-wrapper">
+    <div class="card">
+
+      <!-- Бейдж -->
+      <div class="badge-wrapper">
+        <span class="badge">Open to work ✓</span>
+        <span class="annotation green">position: absolute</span>
+        <span class="annotation gray">top: -12px / right: -12px</span>
+      </div>
+
+      <!-- Плейсхолдери вмісту -->
+      <div class="ph ph-h1"></div>
+      <div class="ph ph-sub"></div>
+      <div class="ph ph-text"></div>
+      <div class="ph ph-text"></div>
+      <div class="ph ph-text short"></div>
+      <div class="ph-tags">
+        <div class="ph ph-tag"></div>
+        <div class="ph ph-tag"></div>
+        <div class="ph ph-tag"></div>
+      </div>
+      <div class="ph ph-btn"></div>
+    </div>
+
+    <!-- Підпис до картки -->
+    <div class="card-labels">
+      <span class="arrow"><span class="annotation">.card — position: relative</span></span>
+      <span class="arrow"><span class="annotation gray">батько для бейджа</span></span>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════
+       Пояснення: навіщо копії карток
+  ══════════════════════════════════ -->
+  <div class="divider">ще 4 копії картки нижче (щоб сторінка прокручувалась)</div>
+
+  <!-- Копії — приглушені -->
+  <div class="card-wrapper">
+    <div class="card dim">
+      <div class="ph ph-h1"></div>
+      <div class="ph ph-sub"></div>
+      <div class="ph ph-text"></div>
+      <div class="ph ph-text short"></div>
+      <div class="ph-tags"><div class="ph ph-tag"></div><div class="ph ph-tag"></div></div>
+      <div class="ph ph-btn"></div>
+    </div>
+  </div>
+
+  <div class="card-wrapper">
+    <div class="card dim">
+      <div class="ph ph-h1"></div>
+      <div class="ph ph-sub"></div>
+      <div class="ph ph-text"></div>
+      <div class="ph ph-text short"></div>
+      <div class="ph-tags"><div class="ph ph-tag"></div><div class="ph ph-tag"></div></div>
+      <div class="ph ph-btn"></div>
+    </div>
+  </div>
+
+  <div class="card-wrapper">
+    <div class="card dim">
+      <div class="ph ph-h1"></div>
+      <div class="ph ph-sub"></div>
+      <div class="ph ph-text"></div>
+      <div class="ph ph-text short"></div>
+      <div class="ph-tags"><div class="ph ph-tag"></div><div class="ph ph-tag"></div></div>
+      <div class="ph ph-btn"></div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════
+       Кнопка ↑ — position: fixed
+  ══════════════════════════════════ -->
+  <div class="btn-label">
+    <span class="annotation orange">position: fixed</span>
+    <span class="annotation gray">bottom: 24px / right: 24px</span>
+    <span class="annotation gray">z-index: 10</span>
+  </div>
+
+  <button class="btn-top-fixed" title="Кнопка завжди у правому нижньому куті">↑</button>
+
+</body>
+</html>

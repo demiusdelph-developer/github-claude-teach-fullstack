@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CSS — Шрифти і типографіка</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=JetBrains+Mono:wght@400;700&family=Merriweather:wght@400;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: #0d1117; color: #e6edf3; font-family: system-ui, sans-serif; line-height: 1.6; }
+    a { color: #388bfd; text-decoration: none; } a:hover { text-decoration: underline; }
+    .page-header { padding: 28px 40px 20px; border-bottom: 1px solid #21262d; text-align: center; }
+    .page-tag { font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: #388bfd; margin-bottom: 8px; }
+    .page-title { font-size: 32px; font-weight: 800; margin-bottom: 8px; }
+    .page-desc { font-size: 15px; color: #8b949e; max-width: 600px; margin: 8px auto 0; }
+    .content { padding: 24px 36px 80px; min-width: 0; }
+    .section { padding-top: 48px; }
+    .section-title { font-size: 20px; font-weight: 700; margin-bottom: 4px; }
+    .section-desc { font-size: 14px; color: #8b949e; margin-bottom: 24px; }
+    .card { background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 20px; margin-bottom: 16px; }
+    .card-title { font-size: 14px; font-weight: 700; color: #79c0ff; font-family: monospace; margin-bottom: 10px; }
+    pre { background: #010409; border: 1px solid #30363d; border-radius: 6px; padding: 14px; font-family: 'Courier New', monospace; font-size: 13px; color: #c9d1d9; white-space: pre; overflow-x: auto; line-height: 1.6; }
+    .p { color: #79c0ff; } .v { color: #ffa657; } .s { color: #7ee787; } .c { color: #8b949e; font-style: italic; } .str { color: #a5d6ff; } .kw { color: #ff7b72; } .at { color: #d2a8ff; }
+    .demo-wrap { background: #1c2128; border: 1px solid #30363d; border-radius: 6px; padding: 16px; margin-top: 10px; }
+    .demo-label { font-size: 10px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: #6e7681; margin-bottom: 10px; }
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    code { background: #1c2128; border: 1px solid #30363d; border-radius: 3px; padding: 1px 5px; font-family: monospace; font-size: 12px; color: #a5d6ff; }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 8px; }
+    th { background: #1c2128; color: #e6edf3; padding: 8px 12px; text-align: left; border: 1px solid #30363d; }
+    td { padding: 8px 12px; border: 1px solid #21262d; color: #c9d1d9; }
+    td:first-child { color: #79c0ff; font-family: monospace; font-size: 12px; }
+    tr:hover td { background: #161b22; }
+    .nav-pills { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 32px; padding-top: 24px; }
+    .nav-pill { font-size: 12px; font-weight: 600; padding: 4px 12px; border-radius: 20px; background: #1c2128; border: 1px solid #30363d; color: #8b949e; }
+    a.nav-pill:hover { border-color: #388bfd; color: #388bfd; text-decoration: none; }
+    .note { background: #1b3626; border: 1px solid #2ea043; border-radius: 6px; padding: 12px 16px; font-size: 13px; color: #7ee787; margin-top: 12px; }
+    .warn { background: #3d2206; border: 1px solid #d29922; border-radius: 6px; padding: 12px 16px; font-size: 13px; color: #ffa657; margin-top: 12px; }
+
+    /* Демо-шрифти */
+    .font-inter { font-family: 'Inter', sans-serif; }
+    .font-mono  { font-family: 'JetBrains Mono', monospace; }
+    .font-serif { font-family: 'Merriweather', serif; }
+    .font-system{ font-family: system-ui, -apple-system, sans-serif; }
+
+    .font-specimen { padding: 16px; border: 1px solid #30363d; border-radius: 6px; background: #0d1117; }
+    .spec-name { font-size: 11px; color: #6e7681; margin-bottom: 8px; font-family: monospace; }
+    .spec-text { font-size: 22px; color: #e6edf3; line-height: 1.4; }
+    .spec-abc  { font-size: 14px; color: #8b949e; margin-top: 4px; }
+
+    .weight-row { display: flex; flex-direction: column; gap: 6px; }
+    .weight-item { display: flex; align-items: baseline; gap: 16px; }
+    .weight-label { font-size: 11px; color: #6e7681; font-family: monospace; min-width: 100px; }
+
+    .clamp-demo { font-size: clamp(14px, 3vw, 28px); color: #79c0ff; font-weight: 700; }
+  </style>
+</head>
+<body>
+
+<div class="page-header">
+  <p class="page-tag">CSS / 10</p>
+  <h1 class="page-title">Шрифти і типографіка</h1>
+  <p class="page-desc">Google Fonts, @font-face, font-display, fluid typography через <code>clamp()</code> — все що потрібно для правильного тексту.</p>
+</div>
+
+<div class="page-body">
+  <div class="content">
+
+  <div class="nav-pills">
+    <a href="09-icons.html" class="nav-pill">← 09 — Іконки</a>
+  </div>
+
+  <!-- GOOGLE FONTS -->
+  <div class="section">
+    <h2 class="section-title">Google Fonts — безкоштовні веб-шрифти</h2>
+    <p class="section-desc">Найпростіший спосіб підключити кастомний шрифт. Вибираєш на fonts.google.com, копіюєш код.</p>
+
+    <div class="card">
+      <p class="card-title">Крок 1 — Підключення у &lt;head&gt;</p>
+<pre><span class="c">&lt;!-- Preconnect: браузер заздалегідь з'єднується з Google --&gt;</span>
+<span class="s">&lt;link</span> <span class="a">rel</span>=<span class="str">"preconnect"</span> <span class="a">href</span>=<span class="str">"https://fonts.googleapis.com"</span> <span class="s">/&gt;</span>
+<span class="s">&lt;link</span> <span class="a">rel</span>=<span class="str">"preconnect"</span> <span class="a">href</span>=<span class="str">"https://fonts.gstatic.com"</span> <span class="a">crossorigin</span> <span class="s">/&gt;</span>
+
+<span class="c">&lt;!-- Сам шрифт: Inter 400 і 700 ваги --&gt;</span>
+<span class="s">&lt;link</span> <span class="a">href</span>=<span class="str">"https://fonts.googleapis.com/css2?family=Inter:wght@400;700&amp;display=swap"</span>
+      <span class="a">rel</span>=<span class="str">"stylesheet"</span> <span class="s">/&gt;</span></pre>
+      <div class="note"><strong>preconnect</strong> — оптимізація. Без нього браузер чекає до першого запиту шрифту. З ним — починає з'єднання зразу.</div>
+    </div>
+
+    <div class="card">
+      <p class="card-title">Крок 2 — Використання у CSS</p>
+<pre><span class="s">body</span> {
+  <span class="p">font-family</span>: <span class="v">'Inter', sans-serif</span>;
+  <span class="c">/* 'Inter' — назва шрифту (точно як у Google Fonts) */</span>
+  <span class="c">/* sans-serif — fallback, якщо шрифт не завантажився */</span>
+}
+
+<span class="s">code, pre</span> {
+  <span class="p">font-family</span>: <span class="v">'JetBrains Mono', monospace</span>;
+}
+
+<span class="c">/* Кілька шрифтів в одному URL через & */</span>
+<span class="c">/* family=Inter:wght@400;700&family=Roboto:wght@400 */</span></pre>
+    </div>
+
+    <div class="card">
+      <p class="card-title">Порівняння шрифтів</p>
+      <div class="demo-wrap">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+          <div class="font-specimen">
+            <p class="spec-name">'Inter', sans-serif — сучасний UI</p>
+            <p class="spec-text font-inter">Привіт, світе! Hello World</p>
+            <p class="spec-abc font-inter">ABCabc 0123 .,!?</p>
+          </div>
+          <div class="font-specimen">
+            <p class="spec-name">'Merriweather', serif — читання</p>
+            <p class="spec-text font-serif">Привіт, світе! Hello World</p>
+            <p class="spec-abc font-serif">ABCabc 0123 .,!?</p>
+          </div>
+          <div class="font-specimen">
+            <p class="spec-name">'JetBrains Mono', monospace — код</p>
+            <p class="spec-text font-mono">const x = 42; // код</p>
+            <p class="spec-abc font-mono">ABCabc 0123 {}[]</p>
+          </div>
+          <div class="font-specimen">
+            <p class="spec-name">system-ui — системний шрифт</p>
+            <p class="spec-text font-system">Привіт, світе! Hello World</p>
+            <p class="spec-abc font-system">ABCabc 0123 .,!?</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- @FONT-FACE -->
+  <div class="section">
+    <h2 class="section-title">@font-face — власний шрифт із файлу</h2>
+    <p class="section-desc">Коли шрифт знаходиться у твоєму проекті, а не на Google Fonts.</p>
+
+    <div class="card">
+<pre><span class="at">@font-face</span> {
+  <span class="p">font-family</span>: <span class="str">'MyFont'</span>;         <span class="c">/* своя назва */</span>
+  <span class="p">src</span>: <span class="v">url</span>(<span class="str">'fonts/myfont.woff2'</span>) <span class="v">format</span>(<span class="str">'woff2'</span>),
+       <span class="v">url</span>(<span class="str">'fonts/myfont.woff'</span>)  <span class="v">format</span>(<span class="str">'woff'</span>);   <span class="c">/* fallback */</span>
+  <span class="p">font-weight</span>: <span class="v">400</span>;
+  <span class="p">font-style</span>: <span class="v">normal</span>;
+  <span class="p">font-display</span>: <span class="v">swap</span>;            <span class="c">/* важливо! */</span>
+}
+
+<span class="at">@font-face</span> {
+  <span class="p">font-family</span>: <span class="str">'MyFont'</span>;         <span class="c">/* та сама назва */</span>
+  <span class="p">src</span>: <span class="v">url</span>(<span class="str">'fonts/myfont-bold.woff2'</span>) <span class="v">format</span>(<span class="str">'woff2'</span>);
+  <span class="p">font-weight</span>: <span class="v">700</span>;               <span class="c">/* окремо для жирного */</span>
+  <span class="p">font-display</span>: <span class="v">swap</span>;
+}</pre>
+      <div class="note"><strong>woff2</strong> — сучасний стиснутий формат, підтримується всіма браузерами. <strong>woff</strong> — старіший fallback для IE11. На нових проектах достатньо woff2.</div>
+    </div>
+  </div>
+
+  <!-- FONT-DISPLAY -->
+  <div class="section">
+    <h2 class="section-title">font-display — як показувати текст до завантаження</h2>
+    <p class="section-desc">Що бачить користувач поки шрифт ще завантажується.</p>
+
+    <div class="card">
+      <table>
+        <tr><th>Значення</th><th>Що відбувається</th><th>Коли використовувати</th></tr>
+        <tr><td>swap</td><td>Показує системний шрифт → замінює на кастомний</td><td>Майже завжди — найкращий UX</td></tr>
+        <tr><td>block</td><td>Ховає текст (~3с) → показує кастомний</td><td>Уникай (FOIT — невидимий текст)</td></tr>
+        <tr><td>fallback</td><td>Ховає (~100мс) → системний → кастомний</td><td>Компроміс між swap і block</td></tr>
+        <tr><td>optional</td><td>Ховає (~100мс) → якщо не встиг — системний назавжди</td><td>Некритичні шрифти</td></tr>
+      </table>
+      <div class="note"><strong>Правило:</strong> для Google Fonts завжди додавай <code>display=swap</code> в URL. Без нього — браузер сам вирішує, зазвичай block.</div>
+    </div>
+
+    <div class="card">
+      <p class="card-title">display=swap у Google Fonts URL</p>
+<pre><span class="c">&lt;!-- Без display=swap — може бути невидимий текст --&gt;</span>
+<span class="s">&lt;link</span> <span class="a">href</span>=<span class="str">"...?family=Inter:wght@400"</span> ... <span class="s">/&gt;</span>
+
+<span class="c">&lt;!-- З display=swap — завжди видимий текст --&gt;</span>
+<span class="s">&lt;link</span> <span class="a">href</span>=<span class="str">"...?family=Inter:wght@400&amp;display=swap"</span> ... <span class="s">/&gt;</span></pre>
+    </div>
+  </div>
+
+  <!-- FONT PROPERTIES -->
+  <div class="section">
+    <h2 class="section-title">Типографічні властивості CSS</h2>
+
+    <div class="card">
+<pre><span class="s">.text</span> {
+  <span class="p">font-family</span>: <span class="v">'Inter', system-ui, sans-serif</span>;
+  <span class="p">font-size</span>: <span class="v">16px</span>;          <span class="c">/* або rem */</span>
+  <span class="p">font-weight</span>: <span class="v">400</span>;          <span class="c">/* 100–900 */</span>
+  <span class="p">font-style</span>: <span class="v">italic</span>;        <span class="c">/* normal | italic | oblique */</span>
+  <span class="p">line-height</span>: <span class="v">1.6</span>;          <span class="c">/* без одиниці — множник від font-size */</span>
+  <span class="p">letter-spacing</span>: <span class="v">0.05em</span>;   <span class="c">/* між літерами */</span>
+  <span class="p">word-spacing</span>: <span class="v">4px</span>;         <span class="c">/* між словами */</span>
+  <span class="p">text-align</span>: <span class="v">left</span>;          <span class="c">/* left | right | center | justify */</span>
+  <span class="p">text-transform</span>: <span class="v">uppercase</span>; <span class="c">/* uppercase | lowercase | capitalize */</span>
+  <span class="p">text-decoration</span>: <span class="v">underline</span>;<span class="c">/* none | underline | line-through */</span>
+  <span class="p">white-space</span>: <span class="v">nowrap</span>;       <span class="c">/* не переносити рядок */</span>
+  <span class="p">overflow</span>: <span class="v">hidden</span>;
+  <span class="p">text-overflow</span>: <span class="v">ellipsis</span>;   <span class="c">/* "..." при обрізанні */</span>
+}</pre>
+      <div class="demo-wrap">
+        <p class="demo-label">Font-weight — товщина шрифту</p>
+        <div class="weight-row font-inter">
+          <div class="weight-item"><span class="weight-label">100 (thin)</span><span style="font-weight:100;font-size:18px">Текст для навчання</span></div>
+          <div class="weight-item"><span class="weight-label">300 (light)</span><span style="font-weight:300;font-size:18px">Текст для навчання</span></div>
+          <div class="weight-item"><span class="weight-label">400 (regular)</span><span style="font-weight:400;font-size:18px">Текст для навчання</span></div>
+          <div class="weight-item"><span class="weight-label">600 (semibold)</span><span style="font-weight:600;font-size:18px">Текст для навчання</span></div>
+          <div class="weight-item"><span class="weight-label">700 (bold)</span><span style="font-weight:700;font-size:18px">Текст для навчання</span></div>
+          <div class="weight-item"><span class="weight-label">900 (black)</span><span style="font-weight:900;font-size:18px">Текст для навчання</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <p class="card-title">line-height — висота рядка</p>
+<pre><span class="s">p</span> {
+  <span class="p">line-height</span>: <span class="v">1</span>;     <span class="c">/* занадто тісно */</span>
+  <span class="p">line-height</span>: <span class="v">1.5</span>;   <span class="c">/* нормально для UI */</span>
+  <span class="p">line-height</span>: <span class="v">1.6</span>;   <span class="c">/* добре для читання — найчастіше */</span>
+  <span class="p">line-height</span>: <span class="v">2</span>;     <span class="c">/* дуже широко */</span>
+  <span class="c">/* БЕЗ px/em/rem — як множник від font-size */</span>
+}</pre>
+      <div class="demo-wrap">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+          <div>
+            <p style="font-size:11px;color:#6e7681;margin-bottom:4px">line-height: 1 (погано)</p>
+            <p style="line-height:1;font-size:14px;color:#c9d1d9">Цей текст дуже щільний і важко читати довгими реченнями. Рядки зливаються один з одним.</p>
+          </div>
+          <div>
+            <p style="font-size:11px;color:#6e7681;margin-bottom:4px">line-height: 1.6 (добре)</p>
+            <p style="line-height:1.6;font-size:14px;color:#c9d1d9">Цей текст зручний для читання. Між рядками є дихання, очі легко переходять на наступний рядок.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CLAMP -->
+  <div class="section">
+    <h2 class="section-title">clamp() — fluid typography</h2>
+    <p class="section-desc">Розмір тексту автоматично масштабується між мінімальним і максимальним значенням залежно від ширини екрана.</p>
+
+    <div class="card">
+<pre><span class="s">h1</span> {
+  <span class="c">/* clamp(мінімум, ідеальне, максимум) */</span>
+  <span class="p">font-size</span>: <span class="v">clamp</span>(<span class="v">24px</span>, <span class="v">5vw</span>, <span class="v">48px</span>);
+  <span class="c">/* На малому екрані: 24px */</span>
+  <span class="c">/* На великому: 48px */</span>
+  <span class="c">/* Між ними: 5% від ширини вікна */</span>
+}
+
+<span class="s">p</span> {
+  <span class="p">font-size</span>: <span class="v">clamp</span>(<span class="v">14px</span>, <span class="v">1.5vw</span>, <span class="v">18px</span>);
+}
+
+<span class="c">/* min() і max() — окремо */</span>
+<span class="s">.container</span> {
+  <span class="p">width</span>: <span class="v">min</span>(<span class="v">800px</span>, <span class="v">90%</span>);  <span class="c">/* менше з двох */</span>
+  <span class="p">font-size</span>: <span class="v">max</span>(<span class="v">14px</span>, <span class="v">1vw</span>); <span class="c">/* більше з двох */</span>
+}</pre>
+      <div class="demo-wrap">
+        <p class="demo-label">Зміни ширину вікна — текст масштабується (clamp(14px, 3vw, 28px))</p>
+        <p class="clamp-demo">Fullstack Developer — Junior</p>
+        <p style="font-size:11px;color:#6e7681;margin-top:8px">Спробуй змінити ширину вікна браузера — розмір тексту адаптується автоматично без media queries.</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <p class="card-title">Типовий стек типографіки для проекту</p>
+<pre><span class="at">@import</span> <span class="v">url</span>(<span class="str">'https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap'</span>);
+
+<span class="s">:root</span> {
+  <span class="p">--font-body</span>:    <span class="v">'Inter', system-ui, sans-serif</span>;
+  <span class="p">--font-mono</span>:    <span class="v">'JetBrains Mono', monospace</span>;
+
+  <span class="p">--text-xs</span>:  <span class="v">clamp</span>(<span class="v">11px</span>, <span class="v">1.2vw</span>, <span class="v">12px</span>);
+  <span class="p">--text-sm</span>:  <span class="v">clamp</span>(<span class="v">13px</span>, <span class="v">1.4vw</span>, <span class="v">14px</span>);
+  <span class="p">--text-md</span>:  <span class="v">clamp</span>(<span class="v">15px</span>, <span class="v">1.6vw</span>, <span class="v">16px</span>);
+  <span class="p">--text-lg</span>:  <span class="v">clamp</span>(<span class="v">18px</span>, <span class="v">2vw</span>,   <span class="v">22px</span>);
+  <span class="p">--text-xl</span>:  <span class="v">clamp</span>(<span class="v">24px</span>, <span class="v">3vw</span>,   <span class="v">32px</span>);
+  <span class="p">--text-2xl</span>: <span class="v">clamp</span>(<span class="v">32px</span>, <span class="v">5vw</span>,   <span class="v">48px</span>);
+}
+
+<span class="s">body</span> {
+  <span class="p">font-family</span>:  <span class="v">var</span>(<span class="p">--font-body</span>);
+  <span class="p">font-size</span>:    <span class="v">var</span>(<span class="p">--text-md</span>);
+  <span class="p">line-height</span>:  <span class="v">1.6</span>;
+}</pre>
+    </div>
+  </div>
+
+  <!-- FONT STACK -->
+  <div class="section">
+    <h2 class="section-title">Font stack — правильний порядок fallback</h2>
+    <p class="section-desc">Браузер бере перший доступний шрифт зі списку.</p>
+
+    <div class="card">
+<pre><span class="s">body</span> {
+  <span class="c">/* Modern system UI stack */</span>
+  <span class="p">font-family</span>: <span class="v">system-ui, -apple-system, BlinkMacSystemFont,
+    'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif</span>;
+
+  <span class="c">/* З Google Fonts */</span>
+  <span class="p">font-family</span>: <span class="v">'Inter', system-ui, sans-serif</span>;
+
+  <span class="c">/* Monoscape stack */</span>
+  <span class="p">font-family</span>: <span class="v">'JetBrains Mono', 'Fira Code', 'Consolas', monospace</span>;
+
+  <span class="c">/* Serif stack */</span>
+  <span class="p">font-family</span>: <span class="v">'Merriweather', Georgia, 'Times New Roman', serif</span>;
+}</pre>
+      <table style="margin-top:16px">
+        <tr><th>Generic family</th><th>Приклади</th><th>Коли</th></tr>
+        <tr><td>sans-serif</td><td>Inter, Roboto, Arial</td><td>Більшість UI (кнопки, меню, картки)</td></tr>
+        <tr><td>serif</td><td>Georgia, Merriweather</td><td>Довгий текст, статті, книги</td></tr>
+        <tr><td>monospace</td><td>JetBrains Mono, Courier</td><td>Код, термінал, технічні дані</td></tr>
+        <tr><td>system-ui</td><td>SF Pro (Mac), Segoe (Win)</td><td>Нативний системний вигляд</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- QUICK REF -->
+  <div class="section">
+    <h2 class="section-title">Швидкий довідник</h2>
+    <div class="card">
+      <table>
+        <tr><th>Що потрібно</th><th>Як зробити</th></tr>
+        <tr><td>Підключити Google Font</td><td>Дві link + font-family у CSS</td></tr>
+        <tr><td>Жирний заголовок</td><td>font-weight: 700</td></tr>
+        <tr><td>Курсив</td><td>font-style: italic</td></tr>
+        <tr><td>Малі літери</td><td>text-transform: lowercase</td></tr>
+        <tr><td>Великі літери</td><td>text-transform: uppercase</td></tr>
+        <tr><td>Текст "..." при переповненні</td><td>overflow: hidden + text-overflow: ellipsis + white-space: nowrap</td></tr>
+        <tr><td>Адаптивний розмір тексту</td><td>font-size: clamp(min, vw, max)</td></tr>
+        <tr><td>Відстань між рядками</td><td>line-height: 1.5 – 1.8 (без одиниці)</td></tr>
+      </table>
+    </div>
+  </div>
+
+  </div>
+</div>
+
+  <script src="../js/nav.js" data-root=".."></script>
+</body>
+</html>
